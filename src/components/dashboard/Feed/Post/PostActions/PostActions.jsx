@@ -3,7 +3,7 @@ import Icon from "../../../../common/Icon/Icon";
 import ReactionPopup from "./ReactionPopup";
 import { useReactions } from "../../../../../hooks/useReactions";
 
-function PostActions({ initialLikeCount = 124 }) {
+function PostActions({ initialLikeCount = 124, isDemo, onLoginClick }) {
   const {
     liked,
     likeCount,
@@ -12,6 +12,9 @@ function PostActions({ initialLikeCount = 124 }) {
     setShowReactions,
     handlers,
   } = useReactions(initialLikeCount);
+
+  const demoStyle = isDemo ? { cursor: "not-allowed", opacity: 0.6 } : undefined;
+  const demoTitle = isDemo ? "Inicia sesión para usar esta función" : undefined;
 
   return (
     <>
@@ -42,24 +45,25 @@ function PostActions({ initialLikeCount = 124 }) {
       <div className="post-action-row">
         <div className="post-react-btn-wrapper">
           <button
-            className={`post-react-btn ${liked ? "reacted" : ""}`}
+            className={`post-react-btn ${liked && !isDemo ? "reacted" : ""}`}
             data-reaction={activeReaction?.label || ""}
-            onMouseEnter={() => setShowReactions(true)}
-            onMouseLeave={handlers.handleMouseLeaveButton}
-            onTouchStart={handlers.handleTouchStart}
-            onTouchEnd={handlers.handleTouchEnd}
-            onClick={handlers.handleMainClick}
-            style={{ color: activeReaction?.color || "#475569" }}
+            onMouseEnter={isDemo ? undefined : () => setShowReactions(true)}
+            onMouseLeave={isDemo ? undefined : handlers.handleMouseLeaveButton}
+            onTouchStart={isDemo ? undefined : handlers.handleTouchStart}
+            onTouchEnd={isDemo ? undefined : handlers.handleTouchEnd}
+            onClick={isDemo ? onLoginClick : handlers.handleMainClick}
+            style={isDemo ? demoStyle : { color: activeReaction?.color || "#475569" }}
+            title={demoTitle}
           >
             <Icon
               name={activeReaction?.icon || "like"}
               size={20}
-              style={{ fill: activeReaction?.color || "#64748b" }}
+              style={{ fill: isDemo ? "#64748b" : (activeReaction?.color || "#64748b") }}
             />
             <span>{activeReaction?.label || "Me gusta"}</span>
           </button>
 
-          {showReactions && (
+          {!isDemo && showReactions && (
             <ReactionPopup
               onSelect={handlers.handleSelectReaction}
               onMouseEnter={handlers.handleMouseEnterPopup}
@@ -68,12 +72,22 @@ function PostActions({ initialLikeCount = 124 }) {
           )}
         </div>
 
-        <button className="post-react-btn">
+        <button
+          className="post-react-btn"
+          onClick={isDemo ? onLoginClick : undefined}
+          style={demoStyle}
+          title={demoTitle}
+        >
           <Icon name="comment" size={20} />
           <span>Comentar</span>
         </button>
 
-        <button className="post-react-btn">
+        <button
+          className="post-react-btn"
+          onClick={isDemo ? onLoginClick : undefined}
+          style={demoStyle}
+          title={demoTitle}
+        >
           <Icon name="share" size={20} />
           <span>Compartir</span>
         </button>

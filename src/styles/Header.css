@@ -1,40 +1,63 @@
+/* ═══════════════════════════════════════════════════════════
+   WRAPPER FIJO
+═══════════════════════════════════════════════════════════ */
 .header-wrapper {
   position: fixed;
   top: 0;
   left: 280px;
   right: 0;
   z-index: 500;
+  background-color: var(--white-color);
 }
 
+/* ═══════════════════════════════════════════════════════════
+   HEADER — FILA 1
+═══════════════════════════════════════════════════════════ */
 .header {
   background-color: var(--white-color);
-  padding: 15px 30px;
+  padding: 12px 24px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  margin: 0;
-  border-radius: 0;
+  gap: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid var(--border-color);
 }
 
+/* ── LEFT ── */
 .header-left {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 10px;
+  flex-shrink: 0;
 }
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  color: var(--text-dark);
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.menu-toggle:hover { background-color: var(--background-color); }
 
 .logo {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 24px;
+  gap: 8px;
+  font-size: 20px;
   font-weight: 700;
   color: var(--text-dark);
+  flex-shrink: 0;
 }
 
 .logo-icon {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
   border-radius: 50%;
   display: flex;
@@ -42,68 +65,122 @@
   justify-content: center;
   color: white;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 17px;
+  flex-shrink: 0;
+}
+
+/* ── CENTER: Mis Apps ── */
+.header-center {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.btn-mis-apps {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 7px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-dark);
+  font-family: inherit;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+.btn-mis-apps:hover { background-color: var(--background-color); }
+
+.mis-apps-icon-wrap {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.mis-apps-chevron {
+  color: var(--text-dark);
+  opacity: 0.55;
+  flex-shrink: 0;
+}
+
+/* Desktop: texto largo visible, corto oculto */
+.mis-apps-text-short { display: none; }
+.mis-apps-text-long  { display: inline; }
+
+/* ── DESKTOP NAV: botones de navegación ── */
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
 }
 
 .btn-add-company {
   background-color: transparent;
   border: 1px solid var(--border-color);
-  padding: 10px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 14px;
-  color: var(--text-dark);
-  transition: all 0.3s ease;
-}
-
-.btn-add-company:hover {
-  background-color: var(--background-color);
-}
-
-.btn-red-social {
-  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-  border: none;
-  padding: 10px 25px;
-  border-radius: 8px;
-  cursor: pointer;
-  color: white;
-  font-weight: 600;
-  font-size: 14px;
-  transition: all 0.3s ease;
-}
-
-.btn-red-social:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(127, 13, 242, 0.3);
-}
-
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.btn-aplicaciones {
-  background-color: transparent;
-  border: none;
   padding: 8px 16px;
   border-radius: 8px;
   cursor: pointer;
-  color: var(--text-dark);
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-size: 14px;
-  transition: all 0.3s ease;
+  color: var(--text-dark);
+  font-family: inherit;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+.btn-add-company:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
 }
 
-.btn-aplicaciones:hover {
-  background-color: var(--background-color);
+.btn-nav-item {
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  padding: 8px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-dark);
+  font-family: inherit;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+.btn-nav-item:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+.btn-nav-item--active {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  border-color: transparent;
+  color: white;
+  box-shadow: 0 2px 8px rgba(127, 13, 242, 0.3);
+}
+.btn-nav-item--active:hover {
+  border-color: transparent;
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(127, 13, 242, 0.4);
+}
+
+/* ── RIGHT: iconos + usuario ── */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-left: auto;
+  flex-shrink: 0;
 }
 
 .icon-btn {
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   background-color: var(--background-color);
   border: none;
@@ -114,31 +191,34 @@
   color: var(--text-dark);
   transition: all 0.3s ease;
   position: relative;
+  flex-shrink: 0;
 }
-
 .icon-btn:hover {
   background-color: var(--primary-color);
   color: white;
 }
 
+/* Badge naranja en notificaciones */
 .icon-btn.has-notification::after {
   content: '';
   position: absolute;
-  top: 8px;
-  right: 8px;
-  width: 8px;
-  height: 8px;
-  background-color: #ef4444;
+  top: 6px;
+  right: 6px;
+  width: 9px;
+  height: 9px;
+  background-color: #f97316;
   border-radius: 50%;
   border: 2px solid white;
 }
 
 .user-avatar {
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   cursor: pointer;
   border: 2px solid var(--primary-color);
+  flex-shrink: 0;
+  object-fit: cover;
 }
 
 .user-name {
@@ -146,10 +226,107 @@
   font-weight: 600;
   color: var(--text-dark);
   cursor: pointer;
+  white-space: nowrap;
 }
 
 /* ═══════════════════════════════════════════════════════════
-   Slider-over Mi Cuenta
+   FILA 2 — solo tablet + mobile (oculta en desktop)
+═══════════════════════════════════════════════════════════ */
+.header-row2 {
+  display: none;
+  background-color: var(--white-color);
+  border-bottom: 1px solid var(--border-color);
+  padding: 10px 16px;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.header-row2-btn {
+  flex: 1;
+  height: 36px;
+  padding: 0 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  border: 1px solid var(--border-color);
+  color: var(--text-dark);
+  background-color: transparent;
+}
+.header-row2-btn:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+.header-row2-btn--active {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 2px 8px rgba(127, 13, 242, 0.25);
+}
+.header-row2-btn--active:hover {
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 4px 12px rgba(127, 13, 242, 0.38);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE — TABLET (≤1024px)
+   Dos filas: fila1 = ≡ logo | Mis Apps (center) | 🔔 avatar
+             fila2 = los 3 botones de nav
+═══════════════════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .header-wrapper { left: 0; }
+  .header { padding: 10px 16px; gap: 8px; }
+
+  /* Mostrar hamburguesa */
+  .menu-toggle { display: flex; }
+
+  /* Mis Apps ocupa el espacio central */
+  .header-center {
+    flex: 1;
+    justify-content: center;
+  }
+
+  /* Texto corto en tablet */
+  .mis-apps-text-long  { display: none; }
+  .mis-apps-text-short { display: inline; }
+
+  /* Ocultar nav de desktop (pasa a fila2) */
+  .header-nav { display: none; }
+
+  /* Fila 2 visible */
+  .header-row2 { display: flex; }
+
+  /* header-right sin empuje automático (header-center ya lo centra) */
+  .header-right { margin-left: 0; gap: 10px; }
+
+  /* Ocultar elementos exclusivos de desktop */
+  .ayuda-btn  { display: none; }
+  .user-name  { display: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE — MOBILE (≤600px)
+   Igual que tablet pero sin el texto "Codeplex"
+═══════════════════════════════════════════════════════════ */
+@media (max-width: 600px) {
+  .logo-text { display: none; }
+  .header-row2 { padding: 8px 12px; gap: 8px; }
+  .header-row2-btn { font-size: 12px; }
+  .icon-btn { width: 34px; height: 34px; }
+  .user-avatar { width: 34px; height: 34px; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SLIDER DE CUENTA (ProfileSlider)
 ═══════════════════════════════════════════════════════════ */
 .slider-overlay {
   position: fixed;
@@ -207,7 +384,6 @@
   transition: background 0.3s;
   line-height: 1;
 }
-
 .slider-close:hover { background: rgba(255, 255, 255, 0.2); }
 
 .slider-body {
@@ -225,8 +401,8 @@
   display: block;
 }
 
-.slider-user-name { font-size: 17px; font-weight: 700; color: var(--text-dark); margin-bottom: 4px; }
-.slider-user-role { font-size: 14px; color: var(--primary-color); margin-bottom: 4px; font-weight: 500; }
+.slider-user-name  { font-size: 17px; font-weight: 700; color: var(--text-dark); margin-bottom: 4px; }
+.slider-user-role  { font-size: 14px; color: var(--primary-color); margin-bottom: 4px; font-weight: 500; }
 .slider-user-email { font-size: 13px; color: var(--sidebar-text); margin-bottom: 16px; }
 
 .btn-ir-ficha {
@@ -244,7 +420,6 @@
   transition: all 0.3s ease;
   width: 100%;
 }
-
 .btn-ir-ficha:hover {
   background-color: var(--background-color);
   border-color: var(--primary-color);
@@ -273,7 +448,6 @@
   transition: color 0.3s;
   border-bottom: 1px solid var(--border-color);
 }
-
 .option-link:hover { color: var(--primary-color); }
 
 .custom-select-wrapper { position: relative; min-width: 110px; }
@@ -288,7 +462,6 @@
   background-color: var(--white-color);
   cursor: pointer; outline: none;
 }
-
 .custom-select-trigger:focus { border-color: var(--primary-color); }
 .select-icon { transition: transform 0.2s ease; }
 .select-icon.rotated { transform: rotate(180deg); }
@@ -319,7 +492,6 @@
   color: white; font-weight: 600; font-size: 15px;
   cursor: pointer; transition: all 0.3s ease; width: 100%;
 }
-
 .btn-guardar-cambios:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(127, 13, 242, 0.35);
@@ -334,81 +506,11 @@
   display: flex; align-items: center; justify-content: center; gap: 8px;
   transition: all 0.3s ease; width: 100%;
 }
-
 .btn-cerrar-sesion:hover { background-color: #ef4444; color: white; }
 .btn-cerrar-sesion .icon { stroke: currentColor; }
 
 @media (max-width: 480px) {
   .slider-cuenta { width: 100%; }
-}
-
-/* ═══════════════════════════════════════════════════════════
-   BOTÓN HAMBURGUESA
-═══════════════════════════════════════════════════════════ */
-.menu-toggle {
-  display: none;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 8px;
-  margin-right: 15px;
-  color: var(--text-dark);
-  font-size: 24px;
-}
-
-/* ═══════════════════════════════════════════════════════════
-   RESPONSIVE — TU CSS ORIGINAL INTACTO ; /*
-═══════════════════════════════════════════════════════════ */
-@media (max-width: 1024px) {
-  .header-wrapper {
-    left: 0;
-  }
-  .header {
-    padding: 12px 20px;
-  }
-  .menu-toggle { display: block; }
-  .btn-add-company { display: none; }
-}
-
-
-
-
-
-@media (max-width: 768px) {
-  .header-wrapper {
-    position: fixed;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    width: 100%;
-  }
-
-  .main-content {
-    margin-top: 54px !important;
-    padding-top: 120px !important; 
-  }
-
-
-  .header { 
-    padding-TOP: 20px ;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--border-color);
-  
-  }
-  .header-left { gap: 10px; }
-  .logo span { display: none; }
-  .btn-red-social { padding: 8px 16px; font-size: 13px; }
-  .btn-aplicaciones { display: none; }
-  .user-name { display: none; }
-  .header-right { gap: 10px; }
-
-  /* Ocultar en fila 1 — están en fila 2 */
-  .btn-red-social { display: none; }
-}
-
-@media (max-width: 480px) {
-  .btn-red-social { padding: 6px 12px; font-size: 12px; }
-  .icon-btn { width: 36px; height: 36px; }
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -446,73 +548,100 @@
 .toggle-switch input:checked + .toggle-slider {
   background: linear-gradient(135deg, #7F0DF2, #588CE5);
 }
-
 .toggle-switch input:checked + .toggle-slider:before {
   transform: translateX(24px);
 }
-
 .toggle-slider:hover { background-color: #cbd5e1; }
 .toggle-switch input:checked + .toggle-slider:hover {
   background: linear-gradient(135deg, #6b0bd4, #4a76c9);
 }
 
 /* ═══════════════════════════════════════════════════════════
-   SEGUNDA FILA — SOLO MOBILE
-   Desktop: display none | Mobile: display flex
+   DEMO BANNER
 ═══════════════════════════════════════════════════════════ */
-.header-row2 {
-  display: none; /* oculto en desktop */
-  background-color: var(--white-color);
-  border-bottom: 1px solid var(--border-color);
-  padding: 15px 16px; /* mas padding interno */
-  /* gap: 10px; */
-  box-shadow: 0 2px 4px rgba(0,0,0,0.04);
-  justify-content: space-between; 
-}
-
-/* Mostrar solo en mobile */
-@media (max-width: 768px) {
-  .header-row2 { display: flex; }
-}
-
-.header-row2-btn {
-  padding: 0 16px; 
-  height: 38px;
-  border-radius: 8px;
+.demo-banner {
+  background: linear-gradient(90deg, #f59e0b, #f97316);
+  color: #fff;
   font-size: 13px;
   font-weight: 600;
-  cursor: pointer;
-  font-family: inherit;
+  padding: 7px 24px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
-  transition: all 0.2s ease;
+  gap: 6px;
+  letter-spacing: 0.01em;
+  text-align: center;
   white-space: nowrap;
-  border: 1px solid var(--border-color);
-  color: var(--text-dark);
+  overflow: hidden;
 }
 
-.header-row2-btn:hover {
-  border-color: var(--primary-color);
-  color: var(--primary-color);
-  background-color: var(--hover-color);
+@media (max-width: 768px) {
+  .demo-banner {
+    font-size: 11px;
+    padding: 6px 12px;
+    gap: 4px;
+  }
+  .demo-banner svg {
+    width: 13px;
+    height: 13px;
+    flex-shrink: 0;
+  }
 }
 
-/* Botón primario (Red Social) */
-.header-row2-btn--primary {
-  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+/* ═══════════════════════════════════════════════════════════
+   HEADER — MODO DEMO: botón "Iniciar sesión"
+═══════════════════════════════════════════════════════════ */
+.btn-login-header {
+  background: linear-gradient(135deg, #7F0DF2, #588CE5);
   color: #fff;
-  border-color: transparent;
-  box-shadow: 0 2px 8px rgba(127, 13, 242, 0.25);
+  border: none;
+  padding: 7px 18px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  transition: opacity 0.15s;
+}
+.btn-login-header:hover { opacity: 0.88; }
+
+/* ═══════════════════════════════════════════════════════════
+   PROFILE SLIDER — MODO DEMO
+═══════════════════════════════════════════════════════════ */
+.slider-avatar--demo {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  border: 2px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 10px;
 }
 
-.header-row2-btn--primary:hover {
-  color: #fff;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(127, 13, 242, 0.38);
-  border-color: transparent;
-  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+.slider-demo-card {
+  background: linear-gradient(135deg, #7F0DF2, #588CE5);
+  border-radius: 12px;
+  padding: 16px;
+  margin: 14px 0 8px;
+  text-align: center;
 }
-
-
+.slider-demo-card-text {
+  color: rgba(255,255,255,0.9);
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 0 0 12px;
+}
+.slider-demo-card-btn {
+  background: #fff;
+  color: #7F0DF2;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.slider-demo-card-btn:hover { opacity: 0.85; }

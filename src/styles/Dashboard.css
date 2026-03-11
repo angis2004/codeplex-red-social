@@ -2,6 +2,9 @@
   display: grid;
   grid-template-columns: 1fr 350px;
   gap: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .dashboard-left {
@@ -2028,3 +2031,18 @@ stroke:1px solid green;
 
 
 
+
+/* ═══════════════════════════════════════════════════════════
+   POST CREATOR — DEMO AVATAR
+═══════════════════════════════════════════════════════════ */
+.post-creator-avatar--demo {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  border: 2px dashed #cbd5e1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}

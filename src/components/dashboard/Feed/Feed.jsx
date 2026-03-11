@@ -26,14 +26,14 @@ function EmptyState({ icon, title, description }) {
   );
 }
 
-function Feed() {
+function Feed({ isDemo, onLoginClick }) {
   const [activeTab, setActiveTab] = useState("post");
 
   return (
     <>
       <FeedTabs activeTab={activeTab} onTabChange={setActiveTab} />
 
-      {activeTab === "post" && <Post post={MOCK_POST} />}
+      {activeTab === "post" && <Post post={MOCK_POST} isDemo={isDemo} onLoginClick={onLoginClick} />}
 
       {activeTab === "videos" && (
         <EmptyState

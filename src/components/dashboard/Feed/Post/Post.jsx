@@ -2,7 +2,7 @@ import React from "react";
 import PostActions from "./PostActions/PostActions";
 import Comments from "./Comments/Comments";
 
-function Post({ post }) {
+function Post({ post, isDemo, onLoginClick }) {
   return (
     <div className="post-card">
 
@@ -51,7 +51,7 @@ function Post({ post }) {
 
       {/* Footer: reacciones + comentarios */}
       <div className="post-footer">
-        <PostActions initialLikeCount={post.likeCount} />
+        <PostActions initialLikeCount={post.likeCount} isDemo={isDemo} onLoginClick={onLoginClick} />
         <div className="post-divider"></div>
         <Comments />
       </div>

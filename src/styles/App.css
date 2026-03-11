@@ -8,23 +8,37 @@
   flex: 1;
   margin-left: 280px;
   padding: 20px;
-  padding-top: 90px;
+  padding-top: 80px;
   transition: margin-left 0.3s ease;
   min-height: 100vh;
 }
 
+/* Demo banner añade ~36px al header fijo */
+.main-content--demo {
+  padding-top: 116px;
+}
 
-/* Responsive */
+/* Tablet (≤1024px): sidebar oculto → más padding lateral para respirar */
 @media (max-width: 1024px) {
   .main-content {
     margin-left: 0;
-    padding-top: 80px;
+    padding-top: 120px;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  .main-content--demo {
+    padding-top: 156px;
   }
 }
 
+/* Mobile (≤768px) */
 @media (max-width: 768px) {
   .main-content {
-    padding: 15px;
-    padding-top: 75px;
+    padding: 16px;
+    padding-top: 120px;
+  }
+  /* banner en mobile ~32px (1 línea, font reducido) + header ~56px + row2 ~44px = ~132px → 155px con aire */
+  .main-content--demo {
+    padding-top: 155px;
   }
 }

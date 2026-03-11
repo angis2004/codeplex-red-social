@@ -7,13 +7,13 @@ import TopUsers from "./TopUsers/TopUsers";
 import "../../styles/Dashboard.css";
 
 // Dashboard es solo un ORQUESTADOR — no tiene lógica propia
-function Dashboard() {
+function Dashboard({ isDemo, onLoginClick }) {
   return (
     <div className="dashboard">
       <div className="dashboard-left">
         <StatsCards />
-        <PostCreator />
-        <Feed />
+        <PostCreator isDemo={isDemo} onLoginClick={onLoginClick} />
+        <Feed isDemo={isDemo} onLoginClick={onLoginClick} />
       </div>
 
       <div className="dashboard-right">

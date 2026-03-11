@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(\"C:\\\\proyectos\\\\codeplex-red-social\\\\src\\\\styles\\\\Header.css\":*)"
+    ]
+  }
+}

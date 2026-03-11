@@ -43,7 +43,7 @@ function LanguageSelect() {
 }
 
 // Panel lateral "Mi Cuenta" — vivía dentro del return de Header.jsx
-function ProfileSlider({ onClose, darkMode, onToggleDarkMode }) {
+function ProfileSlider({ onClose, darkMode, onToggleDarkMode, isDemo, onLoginClick, onLogout }) {
   return (
     <>
       <div className="slider-overlay" onClick={onClose}></div>
@@ -55,57 +55,94 @@ function ProfileSlider({ onClose, darkMode, onToggleDarkMode }) {
         </div>
 
         <div className="slider-body">
-          <img
-            src="https://i.pravatar.cc/150?img=12"
-            alt="Gabriel Chumpitazi"
-            className="slider-avatar"
-          />
-          <h3 className="slider-user-name">Gabriel Chumpitazi</h3>
-          <p className="slider-user-role">Contador Senior</p>
-          <p className="slider-user-email">gabriel@info.com</p>
+          {isDemo ? (
+            /* ── MODO DEMO ── */
+            <>
+              <div className="slider-avatar slider-avatar--demo">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="1.5">
+                  <circle cx="12" cy="8" r="4" /><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+                </svg>
+              </div>
+              <h3 className="slider-user-name">Modo Demo</h3>
+              <p className="slider-user-role">Visitante</p>
 
-          <button className="btn-ir-ficha">
-            <span>Ir a mi ficha</span>
-            <Icon name="exportar" size={18} />
-          </button>
+              <div className="slider-demo-card">
+                <p className="slider-demo-card-text">
+                  Inicia sesión para acceder a tu perfil completo y todas las funciones
+                </p>
+                <button className="slider-demo-card-btn" onClick={onLoginClick}>
+                  Iniciar sesión
+                </button>
+              </div>
 
-          <div className="slider-options">
-            <div className="option-row">
-              <span className="option-label">Idioma</span>
-              <LanguageSelect />
-            </div>
+              <div className="slider-options">
+                <div className="option-row">
+                  <span className="option-label">
+                    Apariencia {darkMode ? "🌙" : "☀️"}
+                  </span>
+                  <label className="toggle-switch">
+                    <input type="checkbox" checked={darkMode} onChange={onToggleDarkMode} />
+                    <span className="toggle-slider"></span>
+                  </label>
+                </div>
+              </div>
+            </>
+          ) : (
+            /* ── MODO AUTENTICADO ── */
+            <>
+              <img
+                src="https://i.pravatar.cc/150?img=12"
+                alt="Gabriel Chumpitazi"
+                className="slider-avatar"
+              />
+              <h3 className="slider-user-name">Gabriel Chumpitazi</h3>
+              <p className="slider-user-role">Contador Senior</p>
+              <p className="slider-user-email">gabriel@info.com</p>
 
-            <div className="option-link">
-              <span>Cambiar Contraseña</span>
-              <Icon name="arrow_right" size={10} />
-            </div>
+              <button className="btn-ir-ficha">
+                <span>Ir a mi ficha</span>
+                <Icon name="exportar" size={18} />
+              </button>
 
-            <div className="option-row">
-              <span className="option-label">
-                Apariencia {darkMode ? "🌙" : "☀️"}
-              </span>
-              <label className="toggle-switch">
-                <input
-                  type="checkbox"
-                  checked={darkMode}
-                  onChange={onToggleDarkMode}
-                />
-                <span className="toggle-slider"></span>
-              </label>
-            </div>
-          </div>
+              <div className="slider-options">
+                <div className="option-row">
+                  <span className="option-label">Idioma</span>
+                  <LanguageSelect />
+                </div>
+
+                <div className="option-link">
+                  <span>Cambiar Contraseña</span>
+                  <Icon name="arrow_right" size={10} />
+                </div>
+
+                <div className="option-row">
+                  <span className="option-label">
+                    Apariencia {darkMode ? "🌙" : "☀️"}
+                  </span>
+                  <label className="toggle-switch">
+                    <input type="checkbox" checked={darkMode} onChange={onToggleDarkMode} />
+                    <span className="toggle-slider"></span>
+                  </label>
+                </div>
+              </div>
+            </>
+          )}
         </div>
 
         <div className="slider-actions">
-          <button className="btn-guardar-cambios">Guardar Cambios</button>
-          <button className="btn-cerrar-sesion">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-              <polyline points="16 17 21 12 16 7" />
-              <line x1="21" y1="12" x2="9" y2="12" />
-            </svg>
-            <span>Cerrar Sesión</span>
-          </button>
+          {!isDemo && (
+            <>
+              <button className="btn-guardar-cambios">Guardar Cambios</button>
+              <button className="btn-cerrar-sesion" onClick={onLogout}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                  <polyline points="16 17 21 12 16 7" />
+                  <line x1="21" y1="12" x2="9" y2="12" />
+                </svg>
+                <span>Cerrar Sesión</span>
+              </button>
+            </>
+          )}
         </div>
 
       </div>
