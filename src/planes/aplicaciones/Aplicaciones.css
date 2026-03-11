@@ -1,0 +1,641 @@
+/* ═══════════════════════════════════════════
+   Vista Aplicaciones
+═══════════════════════════════════════════ */
+
+.view-aplicaciones {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding-bottom: 48px;
+}
+
+/* ── Header ── */
+.aplicaciones-header {
+  margin-bottom: 24px;
+}
+
+.aplicaciones-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary, #111827);
+  margin: 0 0 6px;
+}
+
+.aplicaciones-subtitle {
+  font-size: 14px;
+  color: var(--text-secondary, #6B7280);
+  margin: 0;
+}
+
+/* ── Tabs ── */
+.aplicaciones-tabs {
+  display: inline-flex;
+  background: #F3F4F6;
+  border-radius: 10px;
+  padding: 4px;
+  margin-bottom: 20px;
+  gap: 4px;
+}
+
+.tab-btn {
+  padding: 9px 22px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  background: transparent;
+  color: var(--text-secondary, #6B7280);
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.tab-btn--active {
+  background: #7C3AED;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.35);
+}
+
+/* ── Search ── */
+.aplicaciones-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1.5px solid #E5E7EB;
+  border-radius: 10px;
+  padding: 10px 16px;
+  background: var(--background-color, #fff);
+  margin-bottom: 20px;
+  transition: border-color 0.2s;
+}
+
+.aplicaciones-search:focus-within {
+  border-color: #7C3AED;
+}
+
+.search-input {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: 14px;
+  background: transparent;
+  color: var(--text-primary, #111827);
+}
+
+.search-input::placeholder {
+  color: #9CA3AF;
+}
+
+/* ── Filtros ── */
+.aplicaciones-filtros {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.filtros-izq {
+  display: flex;
+  gap: 8px;
+}
+
+.filtro-btn {
+  padding: 8px 18px;
+  border-radius: 8px;
+  border: 1.5px solid #E5E7EB;
+  background: var(--background-color, #fff);
+  color: var(--text-primary, #374151);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filtro-btn--active {
+  background: #7C3AED;
+  border-color: #7C3AED;
+  color: #fff;
+}
+
+.filtro-btn:hover:not(.filtro-btn--active) {
+  border-color: #7C3AED;
+  color: #7C3AED;
+}
+
+.select-ordenar {
+  padding: 9px 36px 9px 14px;
+  border-radius: 8px;
+  border: 1.5px solid #E5E7EB;
+  background: var(--background-color, #fff);
+  color: var(--text-primary, #374151);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2.5' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  outline: none;
+}
+
+.select-ordenar:focus {
+  border-color: #7C3AED;
+}
+
+/* ── Grid de tarjetas ── */
+.apps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 1024px) {
+  .apps-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .apps-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Tarjeta ── */
+.app-card {
+  background: var(--background-color, #fff);
+  border-radius: 14px;
+  padding: 20px;
+  border: 1.5px solid #E5E7EB;
+  border-top: 3px solid #6366F1;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.app-card:hover {
+  box-shadow: 0 6px 20px rgba(0,0,0,0.09);
+  transform: translateY(-2px);
+}
+
+.app-card--naranja {
+  border-top-color: #F97316;
+}
+
+.app-card--azul {
+  border-top-color: #6366F1;
+}
+
+/* Header de la card */
+.app-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.app-card-icon {
+  flex-shrink: 0;
+}
+
+.app-card-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-card-nombre {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary, #111827);
+  line-height: 1.2;
+}
+
+.app-card-publisher {
+  font-size: 12px;
+  color: var(--text-secondary, #6B7280);
+}
+
+/* Badges de categoría */
+.app-card-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+  align-self: flex-start;
+}
+
+.app-card-badge--contabilidad {
+  background: #EDE9FE;
+  color: #6D28D9;
+}
+
+.app-card-badge--logistica {
+  background: #DBEAFE;
+  color: #1D4ED8;
+}
+
+.app-card-badge--restaurante {
+  background: #FEF3C7;
+  color: #D97706;
+  border: 1px solid #FCD34D;
+}
+
+/* Descripción */
+.app-card-desc {
+  font-size: 13px;
+  color: var(--text-secondary, #6B7280);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Features */
+.app-card-features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.app-card-features li {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  color: var(--text-primary, #374151);
+}
+
+/* Footer precio + botón */
+.app-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid #F3F4F6;
+}
+
+.app-card-precio {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.badge-gratis {
+  font-size: 11px;
+  font-weight: 600;
+  color: #16A34A;
+  background: #DCFCE7;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+.precio-desde {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary, #374151);
+}
+
+.btn-agregar {
+  background: #7C3AED;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.btn-agregar:hover {
+  background: #6D28D9;
+  transform: translateY(-1px);
+}
+
+.btn-instalada {
+  background: #F3F4F6;
+  color: #6B7280;
+  border: 1.5px solid #E5E7EB;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* ── Estado vacío tabs mis apps ── */
+.apps-empty-state {
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--text-secondary, #6B7280);
+}
+
+.apps-empty-icon {
+  font-size: 56px;
+  margin-bottom: 16px;
+}
+
+.apps-empty-state h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary, #111827);
+  margin: 0 0 8px;
+}
+
+.apps-empty-state p {
+  font-size: 14px;
+  margin: 0 0 24px;
+}
+
+.apps-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--text-secondary, #6B7280);
+  padding: 60px 0;
+  font-size: 15px;
+}
+
+/* ── Header row (título + badge) ── */
+.aplicaciones-header--row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.apps-activos-badge {
+  background: #7C3AED;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+/* ══ MIS APPS LIST ══ */
+.misapps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Tarjeta de app adquirida */
+.misapp-card {
+  background: var(--background-color, #fff);
+  border: 1.5px solid #E5E7EB;
+  border-top: 3px solid #F97316;
+  border-radius: 14px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  transition: box-shadow 0.2s, transform 0.2s;
+  flex-wrap: wrap;
+}
+
+.misapp-card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  transform: translateY(-1px);
+}
+
+/* Lado izquierdo: ícono + nombre */
+.misapp-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 140px;
+}
+
+.misapp-nombre {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary, #111827);
+}
+
+.misapp-pub {
+  font-size: 12px;
+  color: var(--text-secondary, #6B7280);
+  margin-top: 1px;
+}
+
+/* Meta columnas */
+.misapp-meta {
+  display: flex;
+  gap: 22px;
+  flex: 1;
+  flex-wrap: wrap;
+}
+
+.misapp-meta-col {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 80px;
+}
+
+.misapp-meta-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-secondary, #9CA3AF);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.misapp-meta-val {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary, #374151);
+}
+
+.misapp-meta-val--plan {
+  color: #7C3AED;
+}
+
+.misapp-meta-val--dias {
+  color: var(--text-primary, #374151);
+}
+
+.misapp-meta-val--warn {
+  color: #D97706;
+}
+
+/* Acciones */
+.misapp-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.misapp-btn-mejorar {
+  background: #7C3AED;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+
+.misapp-btn-mejorar:hover {
+  background: #6D28D9;
+}
+
+.misapp-btn-desinstalar {
+  background: transparent;
+  color: var(--text-secondary, #6B7280);
+  border: 1.5px solid #E5E7EB;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+  white-space: nowrap;
+}
+
+.misapp-btn-desinstalar:hover {
+  border-color: #EF4444;
+  color: #EF4444;
+}
+
+/* ══ MODAL CONFIRMAR DESINSTALAR ══ */
+.desinstalar-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(15, 10, 30, 0.45);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.desinstalar-modal {
+  background: var(--background-color, #fff);
+  border-radius: 20px;
+  padding: 40px 32px 32px;
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+  animation: desinstalar-in 0.25s cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+@keyframes desinstalar-in {
+  from { opacity: 0; transform: scale(0.88) translateY(10px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.desinstalar-icon-wrap {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: #FEE2E2;
+  border: 2px solid #FECACA;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 22px;
+}
+
+.desinstalar-titulo {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text-primary, #111827);
+  margin: 0 0 10px;
+  line-height: 1.35;
+}
+
+.desinstalar-sub {
+  font-size: 14px;
+  color: var(--text-secondary, #6B7280);
+  margin: 0 0 28px;
+  line-height: 1.6;
+}
+
+.desinstalar-btns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.desinstalar-btn-cancelar {
+  background: var(--background-color, #fff);
+  color: var(--text-primary, #374151);
+  border: 1.5px solid #E5E7EB;
+  border-radius: 10px;
+  padding: 13px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.desinstalar-btn-cancelar:hover {
+  border-color: #9CA3AF;
+  background: #F9FAFB;
+}
+
+.desinstalar-btn-confirmar {
+  background: #EF4444;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 13px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.desinstalar-btn-confirmar:hover {
+  background: #DC2626;
+  transform: translateY(-1px);
+}
+
+/* dark mode modal desinstalar */
+[data-theme="dark"] .desinstalar-modal {
+  background: #1F2937;
+  border: 1px solid #374151;
+}
+
+[data-theme="dark"] .desinstalar-btn-cancelar {
+  background: #374151;
+  border-color: #4B5563;
+  color: var(--text-primary);
+}
+
+/* ── Dark mode ── */
+[data-theme="dark"] .app-card,
+[data-theme="dark"] .aplicaciones-search,
+[data-theme="dark"] .filtro-btn,
+[data-theme="dark"] .select-ordenar {
+  background: var(--background-color);
+  border-color: #374151;
+}
+
+[data-theme="dark"] .aplicaciones-tabs {
+  background: #1F2937;
+}
+
+[data-theme="dark"] .app-card-footer {
+  border-top-color: #374151;
+}

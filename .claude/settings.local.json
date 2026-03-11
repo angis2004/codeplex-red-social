@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(\"C:\\\\proyectos\\\\codeplex-red-social\\\\src\\\\styles\\\\Header.css\":*)"
+      "Bash(\"C:\\\\proyectos\\\\codeplex-red-social\\\\src\\\\styles\\\\Header.css\":*)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(where npm:*)"
     ]
   }
 }

@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
-import Sidebar from './components/layout/Sidebar/Sidebar';
-import Header from './components/layout/Header/Header';
-import Dashboard from './components/dashboard/Dashboard';
-import Login from './components/auth/Login/Login';
-import ViewEmpresas from './views/ViewEmpresas';
-import ViewDatosPersonales from './views/ViewDatosPersonales';
-import ViewDatosFacturacion from './views/ViewDatosFacturacion';
-import ViewBuzon from './views/ViewBuzon';
-import ViewTickets from './views/ViewTickets';
-import ViewMantenedores from './views/ViewMantenedores';
-import ViewCanjeMonedas from './views/ViewCanjeMonedas';
-import ViewMonedero from './views/ViewMonedero';
-import ViewColaboradores from './views/ViewColaboradores';
-import ViewMonetizacion from './views/ViewMonetizacion';
-import ViewAplicaciones from './views/ViewAplicaciones';
-import ViewPasarellaPago from './views/ViewPasarellaPago';
+import Sidebar from './ui/layout/Sidebar/Sidebar';
+import Header from './ui/layout/Header/Header';
+import Dashboard from './feed/dashboard/Dashboard';
+import Login from './identidad/login/Login';
+import ViewEmpresas from './organizacion/empresas/ViewEmpresas';
+import ViewDatosPersonales from './identidad/datos-personales/ViewDatosPersonales';
+import ViewDatosFacturacion from './organizacion/facturacion/ViewDatosFacturacion';
+import ViewBuzon from './feed/buzon/ViewBuzon';
+import ViewTickets from './organizacion/tickets/ViewTickets';
+import ViewMantenedores from './organizacion/mantenedores/ViewMantenedores';
+import ViewCanjeMonedas from './planes/monedero/ViewCanjeMonedas';
+import ViewMonedero from './planes/monedero/ViewMonedero';
+import ViewColaboradores from './organizacion/colaboradores/ViewColaboradores';
+import ViewMonetizacion from './planes/monetizacion/ViewMonetizacion';
+import ViewAplicaciones from './planes/aplicaciones/ViewAplicaciones';
+import ViewPasarellaPago from './planes/pasarella-pago/ViewPasarellaPago';
 import './styles/App.css';
 
 // appState: 'demo' | 'login' | 'authenticated'
