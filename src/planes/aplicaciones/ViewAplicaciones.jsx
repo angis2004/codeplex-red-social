@@ -1,49 +1,57 @@
 import React, { useState } from "react";
 import "./Aplicaciones.css";
-import ModalPlanesRestaurante from "../suscripciones/ModalPlanesRestaurante";
+import ModalPlanesRestaurante  from "../suscripciones/ModalPlanesRestaurante";
+import ModalPlanesContaPlex    from "../suscripciones/ModalPlanesContaPlex";
+import ModalPlanesGestionPlex  from "../suscripciones/ModalPlanesGestionPlex";
+import ModalPlanesTransporte   from "../suscripciones/ModalPlanesTransporte";
+import ModalPlanesGrifo        from "../suscripciones/ModalPlanesGrifo";
+import ModalPlanesFacturacion  from "../suscripciones/ModalPlanesFacturacion";
 
 /* ── Datos de aplicaciones ── */
+/* */
+
+
 const APPS = [
   {
     id: 1,
     nombre: "Conta-Plex",
     publisher: "CodePlex",
     categoria: "CONTABILIDAD",
-    categoriaColor: "contabilidad",
+    categoriaColor: "etiqueta",
     icono: "contaplex",
-    descripcion: "Sistema contable integral. Planes separados para contadores y para Empresas",
+    descripcion: "Sistema contable para independientes y contadores. Hasta 45 empresas, PLE-SIRE incluido y comprobantes ilimitados.",
     features: [
-      "Facturación electrónica SUNAT",
-      "Contabilidad multi-empresas",
-      "Reportes y Balances",
-      "Declaraciones tributarias",
+      "Procesos contables esenciales",
+      "Libros contables + PLE - SIRE",
+      "Reportes + seguridad completa",
+      "Hasta 45 empresas",
     ],
     precioDesde: "S/50",
-    accentColor: "azul",
+    colorTema: "color-contaplex",
   },
   {
     id: 2,
     nombre: "GestiónPlex",
     publisher: "Comercial",
     categoria: "LOGÍSTICA",
-    categoriaColor: "logistica",
+    categoriaColor: "etiqueta",
     icono: "gestionplex-comercial",
-    descripcion: "Sistema de gestión comercial con facturación electrónica, inventarios, compras y ventas limitadas.",
+    descripcion: "Sistema completo para restaurantes: mesas, pedidos, cocina, delivery y facturación electrónica.",
     features: [
-      "Facturación electrónica SUNAT",
-      "Contabilidad multi-empresas",
-      "Reportes y Balances",
-      "Declaraciones tributarias",
+      "Ventas POS + SUNAT",
+      "Ventas en Restaurante",
+      "Tesorería",
+      "Soporte + Sistema Contable GRATIS",
     ],
     precioDesde: "S/100",
-    accentColor: "azul",
+    colorTema: "color-comercial",
   },
   {
     id: 3,
     nombre: "GestiónPlex",
     publisher: "Restaurante",
     categoria: "RESTAURANTE",
-    categoriaColor: "restaurante",
+    categoriaColor: "etiqueta",
     icono: "gestionplex-restaurante",
     descripcion: "Sistema completo para restaurantes: mesas, pedidos, cocina, delivery y facturación electrónica.",
     features: [
@@ -53,100 +61,90 @@ const APPS = [
       "Declaraciones tributarias",
     ],
     precioDesde: "S/150",
-    accentColor: "naranja",
+    colorTema: "color-restaurante",
   },
   {
     id: 4,
     nombre: "Gestión-Plex Grifo",
     publisher: "CodePlex",
     categoria: "GRIFO",
-    categoriaColor: "contabilidad",
+    categoriaColor: "etiqueta",
     icono: "contaplex",
-    descripcion: "Software especializado para grifos ,elige el plan perfecto para ti  con comprobantes ilimitados ",
+    descripcion: "Software especializado para grifos con comprobantes ilimitados, vales de crédito y liquidación.",
     features: [
-      "Facturación electrónica SUNAT",
-      "Contabilidad multi-empresas",
-      "Reportes y Balances",
-      "Declaraciones tributarias",
+      "Módulo de Grifo completo",
+      "Vales de crédito + Liquidación",
+      "Producción + Procesos",
+      "Soporte + Contable GRATIS",
     ],
     precioDesde: "S/350",
-    accentColor: "azul",
+    colorTema: "color-grifo",
   },
+
   {
     id: 5,
-    nombre: "Gestión-Plex Comercial",
-    publisher: "CodePlex",
-    categoria: "COMERCIAL",
-    categoriaColor: "contabilidad",
-    icono: "contaplex",
-    descripcion: "Elige el plan perfecto para ti  con comprobantes ilimitados ",
-    features: [
-      "Facturación electrónica SUNAT",
-      "Contabilidad multi-empresas",
-      "Reportes y Balances",
-      "Declaraciones tributarias",
-    ],
-    precioDesde: "S/150",
-    accentColor: "azul",
-  },
-  {
-    id: 6,
     nombre: "Facturación Electrónica",
     publisher: "CodePlex",
     categoria: "FACTURACION",
-    categoriaColor: "contabilidad",
+    categoriaColor: "etiqueta",
     icono: "contaplex",
-    descripcion: "Software empresarial ,elige el plan perfecto para ti  con hasta hasta 2,000 comprobantes ",
+    descripcion: "Facturación electrónica para empresas con múltiples sucursales, hasta 2,000 comprobantes y usuarios ilimitados.",
     features: [
-      "Facturación electrónica SUNAT",
-      "Contabilidad multi-empresas",
-      "Reportes y Balances",
-      "Declaraciones tributarias",
+      "Ventas POS + SUNAT completo",
+      "Guías de remisión",
+      "Web · Android · iOS · Usuarios ilimitados",
+      "Sistema Contable Basic GRATIS",
     ],
     precioDesde: "S/50",
-    accentColor: "azul",
+    colorTema: "color-facturacion",
   },
-    {
-    id: 7,
+  {
+    id: 6,
     nombre: "Gestión-Plex Transporte",
     publisher: "CodePlex",
     categoria: "TRANSPORTE",
-    categoriaColor: "contabilidad",
+    categoriaColor: "etiqueta",
     icono: "contaplex",
-    descripcion: "Software especializado para empresas de transporte ,elige el plan perfecto para ti  con comprobantes ilimitados  ",
+    descripcion: "Software para empresas de transporte con guías electrónicas, módulo transportista y liquidación por chofer.",
     features: [
-      "Facturación electrónica SUNAT",
-      "Contabilidad multi-empresas",
-      "Reportes y Balances",
-      "Declaraciones tributarias",
+      "Guías electrónicas (Remitente + Transportista)",
+      "Módulo Transportista",
+      "Compras + Liquidación por chofer",
+      "Soporte + Contable GRATIS",
     ],
     precioDesde: "S/150",
-    accentColor: "azul",
+    colorTema: "color-transporte",
   },
 ];
-
+ 
 /* ── Íconos SVG inline por app ── */
-function AppIcon({ tipo, accentColor }) {
-  const isNaranja = accentColor === "naranja";
-  const bg1 = isNaranja ? "#F97316" : "#6366F1";
-  const bg2 = isNaranja ? "#EA580C" : "#4F46E5";
-
+function AppIcon({ tipo, colorTema }) {
+  const coloresPorTema = {
+    "color-contaplex":   "#0094C0",
+    "color-comercial":   "#0D9488",
+    "color-restaurante": "#F97316",
+    "color-grifo":       "#B91C1C",
+    "color-facturacion": "#1E40AF",
+    "color-transporte":  "#1E40AF",
+  };
+  
+    const bg1 = coloresPorTema[colorTema] ?? "#6366F1"; //
+ 
   if (tipo === "gestionplex-comercial") {
     return (
       <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
         <rect width="40" height="40" rx="10" fill={bg1} />
-        {/* caja/paquete */}
         <path d="M20 10L30 15V25L20 30L10 25V15L20 10Z" stroke="white" strokeWidth="2" fill="none" />
         <path d="M10 15L20 20L30 15" stroke="white" strokeWidth="2" />
         <path d="M20 20V30" stroke="white" strokeWidth="2" />
       </svg>
     );
+    
   }
   if (tipo === "gestionplex-restaurante") {
     return (
       <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
         <rect width="40" height="40" rx="10" fill={bg1} />
-        {/* tenedor y cuchillo */}
         <line x1="15" y1="10" x2="15" y2="30" stroke="white" strokeWidth="2" strokeLinecap="round" />
         <path d="M13 10V17C13 18.1 13.9 19 15 19C16.1 19 17 18.1 17 17V10" stroke="white" strokeWidth="2" strokeLinecap="round" />
         <line x1="25" y1="10" x2="25" y2="30" stroke="white" strokeWidth="2" strokeLinecap="round" />
@@ -154,7 +152,7 @@ function AppIcon({ tipo, accentColor }) {
       </svg>
     );
   }
-  /* Conta-Plex: barras de gráfico */
+  /* Conta-Plex y resto: barras de gráfico */
   return (
     <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
       <rect width="40" height="40" rx="10" fill={bg1} />
@@ -164,7 +162,7 @@ function AppIcon({ tipo, accentColor }) {
     </svg>
   );
 }
-
+ 
 /* ── Check icon ── */
 function CheckIcon() {
   return (
@@ -174,15 +172,15 @@ function CheckIcon() {
     </svg>
   );
 }
-
+ 
 /* ── Componente tarjeta ── */
 function AppCard({ app, onAgregar, isInstalada }) {
   return (
-    <div className={`app-card app-card--${app.accentColor}`}>
+    <div className={`app-card app-card--${app.colorTema}`}>
       {/* Header de la card */}
       <div className="app-card-header">
         <div className="app-card-icon">
-          <AppIcon tipo={app.icono} accentColor={app.accentColor} />
+          <AppIcon tipo={app.icono} colorTema={app.colorTema} />
         </div>
         <div className="app-card-info">
           <span className="app-card-nombre">{app.nombre}</span>
@@ -192,10 +190,10 @@ function AppCard({ app, onAgregar, isInstalada }) {
           {app.categoria}
         </span>
       </div>
-
+ 
       {/* Descripción */}
       <p className="app-card-desc">{app.descripcion}</p>
-
+ 
       {/* Features */}
       <ul className="app-card-features">
         {app.features.map((f) => (
@@ -205,7 +203,7 @@ function AppCard({ app, onAgregar, isInstalada }) {
           </li>
         ))}
       </ul>
-
+ 
       {/* Footer */}
       <div className="app-card-footer">
         <div className="app-card-precio">
@@ -225,7 +223,7 @@ function AppCard({ app, onAgregar, isInstalada }) {
     </div>
   );
 }
-
+ 
 /* ── Ícono restaurante pequeño para Mis Apps ── */
 function IconoMisApp() {
   return (
@@ -238,50 +236,49 @@ function IconoMisApp() {
     </svg>
   );
 }
-
+ 
 /* ── Modal confirmación desinstalar ── */
 function ModalDesinstalar({ app, onCancelar, onConfirmar }) {
   if (!app) return null;
   return (
     <div className="desinstalar-overlay" onClick={onCancelar}>
       <div className="desinstalar-modal" onClick={(e) => e.stopPropagation()}>
-        {/* Ícono X rojo */}
         <div className="desinstalar-icon-wrap">
           <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
             <path d="M10 10L30 30M30 10L10 30" stroke="#EF4444" strokeWidth="4" strokeLinecap="round" />
           </svg>
         </div>
-
+ 
         <h2 className="desinstalar-titulo">
           ¿Desinstalar {app.appNombre || "GestiónPlex"} {app.appPublisher || "Restaurante"}?
         </h2>
         <p className="desinstalar-sub">
-          Perderá acceso a todos tus datos . Est accion no se puede deshacer.
+          Perderá acceso a todos tus datos. Esta acción no se puede deshacer.
         </p>
-
+ 
         <div className="desinstalar-btns">
           <button className="desinstalar-btn-cancelar" onClick={onCancelar}>Cancelar</button>
-          <button className="desinstalar-btn-confirmar" onClick={() => onConfirmar(app.id)}>Si desinstalar</button>
+          <button className="desinstalar-btn-confirmar" onClick={() => onConfirmar(app.id)}>Sí, desinstalar</button>
         </div>
       </div>
     </div>
   );
 }
-
+ 
 /* ── Tarjeta de app adquirida ── */
 function MisAppCard({ app, onMejorarPlan, onDesinstalar }) {
   const planDisplay = { gratis: "Gratis", basico: "Básico", gold: "Gold" }[app.planNombre] || app.planNombre;
-
+ 
   const hoy        = new Date();
   const fechaVence = new Date(hoy);
   fechaVence.setMonth(hoy.getMonth() + 1);
-
+ 
   const diasRestantes = Math.max(0, Math.round((fechaVence - hoy) / (1000 * 60 * 60 * 24)));
-
+ 
   const fmtDate = (d) => new Date(d).toLocaleDateString("es-PE", {
     day: "2-digit", month: "short", year: "numeric",
   }).replace(/\./g, "");
-
+ 
   return (
     <div className="misapp-card">
       <div className="misapp-left">
@@ -291,7 +288,7 @@ function MisAppCard({ app, onMejorarPlan, onDesinstalar }) {
           <div className="misapp-pub">{app.appPublisher || "Restaurante"}</div>
         </div>
       </div>
-
+ 
       <div className="misapp-meta">
         <div className="misapp-meta-col">
           <span className="misapp-meta-label">PLAN</span>
@@ -314,7 +311,7 @@ function MisAppCard({ app, onMejorarPlan, onDesinstalar }) {
           <span className="misapp-meta-val misapp-meta-val--warn">🔒 Modo limitado</span>
         </div>
       </div>
-
+ 
       <div className="misapp-actions">
         <button className="misapp-btn-mejorar" onClick={onMejorarPlan}>Mejorar Plan</button>
         <button className="misapp-btn-desinstalar" onClick={onDesinstalar}>Desinstalar</button>
@@ -322,40 +319,55 @@ function MisAppCard({ app, onMejorarPlan, onDesinstalar }) {
     </div>
   );
 }
-
+ 
 /* ── Vista principal ── */
 function ViewAplicaciones({ onProcederPago, misApps = [], tabInicial = "adquirir", onTabChange, onDesinstalarApp }) {
-  const [tabActivo, setTabActivo]           = useState(tabInicial);
-  const [filtro, setFiltro]                 = useState("todos");
-  const [busqueda, setBusqueda]             = useState("");
-  const [modalRestaurante, setModalRestaurante] = useState(false);
+  const [tabActivo, setTabActivo]               = useState(tabInicial);
+  const [filtro, setFiltro]                     = useState("todos");
+  const [busqueda, setBusqueda]                 = useState("");
+  const [modalRestaurante,  setModalRestaurante]  = useState(false);
+  const [modalContaPlex,    setModalContaPlex]    = useState(false);
+  const [modalGestionPlex,  setModalGestionPlex]  = useState(false);
+  const [modalTransporte,   setModalTransporte]   = useState(false);
+  const [modalGrifo,        setModalGrifo]        = useState(false);
+  const [modalFacturacion,  setModalFacturacion]  = useState(false);
   const [appADesinstalar, setAppADesinstalar]   = useState(null);
-
+ 
   const cambiarTab = (t) => {
     setTabActivo(t);
     onTabChange?.(t);
   };
-
+ 
   const handleAgregar = (app) => {
     if (app.icono === "gestionplex-restaurante") {
       setModalRestaurante(true);
+    } else if (app.icono === "contaplex" && app.nombre === "Conta-Plex") {
+      setModalContaPlex(true);
+    } else if (app.icono === "gestionplex-comercial") {
+      setModalGestionPlex(true);
+    } else if (app.nombre === "Gestión-Plex Transporte") {
+      setModalTransporte(true);
+    } else if (app.nombre === "Gestión-Plex Grifo") {
+      setModalGrifo(true);
+    } else if (app.nombre === "Facturación Electrónica") {
+      setModalFacturacion(true);
     }
   };
-
+ 
   const handleConfirmarDesinstalar = (id) => {
     onDesinstalarApp?.(id);
     setAppADesinstalar(null);
   };
-
+ 
   const filtros = ["todos", "e-commerce", "otros"];
-
+ 
   const appsFiltradas = APPS.filter((app) => {
     if (busqueda && !app.nombre.toLowerCase().includes(busqueda.toLowerCase())) return false;
     if (filtro === "e-commerce") return false;
     if (filtro === "otros") return false;
     return true;
   });
-
+ 
   return (
     <div className="view-aplicaciones">
       {/* Título + badge activos */}
@@ -368,7 +380,7 @@ function ViewAplicaciones({ onProcederPago, misApps = [], tabInicial = "adquirir
           <span className="apps-activos-badge">{misApps.length} activo{misApps.length > 1 ? "s" : ""}</span>
         )}
       </div>
-
+ 
       {/* Tabs */}
       <div className="aplicaciones-tabs">
         <button
@@ -384,7 +396,7 @@ function ViewAplicaciones({ onProcederPago, misApps = [], tabInicial = "adquirir
           Adquirir Aplicaciones
         </button>
       </div>
-
+ 
       {/* Buscador */}
       <div className="aplicaciones-search">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" strokeWidth="2" strokeLinecap="round">
@@ -399,7 +411,7 @@ function ViewAplicaciones({ onProcederPago, misApps = [], tabInicial = "adquirir
           className="search-input"
         />
       </div>
-
+ 
       {/* Filtros + Ordenar */}
       <div className="aplicaciones-filtros">
         <div className="filtros-izq">
@@ -422,13 +434,63 @@ function ViewAplicaciones({ onProcederPago, misApps = [], tabInicial = "adquirir
           </select>
         </div>
       </div>
-
+ 
       {/* Modal planes — Adquirir y Mejorar Plan */}
       <ModalPlanesRestaurante
         isOpen={modalRestaurante}
         onClose={() => setModalRestaurante(false)}
         onProcederPago={(data) => {
           setModalRestaurante(false);
+          onProcederPago?.(data);
+        }}
+      />
+ 
+      {/* Modal planes — Conta-Plex */}
+      <ModalPlanesContaPlex
+        isOpen={modalContaPlex}
+        onClose={() => setModalContaPlex(false)}
+        onProcederPago={(data) => {
+          setModalContaPlex(false);
+          onProcederPago?.(data);
+        }}
+      />
+
+      {/* Modal planes — Gestión-Plex Comercial */}
+      <ModalPlanesGestionPlex
+        isOpen={modalGestionPlex}
+        onClose={() => setModalGestionPlex(false)}
+        onProcederPago={(data) => {
+          setModalGestionPlex(false);
+          onProcederPago?.(data);
+        }}
+      />
+
+      {/* Modal planes — Gestión-Plex Transporte */}
+      <ModalPlanesTransporte
+        isOpen={modalTransporte}
+        onClose={() => setModalTransporte(false)}
+        onProcederPago={(data) => {
+          setModalTransporte(false);
+          onProcederPago?.(data);
+        }}
+      />
+
+      {/* Modal planes — Gestión-Plex Grifo */}
+      <ModalPlanesGrifo
+        isOpen={modalGrifo}
+        onClose={() => setModalGrifo(false)}
+        onProcederPago={(data) => {
+          setModalGrifo(false);
+          onProcederPago?.(data);
+        }}
+      />
+
+      {/* Modal planes — Facturación Electrónica */}
+      <ModalPlanesFacturacion
+        isOpen={modalFacturacion}
+        onClose={() => setModalFacturacion(false)}
+        onProcederPago={(data) => {
+          setModalFacturacion(false);
           onProcederPago?.(data);
         }}
       />
@@ -439,7 +501,7 @@ function ViewAplicaciones({ onProcederPago, misApps = [], tabInicial = "adquirir
         onCancelar={() => setAppADesinstalar(null)}
         onConfirmar={handleConfirmarDesinstalar}
       />
-
+ 
       {tabActivo === "adquirir" ? (
         <div className="apps-grid">
           {appsFiltradas.length > 0 ? (
@@ -481,5 +543,6 @@ function ViewAplicaciones({ onProcederPago, misApps = [], tabInicial = "adquirir
     </div>
   );
 }
-
+ 
 export default ViewAplicaciones;
+ 

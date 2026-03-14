@@ -13,6 +13,12 @@
   min-height: 100vh;
 }
 
+.view-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
 /* Demo banner añade ~36px al header fijo */
 .main-content--demo {
   padding-top: 116px;

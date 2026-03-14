@@ -220,7 +220,7 @@ function ViewPasarellaPago({ planData, onVolver, onActivar }) {
               <label>Numero de la Tarjeta</label>
               <input
                 type="text"
-                placeholder="123 456 789 011"
+                placeholder="1234 5678 9012 3456"
                 value={tarjeta}
                 onChange={(e) => setTarjeta(formatTarjeta(e.target.value))}
                 maxLength={19}
@@ -254,7 +254,7 @@ function ViewPasarellaPago({ planData, onVolver, onActivar }) {
               <label>Nombre del Propietario</label>
               <input
                 type="text"
-                placeholder="Gabriel Chumpitazi"
+                placeholder="Como aparece en tu tarjeta"
                 value={propietario}
                 onChange={(e) => setPropietario(e.target.value)}
               />
@@ -275,29 +275,28 @@ function ViewPasarellaPago({ planData, onVolver, onActivar }) {
               <StepNumber n={2} />
               <div>
                 <h2 className="pp-section-titulo">Datos de Facturación</h2>
-                <p className="pp-section-sub">Emisión del comprobante electrónico</p>
+                <p className="pp-section-sub">Se usarán para emitir tu comprobante electrónico</p>
               </div>
             </div>
 
-            <div className="pp-field-row">
-              <div className="pp-field">
-                <label>RUC / DNI</label>
-                <input
-                  type="text"
-                  placeholder="123456789"
-                  value={ruc}
-                  onChange={(e) => setRuc(e.target.value.replace(/\D/g, "").slice(0, 11))}
-                />
-              </div>
-              <div className="pp-field">
-                <label>Razón Social / Nombre</label>
-                <input
-                  type="text"
-                  placeholder="Mi Empresa S.A.C"
-                  value={razonSocial}
-                  onChange={(e) => setRazonSocial(e.target.value)}
-                />
-              </div>
+            <div className="pp-field">
+              <label>RUC / DNI</label>
+              <input
+                type="text"
+                placeholder="Ej: 20123456789"
+                value={ruc}
+                onChange={(e) => setRuc(e.target.value.replace(/\D/g, "").slice(0, 11))}
+              />
+            </div>
+
+            <div className="pp-field">
+              <label>Razón Social / Nombre Completo</label>
+              <input
+                type="text"
+                placeholder="Ej: Inversiones Digitales S.A.C"
+                value={razonSocial}
+                onChange={(e) => setRazonSocial(e.target.value)}
+              />
             </div>
 
             <div className="pp-field">
@@ -321,51 +320,50 @@ function ViewPasarellaPago({ planData, onVolver, onActivar }) {
               <label>Dirección Fiscal</label>
               <input
                 type="text"
-                placeholder="Av. Javier Prado"
+                placeholder="Ej: Av. La Marina 2000, San Miguel, Lima"
                 value={direccion}
                 onChange={(e) => setDireccion(e.target.value)}
               />
             </div>
 
-            <div className="pp-field-row">
-              <div className="pp-field">
-                <label>Correo Electrónico <span className="pp-required">*</span></label>
+            <div className="pp-field">
+              <label>Correo Electrónico <span className="pp-required">*</span></label>
+              <input
+                type="email"
+                placeholder="correo@tuempresa.com"
+                value={correo}
+                onChange={(e) => setCorreo(e.target.value)}
+              />
+            </div>
+
+            <div className="pp-field" style={{ marginBottom: 0 }}>
+              <label>Número de Celular</label>
+              <div className="pp-celular-row">
+                <div className="pp-prefijo">{PREFIJOS[pais] || "+51"}</div>
                 <input
-                  type="email"
-                  placeholder="empresa@ejemplo.com"
-                  value={correo}
-                  onChange={(e) => setCorreo(e.target.value)}
+                  type="text"
+                  placeholder="987 654 321"
+                  value={celular}
+                  onChange={(e) => setCelular(e.target.value.replace(/\D/g, "").slice(0, 9))}
                 />
-              </div>
-              <div className="pp-field">
-                <label>Numero de Celular</label>
-                <div className="pp-celular-row">
-                  <div className="pp-prefijo">{PREFIJOS[pais] || "+51"}</div>
-                  <input
-                    type="text"
-                    placeholder="999 999 999"
-                    value={celular}
-                    onChange={(e) => setCelular(e.target.value.replace(/\D/g, "").slice(0, 9))}
-                  />
-                </div>
               </div>
             </div>
 
             {/* Canales adicionales */}
-            <div className="pp-canales">
+            <div className="pp-canales" style={{ marginTop: 16 }}>
               <h4 className="pp-canales-titulo">Canales Adicionales de Notificación</h4>
               <label className="pp-canal-item">
                 <input type="checkbox" checked={notifWhatsapp} onChange={(e) => setNotifWhatsapp(e.target.checked)} />
                 <div>
                   <span className="pp-canal-nombre">WhatsApp</span>
-                  <span className="pp-canal-desc">Emisión del comprobante electrónico</span>
+                  <span className="pp-canal-desc">Recibe tus comprobantes por WhatsApp</span>
                 </div>
               </label>
               <label className="pp-canal-item">
                 <input type="checkbox" checked={notifSms} onChange={(e) => setNotifSms(e.target.checked)} />
                 <div>
-                  <span className="pp-canal-nombre">Sms/Telefono</span>
-                  <span className="pp-canal-desc">Aviso por mensaje de Texto</span>
+                  <span className="pp-canal-nombre">SMS / Teléfono</span>
+                  <span className="pp-canal-desc">Avisos de cobro y renovación por mensaje</span>
                 </div>
               </label>
             </div>

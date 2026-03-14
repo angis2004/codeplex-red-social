@@ -34,6 +34,10 @@
   --text-gray: #94a3b8;
   --text-muted: #64748B;
   
+  --text-primary:     var(--text-dark);    /* títulos, nombres    */
+  --text-secondary:   var(--text-muted);   /* subtítulos, labels  */
+
+
   /* Bordes y divisores */
   --border-color: #e2e8f0;
   --border-light: #f1f5f9;
@@ -54,8 +58,35 @@
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
   --shadow-lg: 0 10px 28px rgba(103, 75, 234, 0.12);
   --shadow-primary: 0 4px 12px rgba(103, 75, 234, 0.3);
-}
 
+
+  /* ══════════════════════════════════════════════
+      PALETA DE NEGOCIOS — Codeplex Aplicaciones
+     
+     Cada negocio necesita DOS variables del mismo color:
+       --color-NOMBRE      → HEX → para border-top (color sólido)
+       --color-NOMBRE-rgb  → RGB → para rgba(..., opacidad) en shimmer hover
+     
+     ¿Por qué RGB separado? CSS no acepta rgba(#HEX, 0.08).
+     Con números sueltos sí funciona: rgba(var(--color-grifo-rgb), 0.08)
+    
+     ══════════════════════════════════════════════ */
+  --color-contaplex:      #0094C0;  --color-contaplex-rgb:     0, 148, 192;
+  --color-comercial:      #0D9488;  --color-comercial-rgb:     13, 148, 136;
+  --color-restaurante:    #F97316;  --color-restaurante-rgb:   249, 115, 22;
+  --color-grifo:          #B91C1C;  --color-grifo-rgb:         185, 28, 28;
+  --color-facturacion:    #1E40AF;  --color-facturacion-rgb:   30, 64, 175;
+  --color-transporte:     #1E40AF;  --color-transporte-rgb:    30, 64, 175;
+ 
+  /* Acento global Codeplex (botones, tabs activos, badges) */
+  --accent:               #7C3AED;
+  --accent-hover:         #6D28D9;
+  --accent-shadow:        rgba(124, 58, 237, 0.35);
+
+  }
+
+
+  
 /* ═══════════════════════════════════════════════════════════
    MODO OSCURO
 ═══════════════════════════════════════════════════════════ */
@@ -97,9 +128,16 @@
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 10px 28px rgba(0, 0, 0, 0.5);
   --shadow-primary: 0 4px 12px rgba(157, 78, 255, 0.3);
+
+  /* Acento en dark — un poco más brillante */
+  --accent:           #8B5CF6;
+  --accent-hover:     #7C3AED;
 }
 
 
+/* ═══════════════════════════════════════════════════════════
+   BASE
+═══════════════════════════════════════════════════════════ */
 
 html {
   /* Reserva siempre el hueco del scrollbar para evitar saltos de ancho
@@ -110,28 +148,15 @@ html {
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--background-color);
-  color: var(--text-dark);
+  color: var(--text-primary);
 }
-
-/* Scrollbar personalizado */
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--background-color);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--border-color);
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--text-muted);
-}
+ 
+/* ── Scrollbar ── */
+::-webkit-scrollbar        { width: 10px; }
+::-webkit-scrollbar-track  { background: var(--background-color); }
+::-webkit-scrollbar-thumb  { background: var(--border-color); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }

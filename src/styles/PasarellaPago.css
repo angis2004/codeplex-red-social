@@ -501,18 +501,24 @@
   .pp-body {
     grid-template-columns: 1fr;
   }
+  .pp-form-col {
+    order: 1;
+  }
   .pp-resumen-col {
     position: static;
-    order: -1;
+    order: 2; /* Resumen siempre al final en mobile */
   }
 }
 
-@media (max-width: 560px) {
+@media (max-width: 768px) {
   .pp-field-row {
     grid-template-columns: 1fr;
   }
   .pp-section {
     padding: 18px 16px;
+  }
+  .pp-field {
+    margin-bottom: 16px;
   }
 }
 

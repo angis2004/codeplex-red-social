@@ -3,7 +3,26 @@
     "allow": [
       "Bash(\"C:\\\\proyectos\\\\codeplex-red-social\\\\src\\\\styles\\\\Header.css\":*)",
       "mcp__Claude_Preview__preview_start",
-      "Bash(where npm:*)"
+      "Bash(where npm:*)",
+      "Bash(npm run:*)",
+      "Bash(taskkill /F /PID 18748)",
+      "Bash(taskkill //F //PID 18748)",
+      "Bash(curl -s http://localhost:3000)",
+      "Bash(cmd /c where npm)",
+      "Bash(powershell -Command \"Get-Command npm | Select-Object -ExpandProperty Source\")",
+      "Bash(powershell -Command \"Get-Command npm.cmd | Select-Object -ExpandProperty Source\")",
+      "Read(//c/Program Files/nodejs//**)",
+      "Bash(ls src/planes/suscripciones/ModalPlanesGrifo*)",
+      "Bash(cp \"C:/Users/Angie/AppData/Local/Packages/5319275A.WhatsAppDesktop_cv1g1gvanyjgm/LocalState/sessions/CF81ED82CCB68A1A9939A99F2255ACC16988DA36/transfers/2026-09/gestionplex -GRIFO 2025.pdf\" \"C:/proyectos/codeplex-red-social/public/catalogos/gestionplex-grifo-2025.pdf\")",
+      "Bash(cp \"C:/Users/Angie/AppData/Local/Packages/5319275A.WhatsAppDesktop_cv1g1gvanyjgm/LocalState/sessions/CF81ED82CCB68A1A9939A99F2255ACC16988DA36/transfers/2026-09/GESTIONPLEX RESTAURANTES.pdf\" \"C:/proyectos/codeplex-red-social/public/catalogos/gestionplex-restaurante-2025.pdf\")",
+      "Bash(base=\"C:/Users/Angie/AppData/Local/Packages/5319275A.WhatsAppDesktop_cv1g1gvanyjgm/LocalState/sessions/CF81ED82CCB68A1A9939A99F2255ACC16988DA36/transfers/2026-09\")",
+      "Bash(dest=\"C:/proyectos/codeplex-red-social/public/catalogos\")",
+      "Bash(cp \"$base/facturacion electronica 2025.pdf\" \"$dest/facturacion-electronica-2025.pdf\")",
+      "Bash(cp \"$base/GESTIONPLEX RESTAURANTES.pdf\" \"$dest/gestionplex-restaurante-2025.pdf\")",
+      "Bash(cp \"$base/gestionplex-Transporte.pdf\" \"$dest/gestionplex-transporte-2025.pdf\")",
+      "Read(//c/proyectos/codeplex-red-social/**)",
+      "Bash(cp \"$base/gestionplex -GRIFO 2025.pdf\" \"$dest/gestionplex-grifo-2025.pdf\")",
+      "Bash(cp \"$base/gestionplex-Comercial.pdf\" \"$dest/gestionplex-comercial-2025.pdf\")"
     ]
   }
 }

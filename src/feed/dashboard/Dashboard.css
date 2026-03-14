@@ -2,9 +2,6 @@
   display: grid;
   grid-template-columns: 1fr 350px;
   gap: 20px;
-  max-width: 1400px;
-  margin: 0 auto;
-  width: 100%;
 }
 
 .dashboard-left {
