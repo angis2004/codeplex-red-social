@@ -289,6 +289,109 @@
   box-shadow: 0 2px 8px rgba(13,68,113,0.35);
 }
 
+/* ── Tabs Independiente / Empresarial ── */
+.mpc-tipo-tabs {
+  display: flex;
+  width: 100%;
+  background: #E5E7EB;
+  border-radius: 14px;
+  padding: 4px;
+  gap: 4px;
+  margin-top: 6px;
+  margin-bottom: 2px;
+}
+
+.mpc-tipo-tab {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  transition: background 0.18s, box-shadow 0.18s;
+}
+.mpc-tipo-tab:hover {
+  background: rgba(255,255,255,0.6);
+}
+.mpc-tipo-tab--active {
+  background: #0D4471;
+  box-shadow: 0 2px 8px rgba(13,68,113,0.3);
+}
+
+.mpc-tipo-tab-nombre {
+  font-size: 14px;
+  font-weight: 700;
+  color: #6B7280;
+  transition: color 0.18s;
+}
+.mpc-tipo-tab--active .mpc-tipo-tab-nombre {
+  color: #fff;
+}
+
+.mpc-tipo-tab-sub {
+  font-size: 11px;
+  color: #9CA3AF;
+  transition: color 0.18s;
+}
+.mpc-tipo-tab--active .mpc-tipo-tab-sub {
+  color: rgba(255,255,255,0.75);
+}
+
+/* ── Toggle switch Mensual / Anual ── */
+.mpc-toggle-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.mpc-toggle-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #9CA3AF;
+  transition: color 0.18s;
+}
+.mpc-toggle-label--active {
+  color: #1C1917;
+  font-weight: 700;
+}
+
+.mpc-toggle-switch {
+  position: relative;
+  width: 42px;
+  height: 24px;
+  background: #D1D5DB;
+  border: none;
+  border-radius: 99px;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.22s;
+  flex-shrink: 0;
+}
+.mpc-toggle-switch--on {
+  background: #0094C0;
+}
+
+.mpc-toggle-thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1);
+  display: block;
+}
+.mpc-toggle-switch--on .mpc-toggle-thumb {
+  transform: translateX(18px);
+}
+
 /* ── Scroll horizontal — Independientes (7 planes) ── */
 .mpc-planes-scroll {
   display: flex;
@@ -296,6 +399,7 @@
   gap: 14px;
   padding-bottom: 10px;
   -webkit-overflow-scrolling: touch;
+  cursor: grab;
 }
 .mpc-planes-scroll::-webkit-scrollbar { height: 5px; }
 .mpc-planes-scroll::-webkit-scrollbar-thumb { background: #BAE6FD; border-radius: 99px; }

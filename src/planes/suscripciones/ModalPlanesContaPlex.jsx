@@ -487,9 +487,7 @@ function PlanCard({ plan, periodo, seleccionado, onSeleccionar, compact = false,
 ═══════════════════════════════════════════ */
 function ModalPlanesContaPlex({ isOpen, onClose, onProcederPago }) {
 
-  /* pasos: "tipo" | "planes" */
-  const [paso,               setPaso]               = useState("tipo");
-  const [tipoSeleccionado,   setTipoSeleccionado]   = useState(null);   /* "independiente" | "empresarial" */
+  const [tipoSeleccionado,   setTipoSeleccionado]   = useState("independiente");   /* "independiente" | "empresarial" */
   const [periodoFacturacion, setPeriodoFacturacion] = useState("mensual");
   const [planSeleccionado,   setPlanSeleccionado]   = useState(null);
   const [chatVisible,        setChatVisible]        = useState(false);
@@ -501,14 +499,36 @@ function ModalPlanesContaPlex({ isOpen, onClose, onProcederPago }) {
   const [inputChat,    setInputChat]    = useState("");
   const refFinChat = useRef(null);
 
+  /* Drag-scroll en desktop */
+  const refPlanesScroll = useRef(null);
+  const dragState = useRef({ dragging: false, startX: 0, scrollLeft: 0 });
+
+  const onDragStart = (e) => {
+    dragState.current = { dragging: true, startX: e.pageX, scrollLeft: refPlanesScroll.current.scrollLeft };
+    refPlanesScroll.current.style.cursor = "grabbing";
+    refPlanesScroll.current.style.userSelect = "none";
+  };
+  const onDragMove = (e) => {
+    if (!dragState.current.dragging) return;
+    e.preventDefault();
+    const dx = e.pageX - dragState.current.startX;
+    refPlanesScroll.current.scrollLeft = dragState.current.scrollLeft - dx;
+  };
+  const onDragEnd = () => {
+    dragState.current.dragging = false;
+    if (refPlanesScroll.current) {
+      refPlanesScroll.current.style.cursor = "grab";
+      refPlanesScroll.current.style.userSelect = "";
+    }
+  };
+
   useEffect(() => {
     if (chatVisible) refFinChat.current?.scrollIntoView({ behavior: "smooth" });
   }, [mensajesChat, chatVisible]);
 
   /* Reset al cerrar */
   const handleClose = () => {
-    setPaso("tipo");
-    setTipoSeleccionado(null);
+    setTipoSeleccionado("independiente");
     setPlanSeleccionado(null);
     setChatVisible(false);
     setMensajesChat([CHATBOT_MSG_INICIAL]);
@@ -522,12 +542,6 @@ function ModalPlanesContaPlex({ isOpen, onClose, onProcederPago }) {
   };
 
   const planes = tipoSeleccionado === "empresarial" ? PLANES_EMP : PLANES_IND;
-
-  const handleIrPlanes = (tipo) => {
-    setTipoSeleccionado(tipo);
-    setPlanSeleccionado(null);
-    setPaso("planes");
-  };
 
   const handleConfirmarPlan = () => {
     const plan = planes.find((p) => p.id === planSeleccionado);
@@ -552,9 +566,7 @@ function ModalPlanesContaPlex({ isOpen, onClose, onProcederPago }) {
     }, 800);
   };
 
-  const tituloPlanes = tipoSeleccionado === "empresarial"
-    ? "Conta-Plex Empresas"
-    : "Conta-Plex Independientes";
+  const tituloPlanes = "Conta-Plex";
 
   const nombrePlanDisplay = planes.find((p) => p.id === planSeleccionado)?.nombre || "";
 
@@ -574,112 +586,65 @@ function ModalPlanesContaPlex({ isOpen, onClose, onProcederPago }) {
         </button>
 
         {/* ══════════════════════════════════════
-            PASO 1 — Elegir tipo
+            Planes (vista directa)
         ══════════════════════════════════════ */}
-        {paso === "tipo" && (
-          <div className="mpc-paso-tipo">
-            <IconoContaPlex size={56} />
-            <h2 className="mpc-titulo">Conta-Plex</h2>
-            <p className="mpc-subtitulo">Sistema contable integral · Comprobantes ilimitados</p>
-
-            <div className="mpc-badges">
-              <span className="mpc-badge-pill">1 mes gratis</span>
-              <span className="mpc-badge-pill">IGV incluido</span>
-              <span className="mpc-badge-pill">Actualizaciones</span>
-            </div>
-
-            <p className="mpc-tipo-pregunta">¿Cómo usarás Conta-Plex?</p>
-
-            <div className="mpc-tipo-cards">
-              {/* Independiente */}
-              <button
-                className={`mpc-tipo-card${tipoSeleccionado === "independiente" ? " mpc-tipo-card--selected" : ""}`}
-                onClick={() => setTipoSeleccionado("independiente")}
-              >
-                <h3 className="mpc-tipo-nombre">Independiente</h3>
-                <span className="mpc-tipo-sub">Para Contadores .</span>
-                <p className="mpc-tipo-desc">
-                  Soy contador o gestor. Administro las empresas de mis clientes desde una sola cuenta.
-                </p>
-                <div className="mpc-tipo-precio">
-                  Desde <strong>S/50</strong> <span>/mes</span>
-                </div>
-              </button>
-
-              {/* Empresarial */}
-              <button
-                className={`mpc-tipo-card${tipoSeleccionado === "empresarial" ? " mpc-tipo-card--selected" : ""}`}
-                onClick={() => setTipoSeleccionado("empresarial")}
-              >
-                <h3 className="mpc-tipo-nombre">Empresarial</h3>
-                <span className="mpc-tipo-sub">Para Empresa .</span>
-                <p className="mpc-tipo-desc">
-                  Soy contador o gestor. Administro las empresas de mis clientes desde una sola cuenta.
-                </p>
-                <div className="mpc-tipo-precio">
-                  Desde <strong>S/150</strong> <span>/mes</span>
-                </div>
-              </button>
-            </div>
-
-            {tipoSeleccionado && (
-              <button className="mpc-btn-continuar" onClick={() => handleIrPlanes(tipoSeleccionado)}>
-                Continuar con {tipoSeleccionado === "independiente" ? "Independiente" : "Empresarial"}
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                  <path d="M5 12h14M12 5l7 7-7 7" />
-                </svg>
-              </button>
-            )}
-          </div>
-        )}
-
-        {/* ══════════════════════════════════════
-            PASO 2 — Planes
-        ══════════════════════════════════════ */}
-        {paso === "planes" && (
           <div className="mpc-body">
             {/* Wrap de planes (scrollable) */}
             <div className={`mpc-planes-wrap${chatVisible ? " mpc-planes-wrap--dimmed" : ""}`}>
-
-              {/* ── Botón volver ── */}
-              <button className="mpc-volver" onClick={() => { setPaso("tipo"); setPlanSeleccionado(null); }}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                  <path d="M19 12H5M12 19l-7-7 7-7" />
-                </svg>
-                Volver
-              </button>
 
               {/* ── Header ── */}
               <div className="mpc-header">
                 <IconoContaPlexSm size={36} />
                 <h2 className="mpc-titulo mpc-titulo--planes">{tituloPlanes}</h2>
-                <p className="mpc-subtitulo">Elige el plan perfecto para ti con comprobantes ilimitados</p>
+                <p className="mpc-subtitulo">Sistema contable integral · Comprobantes ilimitados</p>
                 <div className="mpc-badges">
                   <span className="mpc-badge-pill">1 mes gratis</span>
                   <span className="mpc-badge-pill">IGV incluido</span>
                   <span className="mpc-badge-pill">Actualizaciones</span>
                 </div>
 
-                {/* Toggle */}
-                <div className="mpc-toggle">
+                {/* Tabs Independiente / Empresarial */}
+                <div className="mpc-tipo-tabs">
                   <button
-                    className={`mpc-toggle-btn${periodoFacturacion === "mensual" ? " mpc-toggle-btn--active" : ""}`}
-                    onClick={() => setPeriodoFacturacion("mensual")}
+                    className={`mpc-tipo-tab${tipoSeleccionado === "independiente" ? " mpc-tipo-tab--active" : ""}`}
+                    onClick={() => { setTipoSeleccionado("independiente"); setPlanSeleccionado(null); }}
                   >
-                    Mensual
+                    <span className="mpc-tipo-tab-nombre">Independiente</span>
+                    <small className="mpc-tipo-tab-sub">Para Contadores y gestores</small>
                   </button>
                   <button
-                    className={`mpc-toggle-btn${periodoFacturacion === "anual" ? " mpc-toggle-btn--active" : ""}`}
-                    onClick={() => setPeriodoFacturacion("anual")}
+                    className={`mpc-tipo-tab${tipoSeleccionado === "empresarial" ? " mpc-tipo-tab--active" : ""}`}
+                    onClick={() => { setTipoSeleccionado("empresarial"); setPlanSeleccionado(null); }}
                   >
-                    Anual
+                    <span className="mpc-tipo-tab-nombre">Empresarial</span>
+                    <small className="mpc-tipo-tab-sub">Para empresas Propias</small>
                   </button>
+                </div>
+
+                {/* Toggle Mensual / Anual */}
+                <div className="mpc-toggle-row">
+                  <span className={`mpc-toggle-label${periodoFacturacion === "mensual" ? " mpc-toggle-label--active" : ""}`}>Mensual</span>
+                  <button
+                    className={`mpc-toggle-switch${periodoFacturacion === "anual" ? " mpc-toggle-switch--on" : ""}`}
+                    onClick={() => setPeriodoFacturacion(periodoFacturacion === "mensual" ? "anual" : "mensual")}
+                    aria-label="Cambiar periodo de facturación"
+                  >
+                    <span className="mpc-toggle-thumb" />
+                  </button>
+                  <span className={`mpc-toggle-label${periodoFacturacion === "anual" ? " mpc-toggle-label--active" : ""}`}>Anual</span>
                 </div>
               </div>
 
               {/* ── Planes ── */}
               {tipoSeleccionado === "independiente" ? (
-                <div className="mpc-planes-scroll">
+                <div
+                  className="mpc-planes-scroll"
+                  ref={refPlanesScroll}
+                  onMouseDown={onDragStart}
+                  onMouseMove={onDragMove}
+                  onMouseUp={onDragEnd}
+                  onMouseLeave={onDragEnd}
+                >
                   {PLANES_IND.map((plan) => (
                     <PlanCard
                       key={plan.id}
@@ -844,25 +809,22 @@ function ModalPlanesContaPlex({ isOpen, onClose, onProcederPago }) {
             )}{/* /mpc-chat */}
 
           </div>
-        )}{/* /paso planes */}
 
-        {/* FAB chat — solo en paso planes */}
-        {paso === "planes" && (
-          <button
-            className={`mpc-fab-chat${chatVisible ? " mpc-fab-chat--active" : ""}`}
-            onClick={() => setChatVisible(!chatVisible)}
-          >
-            {chatVisible ? (
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <path d="M18 6L6 18M6 6l12 12" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
-              </svg>
-            ) : (
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" fill="white" />
-              </svg>
-            )}
-          </button>
-        )}
+        {/* FAB chat */}
+        <button
+          className={`mpc-fab-chat${chatVisible ? " mpc-fab-chat--active" : ""}`}
+          onClick={() => setChatVisible(!chatVisible)}
+        >
+          {chatVisible ? (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M18 6L6 18M6 6l12 12" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
+            </svg>
+          ) : (
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" fill="white" />
+            </svg>
+          )}
+        </button>
 
         {featureAbierta && (
           <PopoverDetalleFeature
