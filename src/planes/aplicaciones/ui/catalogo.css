@@ -1,49 +1,44 @@
-
-
 /* ──────────────────────────────────────────
-   TEMAS DE CARD
+   TEMAS DE TARJETA — colores por dominio de negocio
 ────────────────────────────────────────── */
-.app-card--color-contaplex   { --card-color: var(--color-contaplex);   --card-rgb: var(--color-contaplex-rgb);   }
-.app-card--color-comercial   { --card-color: var(--color-comercial);   --card-rgb: var(--color-comercial-rgb);   }
-.app-card--color-restaurante { --card-color: var(--color-restaurante); --card-rgb: var(--color-restaurante-rgb); }
-.app-card--color-grifo       { --card-color: var(--color-grifo);       --card-rgb: var(--color-grifo-rgb);       }
-.app-card--color-facturacion { --card-color: var(--color-facturacion); --card-rgb: var(--color-facturacion-rgb); }
-.app-card--color-transporte  { --card-color: var(--color-transporte);  --card-rgb: var(--color-transporte-rgb);  }
+.tarjeta-aplicacion--color-contaplex   { --card-color: var(--color-contaplex);   --card-rgb: var(--color-contaplex-rgb);   }
+.tarjeta-aplicacion--color-comercial   { --card-color: var(--color-comercial);   --card-rgb: var(--color-comercial-rgb);   }
+.tarjeta-aplicacion--color-restaurante { --card-color: var(--color-restaurante); --card-rgb: var(--color-restaurante-rgb); }
+.tarjeta-aplicacion--color-grifo       { --card-color: var(--color-grifo);       --card-rgb: var(--color-grifo-rgb);       }
+.tarjeta-aplicacion--color-facturacion { --card-color: var(--color-facturacion); --card-rgb: var(--color-facturacion-rgb); }
+.tarjeta-aplicacion--color-transporte  { --card-color: var(--color-transporte);  --card-rgb: var(--color-transporte-rgb);  }
 
 
 /* ═══════════════════════════════════════════
-   LAYOUT GENERAL
+   CATÁLOGO DE APLICACIONES — layout general
 ═══════════════════════════════════════════ */
-.view-aplicaciones {
+.catalogo-aplicaciones {
   padding-bottom: 48px;
 }
- 
-/* ── Header ── */
-.aplicaciones-header {
-  margin-bottom: 24px;
-}
- 
-.aplicaciones-header--row {
+
+/* ── Encabezado ── */
+.catalogo-aplicaciones__encabezado {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
+  margin-bottom: 24px;
 }
- 
-.aplicaciones-title {
+
+.catalogo-aplicaciones__titulo {
   font-size: 28px;
   font-weight: 700;
   color: var(--text-primary);
   margin: 0 0 6px;
 }
- 
-.aplicaciones-subtitle {
+
+.catalogo-aplicaciones__subtitulo {
   font-size: 14px;
   color: var(--text-secondary);
   margin: 0;
 }
- 
-.apps-activos-badge {
+
+.badge-suscripciones-activas {
   background: var(--accent);
   color: #fff;
   font-size: 12px;
@@ -54,9 +49,9 @@
   flex-shrink: 0;
   margin-top: 4px;
 }
- 
-/* ── Tabs ── */
-.aplicaciones-tabs {
+
+/* ── Pestañas ── */
+.catalogo-pestanas {
   display: inline-flex;
   background: var(--border-light);
   border-radius: 10px;
@@ -64,8 +59,8 @@
   margin-bottom: 20px;
   gap: 4px;
 }
- 
-.tab-btn {
+
+.pestana-btn {
   padding: 9px 22px;
   border-radius: 8px;
   border: none;
@@ -77,15 +72,15 @@
   transition: all 0.2s;
   white-space: nowrap;
 }
- 
-.tab-btn--active {
+
+.pestana-btn--activa {
   background: var(--accent);
   color: #fff;
   box-shadow: 0 2px 8px var(--accent-shadow);
 }
- 
-/* ── Search ── */
-.aplicaciones-search {
+
+/* ── Buscador ── */
+.catalogo-buscador {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -96,12 +91,12 @@
   margin-bottom: 20px;
   transition: border-color 0.2s;
 }
- 
-.aplicaciones-search:focus-within {
+
+.catalogo-buscador:focus-within {
   border-color: var(--accent);
 }
- 
-.search-input {
+
+.buscador-input {
   border: none;
   outline: none;
   flex: 1;
@@ -109,13 +104,13 @@
   background: transparent;
   color: var(--text-primary);
 }
- 
-.search-input::placeholder {
+
+.buscador-input::placeholder {
   color: var(--text-gray);
 }
- 
+
 /* ── Filtros ── */
-.aplicaciones-filtros {
+.catalogo-filtros {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -123,12 +118,16 @@
   gap: 12px;
   flex-wrap: wrap;
 }
- 
-.filtros-izq {
+
+.filtros-izquierda {
   display: flex;
   gap: 8px;
 }
- 
+
+.filtros-derecha {
+  display: flex;
+}
+
 .filtro-btn {
   padding: 8px 18px;
   border-radius: 8px;
@@ -140,19 +139,19 @@
   cursor: pointer;
   transition: all 0.2s;
 }
- 
-.filtro-btn--active {
+
+.filtro-btn--activo {
   background: var(--accent);
   border-color: var(--accent);
   color: #fff;
 }
- 
-.filtro-btn:hover:not(.filtro-btn--active) {
+
+.filtro-btn:hover:not(.filtro-btn--activo) {
   border-color: var(--accent);
   color: var(--accent);
 }
- 
-.select-ordenar {
+
+.selector-orden {
   padding: 9px 36px 9px 14px;
   border-radius: 8px;
   border: 1.5px solid var(--border-color);
@@ -168,33 +167,33 @@
   background-position: right 12px center;
   outline: none;
 }
- 
-.select-ordenar:focus {
+
+.selector-orden:focus {
   border-color: var(--accent);
 }
- 
-/* ── Grid ── */
-.apps-grid {
+
+/* ── Grid del catálogo ── */
+.catalogo-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 }
- 
-@media (max-width: 1024px) { .apps-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 640px)  { .apps-grid { grid-template-columns: 1fr; } }
- 
- 
+
+@media (max-width: 1024px) { .catalogo-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px)  { .catalogo-grid { grid-template-columns: 1fr; } }
+
+
 /* ═══════════════════════════════════════════
-   🃏 TARJETA
+   TARJETA DE APLICACION
    Usa --card-color y --card-rgb definidos
-   arriba. No tocar para nuevas apps.
+   arriba. No tocar para nuevas aplicaciones.
 ═══════════════════════════════════════════ */
-.app-card {
+.tarjeta-aplicacion {
   background: var(--surface-color);
   border-radius: 14px;
   padding: 20px;
   border: 1.5px solid var(--border-color);
-  border-top: 3px solid var(--card-color);   /* ← color del negocio */
+  border-top: 3px solid var(--card-color);
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -203,9 +202,9 @@
   position: relative;
   overflow: hidden;
 }
- 
-/* Shimmer hover — mismo color del negocio al 8% opacidad */
-.app-card::before {
+
+/* Shimmer hover — color del negocio al 8% opacidad */
+.tarjeta-aplicacion::before {
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0;
@@ -220,45 +219,44 @@
   pointer-events: none;
   border-radius: 12px 12px 0 0;
 }
- 
-.app-card:hover {
+
+.tarjeta-aplicacion:hover {
   box-shadow: var(--shadow-md);
   transform: translateY(-2px);
 }
- 
-.app-card:hover::before { opacity: 1; }
- 
+
+.tarjeta-aplicacion:hover::before { opacity: 1; }
+
 /* ── Partes internas ── */
-.app-card-header {
+.tarjeta-aplicacion__encabezado {
   display: flex;
   align-items: center;
   gap: 10px;
 }
- 
-.app-card-icon { flex-shrink: 0; }
- 
-.app-card-info {
+
+.tarjeta-aplicacion__icono { flex-shrink: 0; }
+
+.tarjeta-aplicacion__info {
   flex: 1;
   min-width: 0;
   display: flex;
   flex-direction: column;
 }
- 
-.app-card-nombre {
+
+.tarjeta-aplicacion__nombre {
   font-size: 15px;
   font-weight: 700;
   color: var(--text-primary);
   line-height: 1.2;
 }
- 
-.app-card-publisher {
+
+.tarjeta-aplicacion__publisher {
   font-size: 12px;
   color: var(--text-secondary);
   margin-top: 1px;
 }
- 
-/* Badge categoría — neutro, igual para todos */
-.app-card-badge {
+
+.tarjeta-aplicacion__categoria {
   font-size: 10px;
   font-weight: 600;
   padding: 3px 8px;
@@ -271,15 +269,15 @@
   color: var(--text-secondary);
   border: 1px solid var(--border-color);
 }
- 
-.app-card-desc {
+
+.tarjeta-aplicacion__descripcion {
   font-size: 13px;
   color: var(--text-secondary);
   line-height: 1.55;
   margin: 0;
 }
- 
-.app-card-features {
+
+.tarjeta-aplicacion__caracteristicas {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -287,16 +285,16 @@
   flex-direction: column;
   gap: 7px;
 }
- 
-.app-card-features li {
+
+.tarjeta-aplicacion__caracteristicas li {
   display: flex;
   align-items: center;
   gap: 8px;
   font-size: 13px;
   color: var(--text-primary);
 }
- 
-.app-card-footer {
+
+.tarjeta-aplicacion__pie {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -304,14 +302,14 @@
   padding-top: 14px;
   border-top: 1px solid var(--border-light);
 }
- 
-.app-card-precio {
+
+.tarjeta-aplicacion__precio {
   display: flex;
   align-items: center;
   gap: 8px;
 }
- 
-.badge-gratis {
+
+.etiqueta-gratis {
   font-size: 11px;
   font-weight: 600;
   color: #16A34A;
@@ -319,14 +317,14 @@
   padding: 2px 8px;
   border-radius: 20px;
 }
- 
+
 .precio-desde {
   font-size: 13px;
   font-weight: 600;
   color: var(--text-primary);
 }
- 
-.btn-agregar {
+
+.boton-suscribir {
   background: var(--accent);
   color: #fff;
   border: none;
@@ -337,13 +335,13 @@
   cursor: pointer;
   transition: background 0.2s, transform 0.15s;
 }
- 
-.btn-agregar:hover {
+
+.boton-suscribir:hover {
   background: var(--accent-hover);
   transform: translateY(-1px);
 }
- 
-.btn-instalada {
+
+.boton-suscripcion-activa {
   background: var(--border-light);
   color: var(--text-secondary);
   border: 1.5px solid var(--border-color);
@@ -354,44 +352,44 @@
   cursor: default;
   pointer-events: none;
 }
- 
+
 /* ── Estados vacíos ── */
-.apps-empty-state {
+.catalogo-vacio {
   text-align: center;
   padding: 80px 20px;
   color: var(--text-secondary);
 }
- 
-.apps-empty-icon { font-size: 56px; margin-bottom: 16px; }
- 
-.apps-empty-state h3 {
+
+.catalogo-vacio__icono { font-size: 56px; margin-bottom: 16px; }
+
+.catalogo-vacio h3 {
   font-size: 18px;
   font-weight: 700;
   color: var(--text-primary);
   margin: 0 0 8px;
 }
- 
-.apps-empty-state p { font-size: 14px; margin: 0 0 24px; }
- 
-.apps-empty {
+
+.catalogo-vacio p { font-size: 14px; margin: 0 0 24px; }
+
+.catalogo-sin-resultados {
   grid-column: 1 / -1;
   text-align: center;
   color: var(--text-secondary);
   padding: 60px 0;
   font-size: 15px;
 }
- 
- 
+
+
 /* ═══════════════════════════════════════════
-   MIS APPS — Lista
+   SUSCRIPCIONES ACTIVAS — lista
 ═══════════════════════════════════════════ */
-.misapps-list {
+.suscripciones-activas-lista {
   display: flex;
   flex-direction: column;
   gap: 14px;
 }
- 
-.misapp-card {
+
+.suscripcion-activa-tarjeta {
   background: var(--surface-color);
   border: 1.5px solid var(--border-color);
   border-top: 3px solid var(--color-restaurante);
@@ -404,69 +402,69 @@
   transition: box-shadow 0.2s, transform 0.2s;
   flex-wrap: wrap;
 }
- 
-.misapp-card:hover {
+
+.suscripcion-activa-tarjeta:hover {
   box-shadow: var(--shadow-md);
   transform: translateY(-1px);
 }
- 
-.misapp-left {
+
+.suscripcion-activa-tarjeta__izquierda {
   display: flex;
   align-items: center;
   gap: 12px;
   min-width: 140px;
 }
- 
-.misapp-nombre {
+
+.suscripcion-activa-tarjeta__nombre {
   font-size: 15px;
   font-weight: 700;
   color: var(--text-primary);
 }
- 
-.misapp-pub {
+
+.suscripcion-activa-tarjeta__publisher {
   font-size: 12px;
   color: var(--text-secondary);
   margin-top: 1px;
 }
- 
-.misapp-meta {
+
+.suscripcion-activa-tarjeta__meta {
   display: flex;
   gap: 22px;
   flex: 1;
   flex-wrap: wrap;
 }
- 
-.misapp-meta-col {
+
+.suscripcion-activa-tarjeta__meta-columna {
   display: flex;
   flex-direction: column;
   gap: 3px;
   min-width: 80px;
 }
- 
-.misapp-meta-label {
+
+.suscripcion-activa-tarjeta__meta-etiqueta {
   font-size: 10px;
   font-weight: 700;
   color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.4px;
 }
- 
-.misapp-meta-val {
+
+.suscripcion-activa-tarjeta__meta-valor {
   font-size: 13px;
   font-weight: 600;
   color: var(--text-primary);
 }
- 
-.misapp-meta-val--plan { color: var(--accent); }
-.misapp-meta-val--warn { color: #D97706; }
- 
-.misapp-actions {
+
+.suscripcion-activa-tarjeta__meta-valor--plan   { color: var(--accent); }
+.suscripcion-activa-tarjeta__meta-valor--alerta { color: #D97706; }
+
+.suscripcion-activa-tarjeta__acciones {
   display: flex;
   gap: 8px;
   flex-shrink: 0;
 }
- 
-.misapp-btn-mejorar {
+
+.boton-mejorar-plan {
   background: var(--accent);
   color: #fff;
   border: none;
@@ -478,10 +476,10 @@
   transition: background 0.2s;
   white-space: nowrap;
 }
- 
-.misapp-btn-mejorar:hover { background: var(--accent-hover); }
- 
-.misapp-btn-desinstalar {
+
+.boton-mejorar-plan:hover { background: var(--accent-hover); }
+
+.boton-desinstalar {
   background: transparent;
   color: var(--text-secondary);
   border: 1.5px solid var(--border-color);
@@ -493,29 +491,29 @@
   transition: border-color 0.2s, color 0.2s;
   white-space: nowrap;
 }
- 
-.misapp-btn-desinstalar:hover {
+
+.boton-desinstalar:hover {
   border-color: var(--error-color);
   color: var(--error-color);
 }
- 
- 
+
+
 /* ═══════════════════════════════════════════
-   MODAL — Confirmar Desinstalar
+   CONFIRMACIÓN DE DESINSTALACIÓN
 ═══════════════════════════════════════════ */
-.desinstalar-overlay {
+.confirmacion-desinstalacion__overlay {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: rgba(15,10,30,0.45);
+  background: rgba(15, 10, 30, 0.45);
   backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
 }
- 
-.desinstalar-modal {
+
+.confirmacion-desinstalacion__modal {
   background: var(--surface-color);
   border-radius: 20px;
   padding: 40px 32px 32px;
@@ -523,15 +521,15 @@
   width: 100%;
   text-align: center;
   box-shadow: var(--shadow-lg);
-  animation: desinstalar-in 0.25s cubic-bezier(0.34,1.4,0.64,1);
+  animation: confirmacion-entrada 0.25s cubic-bezier(0.34, 1.4, 0.64, 1);
 }
- 
-@keyframes desinstalar-in {
+
+@keyframes confirmacion-entrada {
   from { opacity: 0; transform: scale(0.88) translateY(10px); }
   to   { opacity: 1; transform: scale(1) translateY(0); }
 }
- 
-.desinstalar-icon-wrap {
+
+.confirmacion-desinstalacion__icono {
   width: 76px;
   height: 76px;
   border-radius: 50%;
@@ -543,29 +541,29 @@
   margin: 0 auto 22px;
   opacity: 0.8;
 }
- 
-.desinstalar-titulo {
+
+.confirmacion-desinstalacion__titulo {
   font-size: 20px;
   font-weight: 800;
   color: var(--text-primary);
   margin: 0 0 10px;
   line-height: 1.35;
 }
- 
-.desinstalar-sub {
+
+.confirmacion-desinstalacion__descripcion {
   font-size: 14px;
   color: var(--text-secondary);
   margin: 0 0 28px;
   line-height: 1.6;
 }
- 
-.desinstalar-btns {
+
+.confirmacion-desinstalacion__botones {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
 }
- 
-.desinstalar-btn-cancelar {
+
+.boton-cancelar-desinstalacion {
   background: var(--surface-color);
   color: var(--text-primary);
   border: 1.5px solid var(--border-color);
@@ -576,13 +574,13 @@
   cursor: pointer;
   transition: border-color 0.2s, background 0.2s;
 }
- 
-.desinstalar-btn-cancelar:hover {
+
+.boton-cancelar-desinstalacion:hover {
   border-color: var(--text-secondary);
   background: var(--background-color);
 }
- 
-.desinstalar-btn-confirmar {
+
+.boton-confirmar-desinstalacion {
   background: var(--error-color);
   color: #fff;
   border: none;
@@ -593,9 +591,8 @@
   cursor: pointer;
   transition: background 0.2s, transform 0.15s;
 }
- 
-.desinstalar-btn-confirmar:hover {
+
+.boton-confirmar-desinstalacion:hover {
   filter: brightness(0.9);
   transform: translateY(-1px);
 }
- 

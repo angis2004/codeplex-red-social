@@ -13,7 +13,7 @@ import ViewCanjeMonedas from './planes/monedero/ViewCanjeMonedas';
 import ViewMonedero from './planes/monedero/ViewMonedero';
 import ViewColaboradores from './organizacion/colaboradores/ViewColaboradores';
 import ViewMonetizacion from './planes/monetizacion/ViewMonetizacion';
-import ViewAplicaciones from './planes/aplicaciones/ViewAplicaciones';
+import CatalogoAplicaciones from './planes/aplicaciones/ui/CatalogoAplicaciones';
 import ViewPasarellaPago from './planes/pasarella-pago/ViewPasarellaPago';
 import './styles/App.css';
 
@@ -57,12 +57,12 @@ function App() {
       case "colaboradores":     return <ViewColaboradores />;
       case "monetizacion":      return <ViewMonetizacion />;
       case "aplicaciones":      return (
-        <ViewAplicaciones
+        <CatalogoAplicaciones
           onProcederPago={handleProcederPago}
-          misApps={misApps}
-          tabInicial={tabAppsInicial}
-          onTabChange={setTabAppsInicial}
-          onDesinstalarApp={handleDesinstalarApp}
+          suscripcionesActivas={misApps}
+          pestanaInicial={tabAppsInicial}
+          onCambiarPestana={setTabAppsInicial}
+          onDesinstalar={handleDesinstalarApp}
         />
       );
       case "pasarela-pago":     return (
