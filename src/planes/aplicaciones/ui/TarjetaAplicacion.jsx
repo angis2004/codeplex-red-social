@@ -20,14 +20,15 @@ function IconoVerificacion() {
  * Presentación — Tarjeta de una Aplicacion disponible en el catálogo.
  *
  * Muestra nombre, publisher, categoría, descripción, características
- * y precio de entrada. Permite al usuario iniciar la suscripción.
+ * y precio de entrada. Permite al usuario agregar al CarritoSuscripciones.
  *
  * Props:
  *   aplicacion    → entidad Aplicacion del catálogo
- *   alSuscribirse → callback(aplicacion) para iniciar la suscripción
+ *   alSuscribirse → callback(aplicacion) para agregar al carrito
  *   estaActiva    → true si el usuario ya tiene una suscripción activa
+ *   estaEnCarrito → true si la aplicacion ya está en el carrito
  */
-function TarjetaAplicacion({ aplicacion, alSuscribirse, estaActiva }) {
+function TarjetaAplicacion({ aplicacion, alSuscribirse, estaActiva, estaEnCarrito }) {
   return (
     <div className={`tarjeta-aplicacion tarjeta-aplicacion--${aplicacion.colorTema}`}>
       {/* Encabezado */}
@@ -64,6 +65,10 @@ function TarjetaAplicacion({ aplicacion, alSuscribirse, estaActiva }) {
         {estaActiva ? (
           <button className="boton-suscripcion-activa" disabled>
             ✓ Instalada
+          </button>
+        ) : estaEnCarrito ? (
+          <button className="btn-en-carrito" disabled>
+            ✓ En Carrito
           </button>
         ) : (
           <button className="boton-suscribir" onClick={() => alSuscribirse?.(aplicacion)}>

@@ -1,10 +1,12 @@
 import React from "react";
 import "./catalogo.css";
 
-import { useCatalogoAplicaciones }  from "../aplicacion/useCatalogoAplicaciones";
-import TarjetaAplicacion            from "./TarjetaAplicacion";
-import SuscripcionActivaItem        from "./SuscripcionActivaItem";
-import ConfirmacionDesinstalacion   from "./ConfirmacionDesinstalacion";
+import { useCatalogoAplicaciones }    from "../aplicacion/useCatalogoAplicaciones";
+import { useCarritoSuscripciones }   from "../aplicacion/useCarritoSuscripciones";
+import TarjetaAplicacion             from "./TarjetaAplicacion";
+import SuscripcionActivaItem         from "./SuscripcionActivaItem";
+import ConfirmacionDesinstalacion    from "./ConfirmacionDesinstalacion";
+import BarraCarritoSuscripciones     from "./BarraCarritoSuscripciones";
 
 import SelectorPlanRestaurante  from "../../suscripciones/SelectorPlanRestaurante";
 import SelectorPlanContaPlex    from "../../suscripciones/SelectorPlanContaPlex";
@@ -59,6 +61,15 @@ function CatalogoAplicaciones({
     alDesinstalar:    onDesinstalar,
     pestanaInicial,
   });
+
+  const {
+    itemsCarrito,
+    totalCarrito,
+    agregarAlCarrito,
+    quitarDelCarrito,
+    procederAlPago,
+    verificarEnCarrito,
+  } = useCarritoSuscripciones({ alIniciarSuscripcion: iniciarSuscripcion });
 
   return (
     <div className="catalogo-aplicaciones">
@@ -164,6 +175,14 @@ function CatalogoAplicaciones({
         onProcederPago={procesarPago}
       />
 
+      {/* ── Barra flotante del Carrito ── */}
+      <BarraCarritoSuscripciones
+        items={itemsCarrito}
+        totalCarrito={totalCarrito}
+        alQuitarItem={quitarDelCarrito}
+        alProcederPago={procederAlPago}
+      />
+
       {/* ── Confirmación de Desinstalación ── */}
       <ConfirmacionDesinstalacion
         aplicacion={aplicacionADesinstalar}
@@ -179,10 +198,11 @@ function CatalogoAplicaciones({
               <TarjetaAplicacion
                 key={app.id}
                 aplicacion={app}
-                alSuscribirse={iniciarSuscripcion}
+                alSuscribirse={agregarAlCarrito}
                 estaActiva={suscripcionesActivas.some(
                   (s) => s.appNombre === app.nombre && s.appPublisher === app.publisher
                 )}
+                estaEnCarrito={verificarEnCarrito(app.id)}
               />
             ))
           ) : (
