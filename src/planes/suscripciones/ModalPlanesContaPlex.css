@@ -315,7 +315,7 @@
   transition: background 0.18s, box-shadow 0.18s;
 }
 .mpc-tipo-tab:hover {
-  background: rgba(255,255,255,0.6);
+  /* background: rgba(255,255,255,0.6); */
 }
 .mpc-tipo-tab--active {
   background: #0D4471;
@@ -545,6 +545,7 @@
   cursor: pointer;
   transition: all 0.18s;
   margin-top: auto;
+  outline: none;
 }
 .mpc-btn-plan--outline {
   background: transparent;

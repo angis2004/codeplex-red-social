@@ -311,6 +311,7 @@
 
 /* ── Botones del plan ── */
 .mgpc-btn-plan {
+  outline: none;
   width: 100%;
   padding: 10px;
   border-radius: 10px;
