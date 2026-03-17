@@ -138,11 +138,12 @@ function ViewPasarellaPago({ planData, onVolver, onActivar }) {
   const [showExito, setShowExito]     = useState(false);
   const [exitoData, setExitoData]     = useState(null);
 
-  const planNombre   = planData?.planNombre || "basico";
-  const precio       = planData?.precio     || "150";
-  const billing      = planData?.billing    || "mensual";
-  const periodoLabel = billing === "mensual" ? "/mes" : "/año";
-
+  /* ── Datos del carrito o plan individual ── */
+  const itemsCarrito   = planData?.itemsCarrito || [];
+  const totalCarrito   = planData?.totalCarrito || planData?.precio || "150";
+  const billing        = planData?.billing      || "mensual";
+  const periodoLabel   = billing === "mensual" ? "/mes" : "/año";
+  const planNombre     = planData?.planNombre   || "basico";
   const planNombreDisplay = { gratis: "Gratis", basico: "Básico", gold: "Gold" }[planNombre] || planNombre;
 
   /* Fechas */
@@ -158,7 +159,7 @@ function ViewPasarellaPago({ planData, onVolver, onActivar }) {
     const data = {
       planNombre,
       planNombreDisplay,
-      precio,
+      precio: totalCarrito,
       billing,
       fechaCobroStr,
       fechaInicioStr,
@@ -171,13 +172,23 @@ function ViewPasarellaPago({ planData, onVolver, onActivar }) {
     setShowExito(true);
   };
 
-  /* Ir a Mis Aplicaciones → pasa los datos al padre */
+  /* Ir a Mis Aplicaciones → activa todas las apps del carrito */
   const handleIrMisApps = () => {
-    onActivar?.({
-      ...exitoData,
-      appNombre:    "GestiónPlex",
-      appPublisher: "Restaurante",
-    });
+    if (itemsCarrito.length > 0) {
+      const appsActivadas = itemsCarrito.map((item, i) => ({
+        ...exitoData,
+        id: Date.now() + i,
+        appNombre:    item.nombre,
+        appPublisher: item.publisher,
+      }));
+      onActivar?.(appsActivadas);
+    } else {
+      onActivar?.({
+        ...exitoData,
+        appNombre:    "GestiónPlex",
+        appPublisher: "Restaurante",
+      });
+    }
   };
 
   /* ── Pantalla de éxito ── */
@@ -437,19 +448,27 @@ function ViewPasarellaPago({ planData, onVolver, onActivar }) {
           <div className="pp-resumen-card">
             <h3 className="pp-resumen-titulo">Resumen de Pedido</h3>
 
-            <div className="pp-resumen-app">
-              <IconoRestauranteSmall />
-              <div>
-                <div className="pp-resumen-app-nombre">GestiónPlex</div>
-                <div className="pp-resumen-app-pub">Restaurante</div>
+            {/* Lista de apps del carrito */}
+            {itemsCarrito.length > 0 ? (
+              itemsCarrito.map((item) => (
+                <div key={item.id} className="pp-resumen-app">
+                  <div>
+                    <div className="pp-resumen-app-nombre">{item.nombre}</div>
+                    <div className="pp-resumen-app-pub">Desde {item.precioDesde}/mes</div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="pp-resumen-app">
+                <IconoRestauranteSmall />
+                <div>
+                  <div className="pp-resumen-app-nombre">GestiónPlex</div>
+                  <div className="pp-resumen-app-pub">Restaurante</div>
+                </div>
               </div>
-            </div>
+            )}
 
             <div className="pp-resumen-rows">
-              <div className="pp-resumen-row">
-                <span>Plan Seleccionado</span>
-                <span className="pp-resumen-plan">{planNombreDisplay}</span>
-              </div>
               <div className="pp-resumen-row">
                 <span>Período de Prueba</span>
                 <span className="pp-resumen-gratis">1 mes gratis</span>
@@ -467,7 +486,7 @@ function ViewPasarellaPago({ planData, onVolver, onActivar }) {
                 <div className="pp-resumen-total-label">Total {billing}:</div>
                 <div className="pp-resumen-fecha">A partir del {fechaCobroStr}</div>
               </div>
-              <div className="pp-resumen-total-precio">S/{precio}</div>
+              <div className="pp-resumen-total-precio">S/{totalCarrito}</div>
             </div>
 
             <button

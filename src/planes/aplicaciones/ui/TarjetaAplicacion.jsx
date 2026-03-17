@@ -19,17 +19,28 @@ function IconoVerificacion() {
 /**
  * Presentación — Tarjeta de una Aplicacion disponible en el catálogo.
  *
- * Muestra nombre, publisher, categoría, descripción, características
- * y precio de entrada. Permite al usuario iniciar la suscripción.
+ * Tres estados del botón de acción:
+ *   1. "✓ Instalada"   → estaActiva = true  (gris, deshabilitado)
+ *   2. "✓ En Carrito"  → estaEnCarrito = true (verde)
+ *   3. "+ Agregar"     → estado inicial (morado)
  *
  * Props:
- *   aplicacion    → entidad Aplicacion del catálogo
- *   alSuscribirse → callback(aplicacion) para iniciar la suscripción
- *   estaActiva    → true si el usuario ya tiene una suscripción activa
+ *   aplicacion        → entidad Aplicacion del catálogo
+ *   alAgregarAlCarrito → callback(aplicacion) para agregar al carrito
+ *   alQuitarDelCarrito → callback(aplicacionId) para quitar del carrito
+ *   estaActiva        → true si ya tiene suscripción activa
+ *   estaEnCarrito     → true si ya está en el carrito
  */
-function TarjetaAplicacion({ aplicacion, alSuscribirse, estaActiva }) {
+function TarjetaAplicacion({
+  aplicacion,
+  alAgregarAlCarrito,
+  alQuitarDelCarrito,
+  estaActiva,
+  estaEnCarrito,
+}) {
   return (
     <div className={`tarjeta-aplicacion tarjeta-aplicacion--${aplicacion.colorTema}`}>
+
       {/* Encabezado */}
       <div className="tarjeta-aplicacion__encabezado">
         <div className="tarjeta-aplicacion__icono">
@@ -61,12 +72,24 @@ function TarjetaAplicacion({ aplicacion, alSuscribirse, estaActiva }) {
           <span className="etiqueta-gratis">Gratis</span>
           <span className="precio-desde">Desde {aplicacion.precioDesde}/mes</span>
         </div>
+
         {estaActiva ? (
           <button className="boton-suscripcion-activa" disabled>
             ✓ Instalada
           </button>
+        ) : estaEnCarrito ? (
+          <button
+            className="boton-en-carrito"
+            onClick={() => alQuitarDelCarrito?.(aplicacion.id)}
+            title="Clic para quitar del carrito"
+          >
+            ✓ En Carrito
+          </button>
         ) : (
-          <button className="boton-suscribir" onClick={() => alSuscribirse?.(aplicacion)}>
+          <button
+            className="boton-suscribir"
+            onClick={() => alAgregarAlCarrito?.(aplicacion)}
+          >
             + Agregar
           </button>
         )}

@@ -34,7 +34,11 @@ function App() {
   };
 
   const handleActivar = (appData) => {
-    setMisApps((prev) => [...prev, { ...appData, id: Date.now() }]);
+    const items = Array.isArray(appData) ? appData : [appData];
+    setMisApps((prev) => [
+      ...prev,
+      ...items.map((a, i) => ({ ...a, id: Date.now() + i })),
+    ]);
     setTabAppsInicial("mis");
     setVistaActiva("aplicaciones");
   };
