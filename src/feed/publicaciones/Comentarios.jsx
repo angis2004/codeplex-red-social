@@ -61,7 +61,7 @@ function CommentInput() {
   );
 }
 
-function Comments() {
+function Comentarios() {
   return (
     <div className="comments-section">
       {MOCK_COMMENTS.map((c) => (
@@ -72,4 +72,4 @@ function Comments() {
   );
 }
 
-export default Comments;
+export default Comentarios;

@@ -1,7 +1,7 @@
 import React from "react";
 import Icon from "../../ui/Icon/Icon";
 
-function WalletCard() {
+function TarjetaMonedero() {
   return (
     <div className="monedero-card">
       <div className="monedero-header">
@@ -48,4 +48,4 @@ function WalletCard() {
   );
 }
 
-export default WalletCard;
+export default TarjetaMonedero;

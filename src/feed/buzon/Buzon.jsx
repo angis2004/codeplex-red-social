@@ -1,6 +1,6 @@
 import React from "react";
 
-function ViewBuzon() {
+function Buzon() {
   return (
     <div className="view-page">
       <div className="view-header-banner">
@@ -18,4 +18,4 @@ function ViewBuzon() {
   );
 }
 
-export default ViewBuzon;
+export default Buzon;

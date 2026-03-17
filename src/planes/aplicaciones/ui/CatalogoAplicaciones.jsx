@@ -6,12 +6,12 @@ import TarjetaAplicacion            from "./TarjetaAplicacion";
 import SuscripcionActivaItem        from "./SuscripcionActivaItem";
 import ConfirmacionDesinstalacion   from "./ConfirmacionDesinstalacion";
 
-import ModalPlanesRestaurante  from "../../suscripciones/ModalPlanesRestaurante";
-import ModalPlanesContaPlex    from "../../suscripciones/ModalPlanesContaPlex";
-import ModalPlanesGestionPlex  from "../../suscripciones/ModalPlanesGestionPlex";
-import ModalPlanesTransporte   from "../../suscripciones/ModalPlanesTransporte";
-import ModalPlanesGrifo        from "../../suscripciones/ModalPlanesGrifo";
-import ModalPlanesFacturacion  from "../../suscripciones/ModalPlanesFacturacion";
+import SelectorPlanRestaurante  from "../../suscripciones/SelectorPlanRestaurante";
+import SelectorPlanContaPlex    from "../../suscripciones/SelectorPlanContaPlex";
+import SelectorPlanGestionPlex  from "../../suscripciones/SelectorPlanGestionPlex";
+import SelectorPlanTransporte   from "../../suscripciones/SelectorPlanTransporte";
+import SelectorPlanGrifo        from "../../suscripciones/SelectorPlanGrifo";
+import SelectorPlanFacturacion  from "../../suscripciones/SelectorPlanFacturacion";
 
 const CATEGORIAS_FILTRO = ["todos", "e-commerce", "otros"];
 
@@ -133,32 +133,32 @@ function CatalogoAplicaciones({
       </div>
 
       {/* ── Modales de Suscripción ── */}
-      <ModalPlanesRestaurante
+      <SelectorPlanRestaurante
         isOpen={modalSuscripcionAbierto === "restaurante"}
         onClose={cerrarModalSuscripcion}
         onProcederPago={procesarPago}
       />
-      <ModalPlanesContaPlex
+      <SelectorPlanContaPlex
         isOpen={modalSuscripcionAbierto === "contaplex"}
         onClose={cerrarModalSuscripcion}
         onProcederPago={procesarPago}
       />
-      <ModalPlanesGestionPlex
+      <SelectorPlanGestionPlex
         isOpen={modalSuscripcionAbierto === "gestionplex"}
         onClose={cerrarModalSuscripcion}
         onProcederPago={procesarPago}
       />
-      <ModalPlanesTransporte
+      <SelectorPlanTransporte
         isOpen={modalSuscripcionAbierto === "transporte"}
         onClose={cerrarModalSuscripcion}
         onProcederPago={procesarPago}
       />
-      <ModalPlanesGrifo
+      <SelectorPlanGrifo
         isOpen={modalSuscripcionAbierto === "grifo"}
         onClose={cerrarModalSuscripcion}
         onProcederPago={procesarPago}
       />
-      <ModalPlanesFacturacion
+      <SelectorPlanFacturacion
         isOpen={modalSuscripcionAbierto === "facturacion"}
         onClose={cerrarModalSuscripcion}
         onProcederPago={procesarPago}

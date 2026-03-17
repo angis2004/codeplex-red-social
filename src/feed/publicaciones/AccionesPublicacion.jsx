@@ -1,9 +1,9 @@
 import React from "react";
 import Icon from "../../ui/Icon/Icon";
-import ReactionPopup from "./ReactionPopup";
+import PanelReacciones from "./PanelReacciones";
 import { useReactions } from "../reacciones/useReactions";
 
-function PostActions({ initialLikeCount = 124, isDemo, onLoginClick }) {
+function AccionesPublicacion({ initialLikeCount = 124, isDemo, onLoginClick }) {
   const {
     liked,
     likeCount,
@@ -64,7 +64,7 @@ function PostActions({ initialLikeCount = 124, isDemo, onLoginClick }) {
           </button>
 
           {!isDemo && showReactions && (
-            <ReactionPopup
+            <PanelReacciones
               onSelect={handlers.handleSelectReaction}
               onMouseEnter={handlers.handleMouseEnterPopup}
               onMouseLeave={handlers.handleMouseLeavePopup}
@@ -96,4 +96,4 @@ function PostActions({ initialLikeCount = 124, isDemo, onLoginClick }) {
   );
 }
 
-export default PostActions;
+export default AccionesPublicacion;

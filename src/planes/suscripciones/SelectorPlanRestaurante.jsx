@@ -97,7 +97,7 @@ function PopoverDetalleFeature({ nombreFeature, onCerrar }) {
 /* ═══════════════════════════════════════════
    COMPONENTE PRINCIPAL
 ═══════════════════════════════════════════ */
-function ModalPlanesRestaurante({ isOpen, onClose, onProcederPago }) {
+function SelectorPlanRestaurante({ isOpen, onClose, onProcederPago }) {
  
   /* ── Estado del modal ── */
   const [periodoFacturacion, setPeriodoFacturacion] = useState("mensual"); // "mensual" | "anual"
@@ -535,4 +535,4 @@ function ModalPlanesRestaurante({ isOpen, onClose, onProcederPago }) {
   );
 }
 
-export default ModalPlanesRestaurante;
+export default SelectorPlanRestaurante;

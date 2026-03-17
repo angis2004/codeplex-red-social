@@ -7,7 +7,7 @@ export const REACTIONS = [
   { icon: "asombro",    label: "Asombro",    color: "#f59e0b" },
 ];
 
-function ReactionPopup({ onSelect, onMouseEnter, onMouseLeave }) {
+function PanelReacciones({ onSelect, onMouseEnter, onMouseLeave }) {
   return (
     <div
       className="reactions-popup"
@@ -33,4 +33,4 @@ function ReactionPopup({ onSelect, onMouseEnter, onMouseLeave }) {
   );
 }
 
-export default ReactionPopup;
+export default PanelReacciones;

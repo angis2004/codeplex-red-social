@@ -150,7 +150,7 @@ function PantallaExito({ data, onIrMisApps }) {
 }
 
 /* ═══════════════════════════════════════════ */
-function ViewPasarellaPago({ cartItems = [], onQuitarDelCarrito, onVolver, onActivar }) {
+function PasarelaPago({ cartItems = [], onQuitarDelCarrito, onVolver, onActivar }) {
   const [tarjeta, setTarjeta]         = useState("");
   const [vencimiento, setVencimiento] = useState("");
   const [cvv, setCvv]                 = useState("");
@@ -537,4 +537,4 @@ function ViewPasarellaPago({ cartItems = [], onQuitarDelCarrito, onVolver, onAct
   );
 }
 
-export default ViewPasarellaPago;
+export default PasarelaPago;

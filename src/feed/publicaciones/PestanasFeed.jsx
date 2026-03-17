@@ -6,7 +6,7 @@ const TABS = [
   { id: "noticias", label: "Noticias" },
 ];
 
-function FeedTabs({ activeTab, onTabChange }) {
+function PestanasFeed({ activeTab, onTabChange }) {
   return (
     <div className="posts-tabs">
       {TABS.map(({ id, label }) => (
@@ -22,4 +22,4 @@ function FeedTabs({ activeTab, onTabChange }) {
   );
 }
 
-export default FeedTabs;
+export default PestanasFeed;

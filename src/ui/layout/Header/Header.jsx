@@ -3,7 +3,7 @@ import Icon from "../../Icon/Icon";
 import ProfileSlider from "../../../identidad/perfil/ProfileSlider";
 import { useTheme } from "../../useTheme";
 import "./Header.css";
-import ModalCrearEmpresa from "../../../organizacion/empresas/ModalCrearEmpresa";
+import RegistroEmpresa from "../../../organizacion/empresas/RegistroEmpresa";
 
 function Header({ onMenuToggle, onNavegar, vistaActiva, isDemo, onLoginClick, onLogout }) {
   const [showSlider, setShowSlider] = useState(false);
@@ -148,7 +148,7 @@ function Header({ onMenuToggle, onNavegar, vistaActiva, isDemo, onLoginClick, on
         />
       )}
 
-      <ModalCrearEmpresa
+      <RegistroEmpresa
         isOpen={showModalEmpresa}
         onClose={() => setShowModalEmpresa(false)}
         onSuccess={(data) => {

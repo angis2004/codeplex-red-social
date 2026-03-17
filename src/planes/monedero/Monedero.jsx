@@ -1,6 +1,6 @@
 import React from "react";
 
-function ViewMonedero() {
+function Monedero() {
   return (
     <div className="view-page">
       <div className="view-header-banner">
@@ -18,4 +18,4 @@ function ViewMonedero() {
   );
 }
 
-export default ViewMonedero;
+export default Monedero;

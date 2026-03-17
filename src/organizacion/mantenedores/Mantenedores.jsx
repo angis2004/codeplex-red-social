@@ -1,6 +1,6 @@
 import React from "react";
 
-function ViewMantenedores() {
+function Mantenedores() {
   return (
     <div className="view-page">
       <div className="view-header-banner">
@@ -18,4 +18,4 @@ function ViewMantenedores() {
   );
 }
 
-export default ViewMantenedores;
+export default Mantenedores;

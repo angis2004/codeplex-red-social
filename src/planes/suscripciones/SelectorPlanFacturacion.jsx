@@ -133,7 +133,7 @@ function PanelPaquetes({ onCerrar }) {
 /* ═══════════════════════════════════════════
    COMPONENTE PRINCIPAL
 ═══════════════════════════════════════════ */
-function ModalPlanesFacturacion({ isOpen, onClose, onProcederPago }) {
+function SelectorPlanFacturacion({ isOpen, onClose, onProcederPago }) {
 
   const [periodoFacturacion, setPeriodoFacturacion] = useState("mensual");
   const [planSeleccionado,   setPlanSeleccionado]   = useState(null);
@@ -491,4 +491,4 @@ function ModalPlanesFacturacion({ isOpen, onClose, onProcederPago }) {
   );
 }
 
-export default ModalPlanesFacturacion;
+export default SelectorPlanFacturacion;

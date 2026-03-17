@@ -25,7 +25,7 @@ function StatCard({ title, icon, iconSize, value }) {
   );
 }
 
-function StatsCards() {
+function TarjetasEstadisticas() {
   return (
     <div className="stats-cards">
       {STATS.map((stat) => (
@@ -35,4 +35,4 @@ function StatsCards() {
   );
 }
 
-export default StatsCards;
+export default TarjetasEstadisticas;

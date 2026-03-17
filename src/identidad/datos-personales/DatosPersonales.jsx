@@ -1,6 +1,6 @@
 import React from "react";
 
-function ViewDatosPersonales() {
+function DatosPersonales() {
   return (
     <div className="view-page">
       <div className="view-header-banner">
@@ -18,4 +18,4 @@ function ViewDatosPersonales() {
   );
 }
 
-export default ViewDatosPersonales;
+export default DatosPersonales;

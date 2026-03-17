@@ -1,6 +1,6 @@
 import React from "react";
 
-function ViewDatosFacturacion() {
+function DatosFacturacion() {
   return (
     <div className="view-page">
       <div className="view-header-banner">
@@ -18,4 +18,4 @@ function ViewDatosFacturacion() {
   );
 }
 
-export default ViewDatosFacturacion;
+export default DatosFacturacion;

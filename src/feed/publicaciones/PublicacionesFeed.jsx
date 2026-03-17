@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import FeedTabs from "./FeedTabs";
-import Post from "./Post";
+import PestanasFeed from "./PestanasFeed";
+import Publicacion from "./Publicacion";
 
 // Datos mock — cuando conectes la API, esto vendrá de un hook o context
 const MOCK_POST = {
@@ -26,14 +26,14 @@ function EmptyState({ icon, title, description }) {
   );
 }
 
-function Feed({ isDemo, onLoginClick }) {
+function PublicacionesFeed({ isDemo, onLoginClick }) {
   const [activeTab, setActiveTab] = useState("post");
 
   return (
     <>
-      <FeedTabs activeTab={activeTab} onTabChange={setActiveTab} />
+      <PestanasFeed activeTab={activeTab} onTabChange={setActiveTab} />
 
-      {activeTab === "post" && <Post post={MOCK_POST} isDemo={isDemo} onLoginClick={onLoginClick} />}
+      {activeTab === "post" && <Publicacion post={MOCK_POST} isDemo={isDemo} onLoginClick={onLoginClick} />}
 
       {activeTab === "videos" && (
         <EmptyState
@@ -54,4 +54,4 @@ function Feed({ isDemo, onLoginClick }) {
   );
 }
 
-export default Feed;
+export default PublicacionesFeed;

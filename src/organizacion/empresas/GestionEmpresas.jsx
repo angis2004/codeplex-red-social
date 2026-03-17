@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import ModalCrearEmpresa from "./ModalCrearEmpresa";
+import RegistroEmpresa from "./RegistroEmpresa";
 
-function ViewEmpresas() {
+function GestionEmpresas() {
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -29,7 +29,7 @@ function ViewEmpresas() {
         </button>
       </div>
 
-      <ModalCrearEmpresa
+      <RegistroEmpresa
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         onSuccess={(data) => {
@@ -41,4 +41,4 @@ function ViewEmpresas() {
   );
 }
 
-export default ViewEmpresas;
+export default GestionEmpresas;

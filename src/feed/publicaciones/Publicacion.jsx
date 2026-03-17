@@ -1,8 +1,8 @@
 import React from "react";
-import PostActions from "./PostActions";
-import Comments from "./Comments";
+import AccionesPublicacion from "./AccionesPublicacion";
+import Comentarios from "./Comentarios";
 
-function Post({ post, isDemo, onLoginClick }) {
+function Publicacion({ post, isDemo, onLoginClick }) {
   return (
     <div className="post-card">
 
@@ -51,13 +51,13 @@ function Post({ post, isDemo, onLoginClick }) {
 
       {/* Footer: reacciones + comentarios */}
       <div className="post-footer">
-        <PostActions initialLikeCount={post.likeCount} isDemo={isDemo} onLoginClick={onLoginClick} />
+        <AccionesPublicacion initialLikeCount={post.likeCount} isDemo={isDemo} onLoginClick={onLoginClick} />
         <div className="post-divider"></div>
-        <Comments />
+        <Comentarios />
       </div>
 
     </div>
   );
 }
 
-export default Post;
+export default Publicacion;

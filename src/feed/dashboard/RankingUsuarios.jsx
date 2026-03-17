@@ -62,7 +62,7 @@ function UserItem({ img, name, percentage }) {
   );
 }
 
-function TopUsers() {
+function RankingUsuarios() {
   return (
     <div className="top-usuarios-card">
       <div className="card-header">
@@ -87,4 +87,4 @@ function TopUsers() {
   );
 }
 
-export default TopUsers;
+export default RankingUsuarios;

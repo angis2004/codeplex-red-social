@@ -165,7 +165,7 @@ function PlanCard({ plan, periodo, seleccionado, onSeleccionar, compact = false,
 /* ═══════════════════════════════════════════
    COMPONENTE PRINCIPAL
 ═══════════════════════════════════════════ */
-function ModalPlanesContaPlex({ isOpen, onClose, onProcederPago }) {
+function SelectorPlanContaPlex({ isOpen, onClose, onProcederPago }) {
 
   const [tipoSeleccionado,   setTipoSeleccionado]   = useState("independiente");   /* "independiente" | "empresarial" */
   const [periodoFacturacion, setPeriodoFacturacion] = useState("mensual");
@@ -529,4 +529,4 @@ function ModalPlanesContaPlex({ isOpen, onClose, onProcederPago }) {
   );
 }
 
-export default ModalPlanesContaPlex;
+export default SelectorPlanContaPlex;

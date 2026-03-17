@@ -1,6 +1,6 @@
 import React from "react";
 
-function ViewMonetizacion() {
+function Monetizacion() {
   return (
     <div className="view-page">
       <div className="view-header-banner">
@@ -18,4 +18,4 @@ function ViewMonetizacion() {
   );
 }
 
-export default ViewMonetizacion;
+export default Monetizacion;

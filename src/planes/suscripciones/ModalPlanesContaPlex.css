@@ -763,8 +763,15 @@
 
 
 /* ═══════════════════════════════════════════════════════════
-   RESPONSIVE
+   RESPONSIVE  ::  min-width: ≥ 768px = Desktop \\  max-width: ≤ 767px = mobile
 ═══════════════════════════════════════════════════════════ */
+
+@media (min-width: 768px) {
+  .mpc-tipo-tabs {
+    width: 70%;
+  }
+}
+
 @keyframes mpc-chat-mobile-in {
   from { opacity: 0; transform: translateY(60px); }
   to   { opacity: 1; transform: translateY(0); }

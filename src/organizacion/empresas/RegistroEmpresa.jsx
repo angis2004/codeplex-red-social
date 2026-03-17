@@ -56,7 +56,7 @@ const FORM_INICIAL = {
   fechaBaja: "",
 };
 
-function ModalCrearEmpresa({ isOpen, onClose, onSuccess }) {
+function RegistroEmpresa({ isOpen, onClose, onSuccess }) {
   const [form, setForm] = useState(FORM_INICIAL);
   const [errors, setErrors] = useState({});
   const [alertaVisible, setAlertaVisible] = useState(true);
@@ -439,4 +439,4 @@ function CustomSelect({ options, value, placeholder, onChange, error, compact })
   );
 }
 
-export default ModalCrearEmpresa;
+export default RegistroEmpresa;

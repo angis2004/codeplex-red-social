@@ -1,6 +1,6 @@
 import React from "react";
 
-function ViewColaboradores() {
+function Colaboradores() {
   return (
     <div className="view-page">
       <div className="view-header-banner">
@@ -18,4 +18,4 @@ function ViewColaboradores() {
   );
 }
 
-export default ViewColaboradores;
+export default Colaboradores;

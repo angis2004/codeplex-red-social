@@ -155,7 +155,7 @@ function PlanCard({ plan, periodo, seleccionado, onSeleccionar, onFeatureClick }
 /* ═══════════════════════════════════════════
    COMPONENTE PRINCIPAL
 ═══════════════════════════════════════════ */
-function ModalPlanesGestionPlex({ isOpen, onClose, onProcederPago }) {
+function SelectorPlanGestionPlex({ isOpen, onClose, onProcederPago }) {
 
   const [periodoFacturacion, setPeriodoFacturacion] = useState("mensual");
   const [planSeleccionado,   setPlanSeleccionado]   = useState(null);
@@ -454,4 +454,4 @@ function ModalPlanesGestionPlex({ isOpen, onClose, onProcederPago }) {
   );
 }
 
-export default ModalPlanesGestionPlex;
+export default SelectorPlanGestionPlex;

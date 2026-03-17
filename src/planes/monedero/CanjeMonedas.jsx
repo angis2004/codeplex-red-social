@@ -1,6 +1,6 @@
 import React from "react";
 
-function ViewCanjeMonedas() {
+function CanjeMonedas() {
   return (
     <div className="view-page">
       <div className="view-header-banner">
@@ -18,4 +18,4 @@ function ViewCanjeMonedas() {
   );
 }
 
-export default ViewCanjeMonedas;
+export default CanjeMonedas;

@@ -7,7 +7,7 @@ const POST_TABS = [
   { id: "encuesta", icon: "encuesta", label: "Encuesta" },
 ];
 
-function PostCreator({ isDemo, onLoginClick }) {
+function CreadorPublicacion({ isDemo, onLoginClick }) {
   const [activeTab, setActiveTab] = useState("post");
 
   const demoBlock = isDemo
@@ -64,4 +64,4 @@ function PostCreator({ isDemo, onLoginClick }) {
   );
 }
 
-export default PostCreator;
+export default CreadorPublicacion;

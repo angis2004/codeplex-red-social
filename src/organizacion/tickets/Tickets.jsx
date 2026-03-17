@@ -1,6 +1,6 @@
 import React from "react";
 
-function ViewTickets() {
+function Tickets() {
   return (
     <div className="view-page">
       <div className="view-header-banner">
@@ -18,4 +18,4 @@ function ViewTickets() {
   );
 }
 
-export default ViewTickets;
+export default Tickets;
