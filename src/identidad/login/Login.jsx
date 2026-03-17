@@ -340,7 +340,7 @@ function Login({ onLogin, onBackToDemo }) {
             <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor">
               <polygon points="4,2 14,8 4,14" />
             </svg>
-            Ver Demo sin registro
+            Volver al Demo 
           </button>
 
           {/* Divider */}
@@ -354,7 +354,7 @@ function Login({ onLogin, onBackToDemo }) {
               <label>Correo electrónico</label>
               <input
                 type="email"
-                placeholder="gabriel@codeplex.pe"
+                placeholder="@codeplex.pe"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -434,13 +434,6 @@ function Login({ onLogin, onBackToDemo }) {
             </button>
           </form>
 
-          {onBackToDemo && (
-            <p className="back-to-demo">
-              <button type="button" className="back-to-demo-link" onClick={onBackToDemo}>
-                ← Volver al modo demo
-              </button>
-            </p>
-          )}
         </div>
 
         {/* ── PANEL DERECHO: CAROUSEL ── */}

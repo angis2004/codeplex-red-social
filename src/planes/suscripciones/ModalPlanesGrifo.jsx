@@ -1,86 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./ModalPlanesGrifo.css";
 import VisorCatalogoPDF from "../../ui/visor-catalogo/VisorCatalogoPDF";
-
-/* ───────────────────────────────────────────
-   DATOS — Precios
-─────────────────────────────────────────── */
-const PRECIOS_PLANES = {
-  gratis: { mensual: "0",   anual: "0" },
-  grifo:  { mensual: "350", anual: "3,500" },
-};
-
-/* ───────────────────────────────────────────
-   DATOS — Descripciones de features (popover)
-─────────────────────────────────────────── */
-const FEATURES_INFO = {
-  "Modulo de Grifo Completo": {
-    titulo: "Módulo de Grifo Completo",
-    desc: "Gestiona despachos de combustible por isla, surtidor y producto (gasohol, diesel, GLP). Controla turnos, aforos de tanques, lecturas de medidores y emite tickets automáticos por cada despacho.",
-  },
-  "Vales de crédito + Liquidación": {
-    titulo: "Vales de Crédito y Liquidación",
-    desc: "Emite y controla vales de crédito para clientes frecuentes y empresas. Genera liquidaciones diarias por turno, operador y surtidor con conciliación automática de pagos.",
-  },
-  "Ventas + POS + SUNAT": {
-    titulo: "Ventas POS + SUNAT",
-    desc: "Emite facturas, boletas y notas de crédito electrónicas validadas por SUNAT en tiempo real. Compatible con impresoras térmicas, surtidores electrónicos y lectores de placa.",
-  },
-  "Compras avanzadas": {
-    titulo: "Compras Avanzadas",
-    desc: "Registra órdenes de compra a proveedores de combustible, controla guías de remisión, recepciones de tanques y concilia automáticamente con las facturas de los distribuidores.",
-  },
-  "Tesorería completa": {
-    titulo: "Tesorería Completa",
-    desc: "Controla el flujo de caja diario, concilia pagos en efectivo, tarjeta, POS y transferencias. Genera cierres de caja por turno y reportes de ingresos por tipo de combustible.",
-  },
-  "Cuentas Corrientes": {
-    titulo: "Cuentas Corrientes",
-    desc: "Gestiona créditos y cobros a clientes corporativos. Lleva el saldo de cada cuenta, emite estados de cuenta mensuales y controla límites de crédito por cliente o empresa.",
-  },
-  "Producción + Procesos": {
-    titulo: "Producción y Procesos",
-    desc: "Registra mermas, trasvases y ajustes de inventario de combustible. Controla el aforo real de tanques vs. aforo teórico y genera alertas de abastecimiento automáticas.",
-  },
-  "Reportes + Inventarios": {
-    titulo: "Reportes e Inventarios",
-    desc: "Genera reportes de ventas por combustible, turno, operador y surtidor. Incluye inventario valorizado, análisis de rentabilidad y exportación a Excel/PDF.",
-  },
-  "Soporte + Contable GRATIS": {
-    titulo: "Soporte + Sistema Contable GRATIS",
-    desc: "Accede a soporte técnico por chat y correo incluido en tu plan. El sistema contable básico está incluido sin costo adicional para llevar tu contabilidad al día.",
-  },
-};
-
-/* ───────────────────────────────────────────
-   DATOS — Chatbot
-─────────────────────────────────────────── */
-const CHATBOT_QUICK = [
-  "¿Qué incluye el Plan Grifo?",
-  "¿Qué son los vales de crédito?",
-  "¿Qué es la liquidación de turno?",
-  "¿Puedo cambiar de plan?",
-  "¿Hay prueba gratis?",
-];
-
-const CHATBOT_RESPUESTAS = {
-  "¿Qué incluye el Plan Grifo?":
-    "El Plan Grifo (S/350/mes) incluye todas las funciones del plan Gratis activadas al 100%, usuarios ilimitados, mayor capacidad operativa y soporte prioritario.",
-  "¿Qué son los vales de crédito?":
-    "Los vales de crédito permiten despachar combustible a clientes frecuentes o empresas sin pago inmediato. Se lleva un registro de deuda y se cobra al final del período acordado.",
-  "¿Qué es la liquidación de turno?":
-    "La liquidación de turno es el resumen de todos los despachos, pagos y diferencias al cierre de cada turno de trabajo. Se genera automáticamente por operador y surtidor.",
-  "¿Puedo cambiar de plan?":
-    "¡Sí! Puedes cambiar de plan en cualquier momento desde tu panel de administración. El cambio se aplica inmediatamente.",
-  "¿Hay prueba gratis?":
-    "¡Sí! El plan Gratis no tiene costo. Además, el primer mes del Plan Grifo es gratis para que puedas probarlo sin compromiso.",
-};
-
-const CHATBOT_MSG_INICIAL = {
-  tipo: "bot",
-  texto: "¡Hola! 👋 Soy el asistente de Gestión-Plex Grifo. Conozco todos los planes y puedo responder tus dudas.\n¿En qué te ayudo?",
-  hora: "09:30",
-};
+import {
+  PRECIOS_GRIFO,
+  FEATURES_LISTA_GRIFO,
+  FEATURES_GRIFO,
+  CHATBOT_PREGUNTAS_GRIFO,
+  CHATBOT_RESPUESTAS_GRIFO,
+  CHATBOT_BIENVENIDA_GRIFO,
+} from "./grifo.data.js";
 
 
 /* ═══════════════════════════════════════════
@@ -128,7 +56,7 @@ function IconoPdf() {
    POPOVER DETALLE DE FEATURE
 ═══════════════════════════════════════════ */
 function PopoverDetalleFeature({ nombreFeature, onCerrar }) {
-  const info = FEATURES_INFO[nombreFeature];
+  const info = FEATURES_GRIFO[nombreFeature];
   if (!info) return null;
 
   return (
@@ -158,7 +86,7 @@ function ModalPlanesGrifo({ isOpen, onClose, onProcederPago }) {
   const [chatVisible,        setChatVisible]        = useState(false);
   const [visorPdf,           setVisorPdf]           = useState(null);
 
-  const [mensajesChat, setMensajesChat] = useState([CHATBOT_MSG_INICIAL]);
+  const [mensajesChat, setMensajesChat] = useState([CHATBOT_BIENVENIDA_GRIFO]);
   const [inputChat,    setInputChat]    = useState("");
   const refFinChat = useRef(null);
 
@@ -170,7 +98,7 @@ function ModalPlanesGrifo({ isOpen, onClose, onProcederPago }) {
     setPlanSeleccionado(null);
     setFeatureAbierta(null);
     setChatVisible(false);
-    setMensajesChat([CHATBOT_MSG_INICIAL]);
+    setMensajesChat([CHATBOT_BIENVENIDA_GRIFO]);
     onClose();
   };
 
@@ -181,7 +109,7 @@ function ModalPlanesGrifo({ isOpen, onClose, onProcederPago }) {
   };
 
   const labelPeriodo   = periodoFacturacion === "mensual" ? "/mes" : "/año";
-  const precioGrifo    = PRECIOS_PLANES.grifo[periodoFacturacion];
+  const precioGrifo    = PRECIOS_GRIFO.grifo[periodoFacturacion];
 
   const handleConfirmarPlan = () => {
     const precio = planSeleccionado === "gratis" ? "0" : precioGrifo.replace(",", "");
@@ -194,23 +122,12 @@ function ModalPlanesGrifo({ isOpen, onClose, onProcederPago }) {
     setMensajesChat((prev) => [...prev, { tipo: "usuario", texto, hora }]);
     setInputChat("");
     setTimeout(() => {
-      const resp = CHATBOT_RESPUESTAS[texto] ||
+      const resp = CHATBOT_RESPUESTAS_GRIFO[texto] ||
         "Gracias por tu consulta. Un asesor te contactará pronto para brindarte más información.";
       setMensajesChat((prev) => [...prev, { tipo: "bot", texto: resp, hora }]);
     }, 800);
   };
 
-  const FEATURES_LISTA = [
-    "Modulo de Grifo Completo",
-    "Vales de crédito + Liquidación",
-    "Ventas + POS + SUNAT",
-    "Compras avanzadas",
-    "Tesorería completa",
-    "Cuentas Corrientes",
-    "Producción + Procesos",
-    "Reportes + Inventarios",
-    "Soporte + Contable GRATIS",
-  ];
 
   const nombrePlanDisplay = planSeleccionado === "gratis" ? "Gratis"
     : planSeleccionado === "grifo" ? "Plan Grifo" : "";
@@ -285,7 +202,7 @@ function ModalPlanesGrifo({ isOpen, onClose, onProcederPago }) {
                 </div>
 
                 <ul className="mgg-features">
-                  {FEATURES_LISTA.map((f) => (
+                  {FEATURES_LISTA_GRIFO.map((f) => (
                     <li key={f} className="mgg-feature-clickable" onClick={() => setFeatureAbierta(f)}>
                       <IconoCheck />
                       <span>{f}</span>
@@ -319,7 +236,7 @@ function ModalPlanesGrifo({ isOpen, onClose, onProcederPago }) {
                 </div>
 
                 <ul className="mgg-features mgg-features--white">
-                  {FEATURES_LISTA.map((f) => (
+                  {FEATURES_LISTA_GRIFO.map((f) => (
                     <li key={f} className="mgg-feature-clickable" onClick={() => setFeatureAbierta(f)}>
                       <IconoCheck dark />
                       <span><u>{f}</u></span>
@@ -434,7 +351,7 @@ function ModalPlanesGrifo({ isOpen, onClose, onProcederPago }) {
               </div>
 
               <div className="mgg-quick-replies">
-                {CHATBOT_QUICK.map((q) => (
+                {CHATBOT_PREGUNTAS_GRIFO.map((q) => (
                   <button key={q} className="mgg-quick-btn" onClick={() => handleEnviarChat(q)}>
                     {q}
                   </button>

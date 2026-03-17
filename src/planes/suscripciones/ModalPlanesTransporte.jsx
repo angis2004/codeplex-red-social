@@ -1,78 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./ModalPlanesTransporte.css";
 import VisorCatalogoPDF from "../../ui/visor-catalogo/VisorCatalogoPDF";
-
-/* ───────────────────────────────────────────
-   DATOS — Precios
-─────────────────────────────────────────── */
-const PRECIOS_PLANES = {
-  gratis:    { mensual: "0",   anual: "0" },
-  transporte: { mensual: "150", anual: "1,500" },
-};
-
-/* ───────────────────────────────────────────
-   DATOS — Descripciones de features (popover)
-─────────────────────────────────────────── */
-const FEATURES_INFO = {
-  "Configuración completa": {
-    titulo: "Configuración Completa",
-    desc: "Configura tu empresa con logo, datos fiscales, múltiples sedes, unidades de transporte, conductores y tarifas. Incluye importación masiva de datos y personalización de documentos.",
-  },
-  "Guías electrónicas (Remitente + Transportista)": {
-    titulo: "Guías Electrónicas SUNAT",
-    desc: "Emite guías de remisión electrónicas tanto como Remitente como Transportista, validadas en tiempo real por SUNAT. Compatible con impresoras térmicas y A4.",
-  },
-  "Modulo Transportista": {
-    titulo: "Módulo Transportista",
-    desc: "Gestiona tu flota de vehículos, asigna choferes a rutas, registra kilómetros recorridos, combustible y mantenimientos. Control completo de cada viaje.",
-  },
-  "Compras + Liquidación por chofer": {
-    titulo: "Compras y Liquidación por Chofer",
-    desc: "Registra compras de combustible, peajes y gastos de ruta por chofer. Genera liquidaciones automáticas por viaje o período, con aprobación digital.",
-  },
-  "Ventas + POS + SUNAT": {
-    titulo: "Ventas POS + SUNAT",
-    desc: "Emite facturas, boletas y notas de crédito electrónicas desde el POS validadas por SUNAT. Compatible con múltiples formas de pago y puntos de emisión.",
-  },
-  "Tesorería + Liquidación de viajes": {
-    titulo: "Tesorería y Liquidación de Viajes",
-    desc: "Controla el flujo de caja, concilia pagos de fletes, anticipa a choferes y genera reportes de rentabilidad por viaje, ruta o unidad de transporte.",
-  },
-  "Soporte + Contable GRATIS": {
-    titulo: "Soporte + Sistema Contable GRATIS",
-    desc: "Accede a soporte técnico por chat y correo incluido en tu plan. El sistema contable básico está incluido sin costo adicional para llevar tu contabilidad al día.",
-  },
-};
-
-/* ───────────────────────────────────────────
-   DATOS — Chatbot
-─────────────────────────────────────────── */
-const CHATBOT_QUICK = [
-  "¿Qué incluye el Plan Transporte?",
-  "¿Cuántas sedes puedo tener?",
-  "¿Qué son las guías electrónicas?",
-  "¿Puedo cambiar de plan?",
-  "¿Hay prueba gratis?",
-];
-
-const CHATBOT_RESPUESTAS = {
-  "¿Qué incluye el Plan Transporte?":
-    "El Plan Transporte incluye todo lo del plan Gratis más: 3 sedes/transportistas, mayor capacidad operativa y todas las funciones activas con soporte prioritario.",
-  "¿Cuántas sedes puedo tener?":
-    "El plan Gratis permite 1 sede/transportista. El Plan Transporte (S/150/mes) permite hasta 3 sedes o unidades de transporte.",
-  "¿Qué son las guías electrónicas?":
-    "Las guías de remisión electrónicas son documentos SUNAT que amparan el traslado de bienes. Puedes emitirlas como Remitente o Transportista desde el sistema.",
-  "¿Puedo cambiar de plan?":
-    "¡Sí! Puedes cambiar de plan en cualquier momento desde tu panel de administración. El cambio se aplica inmediatamente.",
-  "¿Hay prueba gratis?":
-    "¡Sí! El plan Gratis no tiene costo y te permite probar con 1 empresa y 1 sede. Además, el primer mes del Plan Transporte es gratis.",
-};
-
-const CHATBOT_MSG_INICIAL = {
-  tipo: "bot",
-  texto: "¡Hola! 👋 Soy el asistente de Gestión-Plex Transporte. Conozco todos los planes y puedo responder tus dudas.\n¿En qué te ayudo?",
-  hora: "09:30",
-};
+import {
+  PRECIOS_TRANSPORTE,
+  FEATURES_LISTA_TRANSPORTE,
+  FEATURES_TRANSPORTE,
+  CHATBOT_PREGUNTAS_TRANSPORTE,
+  CHATBOT_RESPUESTAS_TRANSPORTE,
+  CHATBOT_BIENVENIDA_TRANSPORTE,
+} from "./transporte.data.js";
 
 
 /* ═══════════════════════════════════════════
@@ -120,7 +56,7 @@ function IconoPdf() {
    POPOVER DETALLE DE FEATURE
 ═══════════════════════════════════════════ */
 function PopoverDetalleFeature({ nombreFeature, onCerrar }) {
-  const info = FEATURES_INFO[nombreFeature];
+  const info = FEATURES_TRANSPORTE[nombreFeature];
   if (!info) return null;
 
   return (
@@ -150,7 +86,7 @@ function ModalPlanesTransporte({ isOpen, onClose, onProcederPago }) {
   const [chatVisible,        setChatVisible]        = useState(false);
   const [visorPdf,           setVisorPdf]           = useState(null);
 
-  const [mensajesChat, setMensajesChat] = useState([CHATBOT_MSG_INICIAL]);
+  const [mensajesChat, setMensajesChat] = useState([CHATBOT_BIENVENIDA_TRANSPORTE]);
   const [inputChat,    setInputChat]    = useState("");
   const refFinChat = useRef(null);
 
@@ -162,7 +98,7 @@ function ModalPlanesTransporte({ isOpen, onClose, onProcederPago }) {
     setPlanSeleccionado(null);
     setFeatureAbierta(null);
     setChatVisible(false);
-    setMensajesChat([CHATBOT_MSG_INICIAL]);
+    setMensajesChat([CHATBOT_BIENVENIDA_TRANSPORTE]);
     onClose();
   };
 
@@ -173,7 +109,7 @@ function ModalPlanesTransporte({ isOpen, onClose, onProcederPago }) {
   };
 
   const labelPeriodo = periodoFacturacion === "mensual" ? "/mes" : "/año";
-  const precioTransporte = PRECIOS_PLANES.transporte[periodoFacturacion];
+  const precioTransporte = PRECIOS_TRANSPORTE.transporte[periodoFacturacion];
 
   const handleConfirmarPlan = () => {
     const precio = planSeleccionado === "gratis" ? "0" : precioTransporte.replace(",", "");
@@ -186,21 +122,12 @@ function ModalPlanesTransporte({ isOpen, onClose, onProcederPago }) {
     setMensajesChat((prev) => [...prev, { tipo: "usuario", texto, hora }]);
     setInputChat("");
     setTimeout(() => {
-      const resp = CHATBOT_RESPUESTAS[texto] ||
+      const resp = CHATBOT_RESPUESTAS_TRANSPORTE[texto] ||
         "Gracias por tu consulta. Un asesor te contactará pronto para brindarte más información.";
       setMensajesChat((prev) => [...prev, { tipo: "bot", texto: resp, hora }]);
     }, 800);
   };
 
-  const FEATURES_LISTA = [
-    "Configuración completa",
-    "Guías electrónicas (Remitente + Transportista)",
-    "Modulo Transportista",
-    "Compras + Liquidación por chofer",
-    "Ventas + POS + SUNAT",
-    "Tesorería + Liquidación de viajes",
-    "Soporte + Contable GRATIS",
-  ];
 
   const nombrePlanDisplay = planSeleccionado === "gratis" ? "Gratis"
     : planSeleccionado === "transporte" ? "Plan Transporte" : "";
@@ -278,7 +205,7 @@ function ModalPlanesTransporte({ isOpen, onClose, onProcederPago }) {
                 </div>
 
                 <ul className="mgt-features">
-                  {FEATURES_LISTA.map((f) => (
+                  {FEATURES_LISTA_TRANSPORTE.map((f) => (
                     <li key={f} className="mgt-feature-clickable" onClick={() => setFeatureAbierta(f)}>
                       <IconoCheck />
                       <span>{f}</span>
@@ -312,7 +239,7 @@ function ModalPlanesTransporte({ isOpen, onClose, onProcederPago }) {
                 </div>
 
                 <ul className="mgt-features mgt-features--white">
-                  {FEATURES_LISTA.map((f) => (
+                  {FEATURES_LISTA_TRANSPORTE.map((f) => (
                     <li key={f} className="mgt-feature-clickable" onClick={() => setFeatureAbierta(f)}>
                       <IconoCheck dark />
                       <span><u>{f}</u></span>
@@ -427,7 +354,7 @@ function ModalPlanesTransporte({ isOpen, onClose, onProcederPago }) {
               </div>
 
               <div className="mgt-quick-replies">
-                {CHATBOT_QUICK.map((q) => (
+                {CHATBOT_PREGUNTAS_TRANSPORTE.map((q) => (
                   <button key={q} className="mgt-quick-btn" onClick={() => handleEnviarChat(q)}>
                     {q}
                   </button>

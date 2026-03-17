@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Sidebar from './ui/layout/Sidebar/Sidebar';
 import Header from './ui/layout/Header/Header';
-import Dashboard from './feed/dashboard/Dashboard';
+import ViewRedSocial from './feed/dashboard/ViewRedSocial';
 import Login from './identidad/login/Login';
 import ViewEmpresas from './organizacion/empresas/ViewEmpresas';
 import ViewDatosPersonales from './identidad/datos-personales/ViewDatosPersonales';
@@ -45,7 +45,7 @@ function App() {
 
   const renderVista = () => {
     switch (vistaActiva) {
-      case "red-social":        return <Dashboard isDemo={isDemo} onLoginClick={() => setAppState('login')} />;
+      case "red-social":        return <ViewRedSocial isDemo={isDemo} onLoginClick={() => setAppState('login')} />;
       case "datos-personales":  return <ViewDatosPersonales />;
       case "empresas":          return <ViewEmpresas />;
       case "datos-facturacion": return <ViewDatosFacturacion />;
@@ -72,7 +72,7 @@ function App() {
           onActivar={handleActivar}
         />
       );
-      default:                  return <Dashboard isDemo={isDemo} onLoginClick={() => setAppState('login')} />;
+      default:                  return <ViewRedSocial isDemo={isDemo} onLoginClick={() => setAppState('login')} />;
     }
   };
 

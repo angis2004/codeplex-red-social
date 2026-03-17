@@ -1,125 +1,18 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./ModalPlanesRestaurante.css";
 import VisorCatalogoPDF from "../../ui/visor-catalogo/VisorCatalogoPDF";
-
-/* ───────────────────────────────────────────
-   DATOS — Precios por plan y periodo
-   TODO (backend): reemplazar con GET /api/planes
-─────────────────────────────────────────── */
-const PRECIOS_PLANES = {
-  basico: { mensual: "150", anual: "1,500" },
-  gold:   { mensual: "300", anual: "3,000" },
-};
+import {
+  PRECIOS_RESTAURANTE,
+  FEATURES_RESTAURANTE,
+  FEATURES_COMUNES_RESTAURANTE,
+  FEATURES_GOLD_RESTAURANTE,
+  CHATBOT_PREGUNTAS_RESTAURANTE,
+  CHATBOT_RESPUESTAS_RESTAURANTE,
+  CHATBOT_BIENVENIDA_RESTAURANTE,
+} from "./restaurante.data.js";
  
 
 
-/* ───────────────────────────────────────────
-   DATOS — Features del producto con
-   descripción expandible al hacer click.
-   Cada key coincide exactamente con el texto
-   mostrado en la lista de features.
-   TODO (backend): reemplazar con GET /api/planes/:id/features
-─────────────────────────────────────────── */
-const FEATURES_INFO = {
-  "Configuraciones completas": {
-    titulo: "Configuración Completa",
-    desc: "Comprobantes con logo y datos de tu empresa, impresiones A4/A45/80mm/57mm, importación de productos con varias presentaciones, importación de precios, registro de vendedores e inventarios.",
-  },
-  "Ventas POS + SUNAT": {
-    titulo: "Ventas POS + SUNAT",
-    desc: "Emite boletas, facturas y notas de crédito electrónicas validadas por SUNAT en tiempo real desde el punto de venta, compatible con impresoras térmicas y fiscales.",
-  },
-  "Ventas en Restaurante": {
-    titulo: "Ventas en Restaurante",
-    desc: "Gestiona mesas, pedidos por mesa o delivery, comanda a cocina en tiempo real, control de mozos y estado de cada mesa desde un panel visual intuitivo.",
-  },
-  "Tesorería": {
-    titulo: "Tesorería",
-    desc: "Controla el flujo de caja diario, registra ingresos y egresos, concilia pagos en efectivo, tarjeta y transferencia, y genera reportes de cierre por turno.",
-  },
-  "Soporte + Sistema Contable GRATIS": {
-    titulo: "Soporte + Sistema Contable GRATIS",
-    desc: "Accede a soporte técnico por chat y correo incluido en tu plan. Además, el sistema contable básico está incluido sin costo adicional para llevar tu contabilidad al día.",
-  },
-  "3-sucursales(SOLO 2)": {
-    titulo: "Límite de Sucursales",
-    desc: "Este plan permite gestionar hasta 2 sucursales. Si necesitas manejar 3 o más, considera actualizar al plan Básico o Gold.",
-  },
-  "Todo lo del Básico +": {
-    titulo: "Todo lo del Plan Básico",
-    desc: "Incluye todas las funcionalidades del plan Básico más beneficios exclusivos del plan Gold: mayor capacidad operativa, transferencias entre cajas y soporte prioritario.",
-  },
-  "Transferencia entre caja y Bancos": {
-    titulo: "Transferencia entre Caja y Bancos",
-    desc: "Registra y concilia automáticamente las transferencias entre tu caja física y las cuentas bancarias, con trazabilidad completa de cada movimiento.",
-  },
-  "Carga de constancias JPG/PDF/DOC": {
-    titulo: "Carga de Constancias",
-    desc: "Adjunta y almacena comprobantes de pago, constancias de depósito y documentos en formatos JPG, PDF o DOC directamente en cada transacción.",
-  },
-  "Mayor Capacidad Operativa": {
-    titulo: "Mayor Capacidad Operativa",
-    desc: "Procesa un mayor volumen de transacciones diarias, usuarios simultáneos y productos en catálogo sin limitaciones, ideal para restaurantes con alto flujo de clientes.",
-  },
-  "Soporte prioritario preferencial": {
-    titulo: "Soporte Prioritario Preferencial",
-    desc: "Atención preferencial con tiempo de respuesta garantizado, acceso a un asesor dedicado y soporte telefónico disponible en horario extendido.",
-  },
-};
- 
-/* ───────────────────────────────────────────
-   DATOS — Features incluidas en cada plan.
-   Separadas por plan para no repetir listas
-   en el JSX y facilitar cambios desde backend.
-─────────────────────────────────────────── */
-const FEATURES_COMUNES = [
-  "Configuraciones completas",
-  "Ventas POS + SUNAT",
-  "Ventas en Restaurante",
-  "Tesorería",
-  "Soporte + Sistema Contable GRATIS",
-];
- 
-const FEATURES_GOLD_EXTRA = [
-  "Transferencia entre caja y Bancos",
-  "Carga de constancias JPG/PDF/DOC",
-  "Mayor Capacidad Operativa",
-  "Soporte prioritario preferencial",
-];
- 
-/* ───────────────────────────────────────────
-   DATOS — Chatbot
-   Respuestas rápidas predefinidas y sus
-   respuestas automáticas del bot.
-   TODO (backend): conectar con endpoint AI
-─────────────────────────────────────────── */
-const CHATBOT_RESPUESTAS_RAPIDAS = [
-  "¿Cuál plan si tengo 20 empresas?",
-  "¿Qué incluye el Gold?",
-  "¿Puedo cambiar de plan?",
-  "¿Qué son Activos Fijos?",
-  "¿Hay prueba gratis?",
-];
- 
-const CHATBOT_RESPUESTAS_AUTO = {
-  "¿Cuál plan si tengo 20 empresas?":
-    "Para 20 empresas, el plan Gold es ideal ya que incluye mayor capacidad operativa y soporte prioritario. Contáctanos para un plan corporativo personalizado.",
-  "¿Qué incluye el Gold?":
-    "El plan Gold incluye todo lo del Básico más: Transferencia entre caja y Bancos, carga de constancias JPG/PDF/DOC, mayor capacidad operativa y soporte prioritario preferencial.",
-  "¿Puedo cambiar de plan?":
-    "¡Sí! Puedes cambiar de plan en cualquier momento desde tu panel de administración. El cambio se aplica de forma inmediata.",
-  "¿Qué son Activos Fijos?":
-    "Los activos fijos son bienes que la empresa posee y usa en sus operaciones a largo plazo (equipos, mobiliario, vehículos). El módulo te permite registrarlos y depreciarlos.",
-  "¿Hay prueba gratis?":
-    "¡Sí! El plan Gratis no tiene costo y te permite probar la plataforma con 1 empresa. Además, el plan Básico incluye 1 mes gratis.",
-};
- 
-const CHATBOT_MENSAJE_INICIAL = {
-  tipo: "bot",
-  texto:
-    "¡Hola! 👋 Soy el asistente de CodePlex. He leído el catálogo completo y puedo responder todas tus dudas sobre planes y precios.\n¿En qué te ayudo?",
-  hora: "09:30",
-};
  
  
 /* ═══════════════════════════════════════════
@@ -182,7 +75,7 @@ function IconoPdfAdjunto() {
    detallada del feature seleccionado.
 ═══════════════════════════════════════════ */
 function PopoverDetalleFeature({ nombreFeature, onCerrar }) {
-  const info = FEATURES_INFO[nombreFeature];
+  const info = FEATURES_RESTAURANTE[nombreFeature];
   if (!info) return null;
  
   return (
@@ -214,7 +107,7 @@ function ModalPlanesRestaurante({ isOpen, onClose, onProcederPago }) {
   const [visorPdf,           setVisorPdf]           = useState(null);
  
   /* ── Estado del chatbot ── */
-  const [mensajesChat, setMensajesChat] = useState([CHATBOT_MENSAJE_INICIAL]);
+  const [mensajesChat, setMensajesChat] = useState([CHATBOT_BIENVENIDA_RESTAURANTE]);
   const [inputChat,    setInputChat]    = useState("");
   const refFinChat = useRef(null);
  
@@ -232,8 +125,8 @@ function ModalPlanesRestaurante({ isOpen, onClose, onProcederPago }) {
   };
  
   /* ── Precios calculados según periodo ── */
-  const precioBasico = PRECIOS_PLANES.basico[periodoFacturacion];
-  const precioGold   = PRECIOS_PLANES.gold[periodoFacturacion];
+  const precioBasico = PRECIOS_RESTAURANTE.basico[periodoFacturacion];
+  const precioGold   = PRECIOS_RESTAURANTE.gold[periodoFacturacion];
   const labelPeriodo = periodoFacturacion === "mensual" ? "/mes" : "/año";
  
   /* Nombre legible del plan seleccionado para el botón "Continuar" */
@@ -266,7 +159,7 @@ function ModalPlanesRestaurante({ isOpen, onClose, onProcederPago }) {
     /* TODO (backend): reemplazar setTimeout con POST /api/chat */
     setTimeout(() => {
       const respuesta =
-        CHATBOT_RESPUESTAS_AUTO[texto] ||
+        CHATBOT_RESPUESTAS_RESTAURANTE[texto] ||
         "Gracias por tu consulta. Un asesor te contactará pronto para brindarte más información.";
       setMensajesChat((prev) => [...prev, { tipo: "bot", texto: respuesta, hora }]);
     }, 800);
@@ -340,7 +233,7 @@ function ModalPlanesRestaurante({ isOpen, onClose, onProcederPago }) {
                 </div>
  
                 <ul className="mpr-features">
-                  {FEATURES_COMUNES.map((feature) => (
+                  {FEATURES_COMUNES_RESTAURANTE.map((feature) => (
                     <li
                       key={feature}
                       className="mpr-feature-clickable"
@@ -383,7 +276,7 @@ function ModalPlanesRestaurante({ isOpen, onClose, onProcederPago }) {
                 </div>
  
                 <ul className="mpr-features">
-                  {FEATURES_COMUNES.map((feature) => (
+                  {FEATURES_COMUNES_RESTAURANTE.map((feature) => (
                     <li
                       key={feature}
                       className="mpr-feature-clickable"
@@ -438,7 +331,7 @@ function ModalPlanesRestaurante({ isOpen, onClose, onProcederPago }) {
                   </li>
  
                   {/* Features exclusivos del Gold */}
-                  {FEATURES_GOLD_EXTRA.map((feature) => (
+                  {FEATURES_GOLD_RESTAURANTE.map((feature) => (
                     <li
                       key={feature}
                       className="mpr-feature-clickable"
@@ -569,7 +462,7 @@ function ModalPlanesRestaurante({ isOpen, onClose, onProcederPago }) {
  
               {/* Respuestas rápidas predefinidas */}
               <div className="mpr-quick-replies">
-                {CHATBOT_RESPUESTAS_RAPIDAS.map((pregunta) => (
+                {CHATBOT_PREGUNTAS_RESTAURANTE.map((pregunta) => (
                   <button
                     key={pregunta}
                     className="mpr-quick-btn"

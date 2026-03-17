@@ -533,10 +533,10 @@ function ViewAplicaciones({ onProcederPago, misApps = [], tabInicial = "adquirir
       ) : (
         <div className="apps-empty-state">
           <div className="apps-empty-icon">📦</div>
-          <h3>No tienes aplicaciones activas</h3>
+          <h3>Aun no tienes aplicaciones instaladas</h3>
           <p>Explora el catálogo en la pestaña "Adquirir Aplicaciones"</p>
           <button className="tab-btn tab-btn--active" onClick={() => cambiarTab("adquirir")}>
-            Ver catálogo
+            Ver Aplicaciones
           </button>
         </div>
       )}
