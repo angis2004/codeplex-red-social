@@ -635,7 +635,7 @@
   .mgt-chat {
     position: fixed;
     top: auto; bottom: 16px;
-    left: 8px; right: 8px; width: calc(100% - 16px); height: auto; max-height: 60vh;
+    left: 8px; right: 8px; width: calc(100% - 16px); height: auto; max-height: 80vh;
     transform: none; border-radius: 20px;
     box-shadow: 0 -8px 40px rgba(0,0,0,0.28);
     z-index: 10001;
@@ -643,5 +643,4 @@
   }
   .mgt-quick-replies { flex-wrap: wrap; gap: 6px; padding: 8px 12px 12px; overflow-x: unset; }
   .mgt-quick-replies::-webkit-scrollbar { display: none; }
-  .mgt-chat-input-row { padding-bottom: env(safe-area-inset-bottom, 8px); }
 }
