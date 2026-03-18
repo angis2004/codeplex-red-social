@@ -166,6 +166,27 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
   border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mis-apps-dropdown-cerrar {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-gray);
+  border-radius: 4px;
+  transition: background 0.15s, color 0.15s;
+  flex-shrink: 0;
+}
+.mis-apps-dropdown-cerrar:hover {
+  background: var(--background-color);
+  color: var(--text-dark);
 }
 
 /* Lista de apps */
@@ -173,7 +194,16 @@
   padding: 6px 0;
   max-height: 280px;
   overflow-y: auto;
+  scrollbar-width: thin;                      /* Firefox */
+  scrollbar-color: var(--border-color) transparent;
 }
+.mis-apps-list::-webkit-scrollbar { width: 4px; }
+.mis-apps-list::-webkit-scrollbar-track { background: transparent; }
+.mis-apps-list::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+.mis-apps-list::-webkit-scrollbar-thumb:hover { background: var(--text-gray); }
 
 .mis-apps-item {
   width: 100%;
@@ -965,11 +995,11 @@
 @media (max-width: 640px) {
   .mis-apps-dropdown {
     position: fixed;
-    top: 60px;          /* debajo del header */
+    top: var(--header-height, 83px); /* calculado dinámicamente por JS en Header.jsx */
     left: 8px;
     right: 8px;
     width: auto;        /* ocupa el espacio entre left y right */
-    max-height: calc(100vh - 80px);
+    max-height: calc(100vh - var(--header-height, 83px) - 16px);
     overflow-y: auto;
   }
 }
