@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Icon from "../../Icon/Icon";
 import ProfileSlider from "../../../identidad/perfil/ProfileSlider";
 import { useTheme } from "../../useTheme";
@@ -14,6 +14,20 @@ function Header({ alAlternarMenu, alNavegar, vistaActiva, modoExploracion, alIni
   const [showModalEmpresa, setShowModalEmpresa] = useState(false);
   const [showMisApps, setShowMisApps]           = useState(false);
   const { darkMode, toggleDarkMode } = useTheme();
+  const headerWrapperRef = useRef(null);
+
+  /* ── Medir altura real del header y exponerla como CSS var ── */
+  useEffect(() => {
+    const el = headerWrapperRef.current;
+    if (!el) return;
+    const observer = new ResizeObserver(() => {
+      el.style.setProperty('--header-height', `${el.offsetHeight}px`);
+    });
+    observer.observe(el);
+    // valor inicial inmediato
+    el.style.setProperty('--header-height', `${el.offsetHeight}px`);
+    return () => observer.disconnect();
+  }, []);
 
   /* ── Cerrar dropdown al hacer clic fuera ── */
   // Usamos "click" (no mousedown) para que React procese primero el onClick
@@ -28,13 +42,13 @@ function Header({ alAlternarMenu, alNavegar, vistaActiva, modoExploracion, alIni
 
   return (
     <>
-      <div className="header-wrapper">
+      <div className="header-wrapper" ref={headerWrapperRef}>
         {modoExploracion && (
           <div className="demo-banner">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" style={{ verticalAlign: 'middle', marginRight: 6, flexShrink: 0 }}>
               <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
             </svg>
-            Modo exploración — Inicia sesión para guardar tus apps y realizar acciones
+            Modo exploración — Inicia sesión para acceder a todo
           </div>
         )}
         <header className="header">
@@ -94,7 +108,14 @@ function Header({ alAlternarMenu, alNavegar, vistaActiva, modoExploracion, alIni
               {/* ── Dropdown ── */}
               {showMisApps && (
                 <div className="mis-apps-dropdown">
-                  <div className="mis-apps-dropdown-title">Mis Aplicaciones activas</div>
+                  <div className="mis-apps-dropdown-title">
+                  Mis Aplicaciones activas
+                  <button className="mis-apps-dropdown-cerrar" onClick={() => setShowMisApps(false)}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                      <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                  </button>
+                </div>
 
                   {misApps.length === 0 ? (
                     <div className="mis-apps-empty">
