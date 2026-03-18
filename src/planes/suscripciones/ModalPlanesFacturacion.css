@@ -381,21 +381,28 @@
   border: 2px solid #0D9488;
   color: #0D9488;
 }
-.mffe-btn-plan--outline:hover,
+.mffe-btn-plan--outline:hover {
+  background: #0D9488;
+  color: #fff;
+}
 .mffe-btn-plan--sel {
   background: #0D9488;
   color: #fff;
-  /* border-color: #0D9488; */
+  border: none !important;
 }
 .mffe-btn-plan--dark {
   background: transparent;
   border: 2px solid rgba(255,255,255,0.7);
   color: #fff;
 }
-.mffe-btn-plan--dark:hover,
-.mffe-btn-plan--dark-sel {
+.mffe-btn-plan--dark:hover {
   background: rgba(255,255,255,0.15);
   border-color: #fff;
+  color: #fff;
+}
+.mffe-btn-plan--dark-sel {
+  background: rgba(255,255,255,0.15);
+  border: none !important;
   color: #fff;
 }
 

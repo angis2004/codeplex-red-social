@@ -335,21 +335,29 @@
   border: 2px solid #0D9488;
   color: #0D9488;
 }
-.mgpc-btn-plan--outline:hover,
-.mgpc-btn-plan--sel {
+.mgpc-btn-plan--outline:hover {
   background: #0D9488;
   color: #fff;
   border-color: #0D9488;
+}
+.mgpc-btn-plan--sel {
+  background: #0D9488;
+  color: #fff;
+  border: none !important;
 }
 .mgpc-btn-plan--dark-outline {
   background: transparent;
   border: 2px solid rgba(255,255,255,0.7);
   color: #fff;
 }
-.mgpc-btn-plan--dark-outline:hover,
-.mgpc-btn-plan--dark-sel {
+.mgpc-btn-plan--dark-outline:hover {
   background: rgba(255,255,255,0.15);
   border-color: #fff;
+  color: #fff;
+}
+.mgpc-btn-plan--dark-sel {
+  background: rgba(255,255,255,0.15);
+  border: none !important;
   color: #fff;
 }
 
