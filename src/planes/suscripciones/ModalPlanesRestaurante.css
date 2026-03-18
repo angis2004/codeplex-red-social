@@ -777,7 +777,7 @@
     top: auto; bottom: 16px;
     left: 8px; right: 8px; width: calc(100% - 16px);
     height: auto;
-    max-height: 60vh;
+    max-height: 80vh;
     transform: none;
     border-radius: 20px;
     box-shadow: 0 -8px 40px rgba(0,0,0,0.28);
@@ -793,5 +793,4 @@
     padding-bottom: 10px;
   }
   .mpr-quick-replies::-webkit-scrollbar { display: none; }
-  .mpr-chat-input-row { padding-bottom: env(safe-area-inset-bottom, 8px); }
 }
