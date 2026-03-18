@@ -960,3 +960,16 @@
 @media (max-width: 767px) {
   .btn-carrito { display: none; }
 }
+
+/* ── Dropdown Mis Apps — responsive mobile ── */
+@media (max-width: 640px) {
+  .mis-apps-dropdown {
+    position: fixed;
+    top: 60px;          /* debajo del header */
+    left: 8px;
+    right: 8px;
+    width: auto;        /* ocupa el espacio entre left y right */
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
+  }
+}
