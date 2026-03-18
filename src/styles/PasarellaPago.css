@@ -14,8 +14,6 @@
   align-items: center;
   gap: 14px;
   margin-bottom: 28px;
-  padding-bottom: 20px;
-  border-bottom: 1.5px solid #E5E7EB;
 }
 
 .pp-volver-btn {
@@ -368,7 +366,7 @@
 /* ══ RESUMEN COLUMNA ══ */
 .pp-resumen-col {
   position: sticky;
-  top: 20px;
+  top: 96px;
 }
 
 .pp-resumen-card {
@@ -494,6 +492,29 @@
 .pp-activar-btn:disabled {
   opacity: 0.45;
   cursor: not-allowed;
+}
+
+/* ── Sección bloqueada (pasos secuenciales) ── */
+.pp-section--bloqueado {
+  opacity: 0.45;
+  pointer-events: none;
+  user-select: none;
+  position: relative;
+}
+
+.pp-section--bloqueado::after {
+  content: '🔒 Completa el paso anterior para continuar';
+  position: absolute;
+  bottom: 12px;
+  right: 16px;
+  font-size: 11px;
+  color: #9CA3AF;
+  font-weight: 500;
+}
+
+/* Paso completado — número verde */
+.pp-step-num--completo {
+  background: #16A34A;
 }
 
 /* ── Responsive ── */

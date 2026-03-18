@@ -172,16 +172,9 @@
   border-color: var(--accent);
 }
 
-/* ══ LAYOUT DOS COLUMNAS: catálogo + carrito ══ */
-.catalogo-layout {
-  display: flex;
-  gap: 24px;
-  align-items: flex-start;
-}
-
+/* ══ LAYOUT UNA COLUMNA: catálogo sin panel lateral ══ */
 .catalogo-contenido {
-  flex: 1;
-  min-width: 0;
+  width: 100%;
 }
 
 /* ── Grid del catálogo ── */
@@ -189,11 +182,6 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 20px;
-}
-
-@media (max-width: 900px) {
-  .catalogo-layout { flex-direction: column; }
-  .panel-carrito   { width: 100%; position: static; }
 }
 
 

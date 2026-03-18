@@ -25,8 +25,12 @@ const PREFIJOS = {
 };
 
 /* ─── Número de paso ─── */
-function StepNumber({ n }) {
-  return <div className="pp-step-num">{n}</div>;
+function StepNumber({ n, completo }) {
+  return (
+    <div className={`pp-step-num${completo ? " pp-step-num--completo" : ""}`}>
+      {completo ? "✓" : n}
+    </div>
+  );
 }
 
 /* ─── Info icon ─── */
@@ -146,6 +150,12 @@ function ViewPasarellaPago({ planData, onVolver, onActivar }) {
   const planNombre     = planData?.planNombre   || "basico";
   const planNombreDisplay = { gratis: "Gratis", basico: "Básico", gold: "Gold" }[planNombre] || planNombre;
 
+  /* ── Progresión de pasos secuenciales ── */
+  const paso1Completo = tarjeta.length === 19 && vencimiento.length === 5 && cvv.length >= 3 && propietario.trim() !== "";
+  const paso2Completo = paso1Completo && ruc.trim() !== "" && razonSocial.trim() !== "" && correo.trim() !== "";
+  const paso3Habilitado = paso2Completo;
+  const paso4Habilitado = paso2Completo;
+
   /* Fechas */
   const hoy          = new Date();
   const primerCobro  = new Date(hoy);
@@ -220,7 +230,7 @@ function ViewPasarellaPago({ planData, onVolver, onActivar }) {
           {/* STEP 1 ── Datos de la Tarjeta */}
           <div className="pp-section">
             <div className="pp-section-header">
-              <StepNumber n={1} />
+              <StepNumber n={1} completo={paso1Completo} />
               <div>
                 <h2 className="pp-section-titulo">Datos de la Tarjeta</h2>
                 <p className="pp-section-sub">Tu Tarjeta se guarda de forma segura. El cobro es recurrente mensual por adelantado</p>
@@ -276,14 +286,14 @@ function ViewPasarellaPago({ planData, onVolver, onActivar }) {
           <div className="pp-renovacion-aviso">
             <InfoIcon />
             <span>
-              Tu suscripción se renovará automáticamente el {fechaCobroStr}. Se te cobrará S/{precio}{periodoLabel} + impuestos.
+              Tu suscripción se renovará automáticamente el {fechaCobroStr}. Se te cobrará S/{totalCarrito}{periodoLabel} + impuestos.
             </span>
           </div>
 
           {/* STEP 2 ── Datos de Facturación */}
-          <div className="pp-section">
+          <div className={`pp-section${!paso1Completo ? " pp-section--bloqueado" : ""}`}>
             <div className="pp-section-header">
-              <StepNumber n={2} />
+              <StepNumber n={2} completo={paso2Completo} />
               <div>
                 <h2 className="pp-section-titulo">Datos de Facturación</h2>
                 <p className="pp-section-sub">Se usarán para emitir tu comprobante electrónico</p>
@@ -381,7 +391,7 @@ function ViewPasarellaPago({ planData, onVolver, onActivar }) {
           </div>
 
           {/* STEP 3 ── Cuando se emiten tus Facturas */}
-          <div className="pp-section">
+          <div className={`pp-section${!paso3Habilitado ? " pp-section--bloqueado" : ""}`}>
             <div className="pp-section-header">
               <StepNumber n={3} />
               <div>
@@ -406,7 +416,7 @@ function ViewPasarellaPago({ planData, onVolver, onActivar }) {
                   <span className="pp-timeline-label">{fechaCobroStr} — Primer cobro real</span>
                   <span className="pp-timeline-desc">Primer cobro mensual al vencer el trial de 30 días</span>
                 </div>
-                <span className="pp-timeline-valor">s/{precio}</span>
+                <span className="pp-timeline-valor">S/{totalCarrito}</span>
               </div>
               <div className="pp-timeline-connector" />
               <div className="pp-timeline-item">
@@ -421,7 +431,7 @@ function ViewPasarellaPago({ planData, onVolver, onActivar }) {
           </div>
 
           {/* STEP 4 ── Autorización y Políticas */}
-          <div className="pp-section">
+          <div className={`pp-section${!paso4Habilitado ? " pp-section--bloqueado" : ""}`}>
             <div className="pp-section-header">
               <StepNumber n={4} />
               <div>

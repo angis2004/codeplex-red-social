@@ -15,6 +15,9 @@ import ViewColaboradores from './organizacion/colaboradores/ViewColaboradores';
 import ViewMonetizacion from './planes/monetizacion/ViewMonetizacion';
 import CatalogoAplicaciones from './planes/aplicaciones/ui/CatalogoAplicaciones';
 import ViewPasarellaPago from './planes/pasarella-pago/ViewPasarellaPago';
+import { useCarritoSuscripciones } from './planes/aplicaciones/aplicacion/useCarritoSuscripciones';
+import PaginaCarrito from './planes/carrito/ui/PaginaCarrito';
+import CarritoMobile from './planes/carrito/ui/CarritoMobile';
 import './styles/App.css';
 
 // appState: 'demo' | 'login' | 'authenticated'
@@ -27,6 +30,17 @@ function App() {
   const [tabAppsInicial, setTabAppsInicial] = useState("adquirir");
 
   const isDemo = appState === 'demo';
+
+  const {
+    itemsCarrito,
+    totalCarrito,
+    agregarAlCarrito,
+    quitarDelCarrito,
+    limpiarCarrito,
+    verificarEnCarrito,
+  } = useCarritoSuscripciones();
+
+  const handleVerCarrito = () => setVistaActiva("carrito");
 
   const handleProcederPago = (data) => {
     setPagoData(data);
@@ -67,6 +81,25 @@ function App() {
           pestanaInicial={tabAppsInicial}
           onCambiarPestana={setTabAppsInicial}
           onDesinstalar={handleDesinstalarApp}
+          itemsCarrito={itemsCarrito}
+          totalCarrito={totalCarrito}
+          agregarAlCarrito={agregarAlCarrito}
+          quitarDelCarrito={quitarDelCarrito}
+          verificarEnCarrito={verificarEnCarrito}
+          onVerCarrito={handleVerCarrito}
+        />
+      );
+      case "carrito":           return (
+        <PaginaCarrito
+          itemsCarrito={itemsCarrito}
+          totalCarrito={totalCarrito}
+          onQuitarItem={quitarDelCarrito}
+          onProcederPago={() => {
+            handleProcederPago({ itemsCarrito, totalCarrito, billing: "mensual" });
+            limpiarCarrito();
+          }}
+          onExplorar={() => setVistaActiva("aplicaciones")}
+          onVolver={() => setVistaActiva("aplicaciones")}
         />
       );
       case "pasarela-pago":     return (
@@ -106,6 +139,9 @@ function App() {
         isDemo={isDemo}
         onLoginClick={() => setAppState('login')}
         onLogout={() => setAppState('login')}
+        itemsCarrito={itemsCarrito}
+        totalCarrito={totalCarrito}
+        onVerCarrito={handleVerCarrito}
       />
 
       {/* ─── CAMBIO: main-content solo tiene el contenido ─── */}
@@ -114,6 +150,13 @@ function App() {
           {renderVista()}
         </main>
       </div>
+
+      <CarritoMobile
+        itemsCarrito={itemsCarrito}
+        totalCarrito={totalCarrito}
+        onQuitarItem={quitarDelCarrito}
+        onVerCarrito={handleVerCarrito}
+      />
     </div>
   );
 }

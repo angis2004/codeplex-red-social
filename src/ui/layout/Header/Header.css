@@ -645,3 +645,117 @@
   transition: opacity 0.15s;
 }
 .slider-demo-card-btn:hover { opacity: 0.85; }
+
+/* ═══════════════════════════════════════════════════════════
+   BOTÓN CARRITO — 4 ESTADOS RESPONSIVOS
+═══════════════════════════════════════════════════════════ */
+.btn-carrito {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* ESTADO A+B — Pill (desktop ≥768px) */
+.btn-carrito-pill {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background-color: #0F1B3D;
+  color: white;
+  padding: 7px 14px 7px 10px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: opacity 0.2s;
+}
+.btn-carrito-pill:hover { opacity: 0.88; }
+
+.carrito-pill-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.carrito-badge {
+  position: absolute;
+  top: -7px;
+  right: -8px;
+  background: #534AB7;
+  color: white;
+  font-size: 9px;
+  font-weight: 700;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid white;
+}
+
+.carrito-separator { opacity: 0.5; }
+.carrito-total { opacity: 0.9; }
+
+/* ESTADO C — Ícono circular (oculto por defecto, visible en tablet) */
+.btn-carrito-icon { display: none; }
+
+.btn-carrito-icon {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #0F1B3D;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.carrito-badge-circle {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  background: #534AB7;
+  color: white;
+  font-size: 9px;
+  font-weight: 700;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid white;
+}
+
+/* Desktop ≥1280px: Estado A — pill completo */
+@media (min-width: 1280px) {
+  .btn-carrito-pill { display: flex; }
+  .btn-carrito-icon { display: none; }
+  .carrito-separator,
+  .carrito-total { display: inline; }
+}
+
+/* Laptop 1024–1279px: Estado B — pill sin total */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .btn-carrito-pill { display: flex; }
+  .btn-carrito-icon { display: none; }
+  .carrito-separator,
+  .carrito-total { display: none; }
+}
+
+/* Tablet 768–1023px: Estado C — ícono circular */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .btn-carrito-pill { display: none; }
+  .btn-carrito-icon { display: flex; }
+}
+
+/* Mobile <768px: Estado D — oculto en topbar */
+@media (max-width: 767px) {
+  .btn-carrito { display: none; }
+}
