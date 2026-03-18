@@ -3,6 +3,11 @@
    Primary: #0094C0  |  Dark card: #0D4471
 ═══════════════════════════════════════════════════════════ */
 
+/* Quitar outline del browser en todos los botones del modal */
+.mpc-overlay button:focus,
+.mpc-overlay button:focus-visible,
+.mpc-overlay button:active { outline: none !important; box-shadow: none; }
+
 /* ── Overlay ── */
 .mpc-overlay {
   position: fixed;
@@ -547,6 +552,10 @@
   margin-top: auto;
   outline: none;
 }
+.mpc-btn-plan:focus,
+.mpc-btn-plan:focus-visible,
+.mpc-btn-plan:active { outline: none !important; box-shadow: none; }
+
 .mpc-btn-plan--outline {
   background: transparent;
   border: 2px solid #0094C0;
