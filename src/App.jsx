@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import Sidebar from './ui/layout/Sidebar/Sidebar';
 import Header from './ui/layout/Header/Header';
-import Dashboard from './feed/dashboard/Dashboard';
+import RedSocial from './feed/dashboard/RedSocial';
 import Login from './identidad/login/Login';
-import ViewEmpresas from './organizacion/empresas/ViewEmpresas';
-import ViewDatosPersonales from './identidad/datos-personales/ViewDatosPersonales';
-import ViewDatosFacturacion from './organizacion/facturacion/ViewDatosFacturacion';
-import ViewBuzon from './feed/buzon/ViewBuzon';
-import ViewTickets from './organizacion/tickets/ViewTickets';
-import ViewMantenedores from './organizacion/mantenedores/ViewMantenedores';
-import ViewCanjeMonedas from './planes/monedero/ViewCanjeMonedas';
-import ViewMonedero from './planes/monedero/ViewMonedero';
-import ViewColaboradores from './organizacion/colaboradores/ViewColaboradores';
-import ViewMonetizacion from './planes/monetizacion/ViewMonetizacion';
+import GestionEmpresas from './organizacion/empresas/GestionEmpresas';
+import DatosPersonales from './identidad/datos-personales/DatosPersonales';
+import DatosFacturacion from './organizacion/facturacion/DatosFacturacion';
+import Buzon from './feed/buzon/Buzon';
+import Tickets from './organizacion/tickets/Tickets';
+import Mantenedores from './organizacion/mantenedores/Mantenedores';
+import CanjeMonedas from './planes/monedero/CanjeMonedas';
+import Monedero from './planes/monedero/Monedero';
+import Colaboradores from './organizacion/colaboradores/Colaboradores';
+import Monetizacion from './planes/monetizacion/Monetizacion';
 import CatalogoAplicaciones from './planes/aplicaciones/ui/CatalogoAplicaciones';
 import ViewPasarellaPago from './planes/pasarella-pago/ViewPasarellaPago';
 import { useCarritoSuscripciones } from './planes/aplicaciones/aplicacion/useCarritoSuscripciones';
@@ -63,17 +63,17 @@ function App() {
 
   const renderVista = () => {
     switch (vistaActiva) {
-      case "red-social":        return <Dashboard isDemo={isDemo} onLoginClick={() => setAppState('login')} />;
-      case "datos-personales":  return <ViewDatosPersonales />;
-      case "empresas":          return <ViewEmpresas />;
-      case "datos-facturacion": return <ViewDatosFacturacion />;
-      case "buzon":             return <ViewBuzon />;
-      case "tickets":           return <ViewTickets />;
-      case "mantenedores":      return <ViewMantenedores />;
-      case "canje-monedas":     return <ViewCanjeMonedas />;
-      case "monedero":          return <ViewMonedero />;
-      case "colaboradores":     return <ViewColaboradores />;
-      case "monetizacion":      return <ViewMonetizacion />;
+      case "red-social":        return <RedSocial isDemo={isDemo} onLoginClick={() => setAppState('login')} />;
+      case "datos-personales":  return <DatosPersonales />;
+      case "empresas":          return <GestionEmpresas />;
+      case "datos-facturacion": return <DatosFacturacion />;
+      case "buzon":             return <Buzon />;
+      case "tickets":           return <Tickets />;
+      case "mantenedores":      return <Mantenedores />;
+      case "canje-monedas":     return <CanjeMonedas />;
+      case "monedero":          return <Monedero />;
+      case "colaboradores":     return <Colaboradores />;
+      case "monetizacion":      return <Monetizacion />;
       case "aplicaciones":      return (
         <CatalogoAplicaciones
           onProcederPago={handleProcederPago}

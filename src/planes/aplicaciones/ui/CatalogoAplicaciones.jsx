@@ -6,12 +6,12 @@ import TarjetaAplicacion             from "./TarjetaAplicacion";
 import SuscripcionActivaItem         from "./SuscripcionActivaItem";
 import ConfirmacionDesinstalacion    from "./ConfirmacionDesinstalacion";
 
-import ModalPlanesRestaurante  from "../../suscripciones/ModalPlanesRestaurante";
-import ModalPlanesContaPlex    from "../../suscripciones/ModalPlanesContaPlex";
-import ModalPlanesGestionPlex  from "../../suscripciones/ModalPlanesGestionPlex";
-import ModalPlanesTransporte   from "../../suscripciones/ModalPlanesTransporte";
-import ModalPlanesGrifo        from "../../suscripciones/ModalPlanesGrifo";
-import ModalPlanesFacturacion  from "../../suscripciones/ModalPlanesFacturacion";
+import ModalPlanesRestaurante  from "../../suscripciones/SelectorPlanRestaurante";
+import ModalPlanesContaPlex    from "../../suscripciones/SelectorPlanContaPlex";
+import ModalPlanesGestionPlex  from "../../suscripciones/SelectorPlanGestionPlex";
+import ModalPlanesTransporte   from "../../suscripciones/SelectorPlanTransporte";
+import ModalPlanesGrifo        from "../../suscripciones/SelectorPlanGrifo";
+import ModalPlanesFacturacion  from "../../suscripciones/SelectorPlanFacturacion";
 
 const CATEGORIAS_FILTRO = ["todos", "e-commerce", "otros"];
 
