@@ -13,10 +13,11 @@ import {
  *   - calcular el total de la selección
  *   - verificar si una Aplicacion ya está seleccionada
  *
- * ⚡ Punto de integración con backend:
+ *   Punto de integración con backend:
  *   Solo este hook necesita cambiar cuando llegue la API real.
  *   La UI (PanelCarrito, TarjetaAplicacion) no se toca.
- */
+ **/
+
 export function useCarritoSuscripciones() {
   const [itemsCarrito, setItemsCarrito] = useState([]);
 
