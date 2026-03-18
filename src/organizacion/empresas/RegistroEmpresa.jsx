@@ -56,33 +56,33 @@ const FORM_INICIAL = {
   fechaBaja: "",
 };
 
-function RegistroEmpresa({ isOpen, onClose, onSuccess }) {
+function RegistroEmpresa({ estaAbierto, alCerrar, alExito }) {
   const [form, setForm] = useState(FORM_INICIAL);
   const [errors, setErrors] = useState({});
   const [alertaVisible, setAlertaVisible] = useState(true);
   const overlayRef = useRef();
 
   useEffect(() => {
-    if (isOpen) {
+    if (estaAbierto) {
       document.body.style.overflow = "hidden";
       setAlertaVisible(true);
     } else {
       document.body.style.overflow = "";
     }
     return () => { document.body.style.overflow = ""; };
-  }, [isOpen]);
+  }, [estaAbierto]);
 
   useEffect(() => {
-    if (!isOpen) {
+    if (!estaAbierto) {
       const t = setTimeout(() => {
         setForm(FORM_INICIAL);
         setErrors({});
       }, 300);
       return () => clearTimeout(t);
     }
-  }, [isOpen]);
+  }, [estaAbierto]);
 
-  if (!isOpen) return null;
+  if (!estaAbierto) return null;
 
   const set = (key, val) => setForm(f => ({ ...f, [key]: val }));
   const clearErr = (key) => setErrors(e => ({ ...e, [key]: "" }));
@@ -105,17 +105,17 @@ function RegistroEmpresa({ isOpen, onClose, onSuccess }) {
 
   const handleSubmit = () => {
     if (!validar()) return;
-    onSuccess?.(form);
-    onClose();
+    alExito?.(form);
+    alCerrar();
   };
 
   const handleOverlayClick = (e) => {
-    if (e.target === overlayRef.current) onClose();
+    if (e.target === overlayRef.current) alCerrar();
   };
 
   return (
     <div className="mce-overlay" ref={overlayRef} onClick={handleOverlayClick}>
-      <div className={`mce-modal ${isOpen ? "mce-modal--open" : ""}`}>
+      <div className={`mce-modal ${estaAbierto ? "mce-modal--open" : ""}`}>
 
         {/* HEADER */}
         <div className="mce-header">
@@ -131,7 +131,7 @@ function RegistroEmpresa({ isOpen, onClose, onSuccess }) {
                   <p className="mce-subtitle">Administra todas tus Empresas registradas</p>
                 </div>
               </div>
-            <button className="mce-close" onClick={onClose} aria-label="Cerrar">
+            <button className="mce-close" onClick={alCerrar} aria-label="Cerrar">
                 <Icon name="cerrar" size={10} />
               </button>
             </div>
@@ -342,7 +342,7 @@ function RegistroEmpresa({ isOpen, onClose, onSuccess }) {
 
         {/* FOOTER */}
         <div className="mce-footer">
-          <button className="mce-btn mce-btn--outline" onClick={onClose}>
+          <button className="mce-btn mce-btn--outline" onClick={alCerrar}>
             <Icon name="cancelar" size={14} />
             Cancelar
           </button>

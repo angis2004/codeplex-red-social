@@ -167,15 +167,23 @@
   box-shadow: 0 2px 8px rgba(249,115,22,0.4);
 }
 
-/* ── Grid de planes ── */
+/* ── Scroll horizontal de planes (igual que ContaPlex) ── */
 .mpr-planes {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  overflow-x: auto;
   gap: 16px;
+  padding-bottom: 10px;
+  -webkit-overflow-scrolling: touch;
+  cursor: grab;
 }
+.mpr-planes:active { cursor: grabbing; }
+.mpr-planes::-webkit-scrollbar { height: 5px; }
+.mpr-planes::-webkit-scrollbar-thumb { background: #FCD9C0; border-radius: 99px; }
 
-@media (max-width: 680px) {
-  .mpr-planes { grid-template-columns: 1fr; }
+/* Ancho fijo para scroll horizontal */
+.mpr-plan--compact {
+  flex: 0 0 210px;
+  min-width: 210px;
 }
 
 /* ── Tarjeta plan base ── */

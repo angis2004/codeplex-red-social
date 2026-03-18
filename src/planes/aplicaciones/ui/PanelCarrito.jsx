@@ -9,10 +9,10 @@ import React from "react";
  * Props:
  *   itemsCarrito    → Aplicaciones actualmente en el carrito
  *   totalCarrito    → Número: suma de precios base
- *   onQuitarItem    → callback(aplicacionId) para quitar un item
- *   onProcederPago  → callback() para ir a la pasarela de pago
+ *   alQuitarItem    → callback(aplicacionId) para quitar un item
+ *   alProcederPago  → callback() para ir a la pasarela de pago
  */
-function PanelCarrito({ itemsCarrito = [], totalCarrito = 0, onQuitarItem, onProcederPago }) {
+function PanelCarrito({ itemsCarrito = [], totalCarrito = 0, alQuitarItem, alProcederPago }) {
   const tieneItems = itemsCarrito.length > 0;
 
   return (
@@ -62,7 +62,7 @@ function PanelCarrito({ itemsCarrito = [], totalCarrito = 0, onQuitarItem, onPro
                   </div>
                   <button
                     className="panel-carrito__item-quitar"
-                    onClick={() => onQuitarItem?.(item.id)}
+                    onClick={() => alQuitarItem?.(item.id)}
                     aria-label={`Quitar ${item.nombre} del carrito`}
                     title="Quitar"
                   >
@@ -94,7 +94,7 @@ function PanelCarrito({ itemsCarrito = [], totalCarrito = 0, onQuitarItem, onPro
             {/* Botón de pago */}
             <button
               className="panel-carrito__btn-pago"
-              onClick={onProcederPago}
+              onClick={alProcederPago}
             >
               Proceder al pago
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">

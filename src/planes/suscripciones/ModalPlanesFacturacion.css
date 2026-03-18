@@ -199,14 +199,18 @@
 
 .mffe-planes-scroll {
   display: flex;
-  justify-content: center;
   overflow-x: auto;
   gap: 14px;
   padding-bottom: 10px;
   -webkit-overflow-scrolling: touch;
+  cursor: grab;
 }
+.mffe-planes-scroll:active { cursor: grabbing; }
 .mffe-planes-scroll::-webkit-scrollbar { height: 5px; }
 .mffe-planes-scroll::-webkit-scrollbar-thumb { background: #99F6E4; border-radius: 99px; }
+@media (min-width: 768px) {
+  .mffe-planes-scroll { justify-content: center; }
+}
 
 
 /* ═══════════════════════════════════════════════════════════

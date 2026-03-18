@@ -78,7 +78,7 @@ function PopoverDetalleFeature({ nombreFeature, onCerrar }) {
 /* ═══════════════════════════════════════════
    COMPONENTE PRINCIPAL
 ═══════════════════════════════════════════ */
-function SelectorPlanGrifo({ isOpen, onClose, onProcederPago }) {
+function SelectorPlanGrifo({ estaAbierto, alCerrar, alProcederPago }) {
 
   const [periodoFacturacion, setPeriodoFacturacion] = useState("mensual");
   const [planSeleccionado,   setPlanSeleccionado]   = useState(null);
@@ -90,6 +90,20 @@ function SelectorPlanGrifo({ isOpen, onClose, onProcederPago }) {
   const [inputChat,    setInputChat]    = useState("");
   const refFinChat = useRef(null);
 
+  /* ── Drag-scroll en el scroll horizontal de planes ── */
+  const refPlanesScroll = useRef(null);
+  const dragScroll = useRef({ activo: false, startX: 0, scrollLeft: 0 });
+  const handlePlanesMouseDown = (e) => {
+    dragScroll.current = { activo: true, startX: e.pageX - refPlanesScroll.current.offsetLeft, scrollLeft: refPlanesScroll.current.scrollLeft };
+  };
+  const handlePlanesMouseMove = (e) => {
+    if (!dragScroll.current.activo) return;
+    e.preventDefault();
+    const x = e.pageX - refPlanesScroll.current.offsetLeft;
+    refPlanesScroll.current.scrollLeft = dragScroll.current.scrollLeft - (x - dragScroll.current.startX);
+  };
+  const handlePlanesMouseUp = () => { dragScroll.current.activo = false; };
+
   useEffect(() => {
     if (chatVisible) refFinChat.current?.scrollIntoView({ behavior: "smooth" });
   }, [mensajesChat, chatVisible]);
@@ -99,10 +113,10 @@ function SelectorPlanGrifo({ isOpen, onClose, onProcederPago }) {
     setFeatureAbierta(null);
     setChatVisible(false);
     setMensajesChat([CHATBOT_BIENVENIDA_GRIFO]);
-    onClose();
+    alCerrar();
   };
 
-  if (!isOpen) return null;
+  if (!estaAbierto) return null;
 
   const handleClickOverlay = (e) => {
     if (e.target === e.currentTarget) handleClose();
@@ -113,7 +127,7 @@ function SelectorPlanGrifo({ isOpen, onClose, onProcederPago }) {
 
   const handleConfirmarPlan = () => {
     const precio = planSeleccionado === "gratis" ? "0" : precioGrifo.replace(",", "");
-    onProcederPago?.({ planNombre: planSeleccionado, precio, billing: periodoFacturacion });
+    alProcederPago?.({ planNombre: planSeleccionado, precio, billing: periodoFacturacion });
   };
 
   const handleEnviarChat = (texto) => {
@@ -183,11 +197,18 @@ function SelectorPlanGrifo({ isOpen, onClose, onProcederPago }) {
               </div>
             </div>
 
-            {/* Grid de planes */}
-            <div className="mgg-planes">
+            {/* Scroll horizontal de planes */}
+            <div
+              className="mgg-planes"
+              ref={refPlanesScroll}
+              onMouseDown={handlePlanesMouseDown}
+              onMouseMove={handlePlanesMouseMove}
+              onMouseUp={handlePlanesMouseUp}
+              onMouseLeave={handlePlanesMouseUp}
+            >
 
               {/* ── Plan Gratis ── */}
-              <div className={`mgg-plan${planSeleccionado === "gratis" ? " mgg-plan--selected" : ""}`}>
+              <div className={`mgg-plan mgg-plan--compact${planSeleccionado === "gratis" ? " mgg-plan--selected" : ""}`}>
                 <h3 className="mgg-plan-nombre">Gratis</h3>
 
                 <div className="mgg-precio">
@@ -219,7 +240,7 @@ function SelectorPlanGrifo({ isOpen, onClose, onProcederPago }) {
               </div>
 
               {/* ── Plan Grifo (dark) ── */}
-              <div className={`mgg-plan mgg-plan--dark${planSeleccionado === "grifo" ? " mgg-plan--dark-sel" : ""}`}>
+              <div className={`mgg-plan mgg-plan--compact mgg-plan--dark${planSeleccionado === "grifo" ? " mgg-plan--dark-sel" : ""}`}>
                 <div className="mgg-popular-badge">TODO INCLUIDO</div>
 
                 <h3 className="mgg-plan-nombre mgg-plan-nombre--white">Plan Grifo</h3>
@@ -410,8 +431,8 @@ function SelectorPlanGrifo({ isOpen, onClose, onProcederPago }) {
       </div>{/* /mgg-modal */}
 
       <VisorCatalogoPDF
-        isOpen={!!visorPdf}
-        onClose={() => setVisorPdf(null)}
+        estaAbierto={!!visorPdf}
+        alCerrar={() => setVisorPdf(null)}
         pdfUrl={visorPdf?.url || ""}
         pdfNombre={visorPdf?.nombre || ""}
         pdfTamanio={visorPdf?.tamanio || ""}

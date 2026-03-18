@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./CarritoMobile.css";
 
-function CarritoMobile({ itemsCarrito = [], totalCarrito = 0, onQuitarItem, onVerCarrito }) {
+function CarritoMobile({ itemsCarrito = [], totalCarrito = 0, alQuitarItem, alVerCarrito }) {
   const [expandido, setExpandido] = useState(false);
 
   if (itemsCarrito.length === 0) return null;
@@ -21,12 +21,12 @@ function CarritoMobile({ itemsCarrito = [], totalCarrito = 0, onQuitarItem, onVe
                 </div>
                 <button
                   className="carrito-mobile-drawer-quitar"
-                  onClick={() => onQuitarItem(item.id)}
+                  onClick={() => alQuitarItem(item.id)}
                 >✕</button>
               </div>
             ))}
           </div>
-          <button className="carrito-mobile-drawer-cta" onClick={onVerCarrito}>
+          <button className="carrito-mobile-drawer-cta" onClick={alVerCarrito}>
             Ver carrito completo →
           </button>
         </div>

@@ -97,7 +97,7 @@ function PopoverDetalleFeature({ nombreFeature, onCerrar }) {
 /* ═══════════════════════════════════════════
    COMPONENTE PRINCIPAL
 ═══════════════════════════════════════════ */
-function SelectorPlanRestaurante({ isOpen, onClose, onProcederPago }) {
+function SelectorPlanRestaurante({ estaAbierto, alCerrar, alProcederPago }) {
  
   /* ── Estado del modal ── */
   const [periodoFacturacion, setPeriodoFacturacion] = useState("mensual"); // "mensual" | "anual"
@@ -105,7 +105,22 @@ function SelectorPlanRestaurante({ isOpen, onClose, onProcederPago }) {
   const [featureAbierta,     setFeatureAbierta]     = useState(null);       // nombre del feature en popover
   const [chatVisible,        setChatVisible]        = useState(false);
   const [visorPdf,           setVisorPdf]           = useState(null);
- 
+
+  /* ── Drag-scroll en el scroll horizontal de planes ── */
+  const refPlanesScroll = useRef(null);
+  const dragScroll = useRef({ activo: false, startX: 0, scrollLeft: 0 });
+
+  const handlePlanesMouseDown = (e) => {
+    dragScroll.current = { activo: true, startX: e.pageX - refPlanesScroll.current.offsetLeft, scrollLeft: refPlanesScroll.current.scrollLeft };
+  };
+  const handlePlanesMouseMove = (e) => {
+    if (!dragScroll.current.activo) return;
+    e.preventDefault();
+    const x = e.pageX - refPlanesScroll.current.offsetLeft;
+    refPlanesScroll.current.scrollLeft = dragScroll.current.scrollLeft - (x - dragScroll.current.startX);
+  };
+  const handlePlanesMouseUp = () => { dragScroll.current.activo = false; };
+
   /* ── Estado del chatbot ── */
   const [mensajesChat, setMensajesChat] = useState([CHATBOT_BIENVENIDA_RESTAURANTE]);
   const [inputChat,    setInputChat]    = useState("");
@@ -117,11 +132,11 @@ function SelectorPlanRestaurante({ isOpen, onClose, onProcederPago }) {
   }, [mensajesChat, chatVisible]);
  
   /* No renderizar si el modal está cerrado */
-  if (!isOpen) return null;
- 
+  if (!estaAbierto) return null;
+
   /* Cerrar modal al clickear el overlay */
   const handleClickOverlay = (e) => {
-    if (e.target === e.currentTarget) onClose();
+    if (e.target === e.currentTarget) alCerrar();
   };
  
   /* ── Precios calculados según periodo ── */
@@ -141,7 +156,7 @@ function SelectorPlanRestaurante({ isOpen, onClose, onProcederPago }) {
       : precioGold.replace(",", "");
  
     /* TODO (backend): conectar con POST /api/suscripciones */
-    onProcederPago?.({
+    alProcederPago?.({
       planNombre: planSeleccionado,
       precio,
       billing: periodoFacturacion,
@@ -174,7 +189,7 @@ function SelectorPlanRestaurante({ isOpen, onClose, onProcederPago }) {
       <div className="mpr-modal">
  
         {/* ── Botón cerrar modal ── */}
-        <button className="mpr-close" onClick={onClose}>
+        <button className="mpr-close" onClick={alCerrar}>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <path d="M2 2L12 12M12 2L2 12" stroke="white" strokeWidth="2.2" strokeLinecap="round" />
           </svg>
@@ -215,11 +230,18 @@ function SelectorPlanRestaurante({ isOpen, onClose, onProcederPago }) {
               </div>
             </div>
  
-            {/* ── Grid de tarjetas de planes ── */}
-            <div className="mpr-planes">
+            {/* ── Scroll horizontal de planes ── */}
+            <div
+              className="mpr-planes"
+              ref={refPlanesScroll}
+              onMouseDown={handlePlanesMouseDown}
+              onMouseMove={handlePlanesMouseMove}
+              onMouseUp={handlePlanesMouseUp}
+              onMouseLeave={handlePlanesMouseUp}
+            >
  
               {/* ── Plan Gratis ── */}
-              <div className={`mpr-plan mpr-plan--gratis${planSeleccionado === "gratis" ? " mpr-plan--selected" : ""}`}>
+              <div className={`mpr-plan mpr-plan--compact mpr-plan--gratis${planSeleccionado === "gratis" ? " mpr-plan--selected" : ""}`}>
                 <h3 className="mpr-plan-titulo mpr-plan-titulo--naranja">Gratis</h3>
  
                 <div className="mpr-precio">
@@ -261,7 +283,7 @@ function SelectorPlanRestaurante({ isOpen, onClose, onProcederPago }) {
               </div>
  
               {/* ── Plan Básico ── */}
-              <div className={`mpr-plan mpr-plan--basico${planSeleccionado === "basico" ? " mpr-plan--selected" : ""}`}>
+              <div className={`mpr-plan mpr-plan--compact mpr-plan--basico${planSeleccionado === "basico" ? " mpr-plan--selected" : ""}`}>
                 <h3 className="mpr-plan-titulo mpr-plan-titulo--naranja">Básico</h3>
  
                 <div className="mpr-precio">
@@ -304,7 +326,7 @@ function SelectorPlanRestaurante({ isOpen, onClose, onProcederPago }) {
               </div>
  
               {/* ── Plan Gold (destacado) ── */}
-              <div className={`mpr-plan mpr-plan--gold${planSeleccionado === "gold" ? " mpr-plan--selected" : ""}`}>
+              <div className={`mpr-plan mpr-plan--compact mpr-plan--gold${planSeleccionado === "gold" ? " mpr-plan--selected" : ""}`}>
                 <div className="mpr-popular-badge">MAS POPULAR</div>
  
                 <h3 className="mpr-plan-titulo mpr-plan-titulo--white">Gold</h3>
@@ -523,8 +545,8 @@ function SelectorPlanRestaurante({ isOpen, onClose, onProcederPago }) {
       </div>{/* /mpr-modal */}
 
       <VisorCatalogoPDF
-        isOpen={!!visorPdf}
-        onClose={() => setVisorPdf(null)}
+        estaAbierto={!!visorPdf}
+        alCerrar={() => setVisorPdf(null)}
         pdfUrl={visorPdf?.url || ""}
         pdfNombre={visorPdf?.nombre || ""}
         pdfTamanio={visorPdf?.tamanio || ""}

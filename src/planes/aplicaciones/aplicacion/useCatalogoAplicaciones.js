@@ -32,6 +32,10 @@ export function useCatalogoAplicaciones({
   const [modalSuscripcionAbierto, setModalSuscripcionAbierto] = useState(null);
   const [aplicacionADesinstalar, setAplicacionADesinstalar]   = useState(null);
   const [aplicacionSeleccionada, setAplicacionSeleccionada]   = useState(null);
+  const [ordenSeleccionado, setOrdenSeleccionado]             = useState("populares");
+
+  /* Orden de popularidad explícito: ids en el orden deseado */
+  const ORDEN_POPULARIDAD = [1, 2, 5, 3, 6, 4];
 
   const cambiarPestana = (pestana) => {
     setPestanaActiva(pestana);
@@ -76,26 +80,48 @@ export function useCatalogoAplicaciones({
     setAplicacionADesinstalar(null);
   };
 
-  const aplicacionesFiltradas = APLICACIONES_CATALOGO.filter((app) => {
-    if (
-      terminoBusqueda &&
-      !app.nombre.toLowerCase().includes(terminoBusqueda.toLowerCase())
-    ) return false;
-    if (categoriaSeleccionada === "e-commerce") return false;
-    if (categoriaSeleccionada === "otros")       return false;
-    return true;
-  });
+  const parsePrecio = (precioStr) => parseInt(precioStr.replace(/\D/g, ""), 10) || 0;
+
+  const aplicacionesFiltradas = (() => {
+    const filtradas = APLICACIONES_CATALOGO.filter((app) => {
+      if (terminoBusqueda && !app.nombre.toLowerCase().includes(terminoBusqueda.toLowerCase())) return false;
+      if (categoriaSeleccionada === "e-commerce") return false;
+      if (categoriaSeleccionada === "otros")       return false;
+      return true;
+    });
+
+    if (ordenSeleccionado === "mayor") {
+      return [...filtradas].sort((a, b) => {
+        const diff = parsePrecio(b.precioDesde) - parsePrecio(a.precioDesde);
+        if (diff !== 0) return diff;
+        return ORDEN_POPULARIDAD.indexOf(a.id) - ORDEN_POPULARIDAD.indexOf(b.id);
+      });
+    }
+    if (ordenSeleccionado === "menor") {
+      return [...filtradas].sort((a, b) => {
+        const diff = parsePrecio(a.precioDesde) - parsePrecio(b.precioDesde);
+        if (diff !== 0) return diff;
+        return ORDEN_POPULARIDAD.indexOf(a.id) - ORDEN_POPULARIDAD.indexOf(b.id);
+      });
+    }
+    /* populares → orden fijo definido en ORDEN_POPULARIDAD */
+    return [...filtradas].sort(
+      (a, b) => ORDEN_POPULARIDAD.indexOf(a.id) - ORDEN_POPULARIDAD.indexOf(b.id)
+    );
+  })();
 
   return {
     pestanaActiva,
     categoriaSeleccionada,
     terminoBusqueda,
+    ordenSeleccionado,
     modalSuscripcionAbierto,
     aplicacionADesinstalar,
     aplicacionesFiltradas,
     cambiarPestana,
     setCategoriaSeleccionada,
     setTerminoBusqueda,
+    setOrdenSeleccionado,
     iniciarSuscripcion,
     cerrarModalSuscripcion,
     procesarPago,

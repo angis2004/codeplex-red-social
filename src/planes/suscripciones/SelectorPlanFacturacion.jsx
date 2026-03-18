@@ -133,7 +133,7 @@ function PanelPaquetes({ onCerrar }) {
 /* ═══════════════════════════════════════════
    COMPONENTE PRINCIPAL
 ═══════════════════════════════════════════ */
-function SelectorPlanFacturacion({ isOpen, onClose, onProcederPago }) {
+function SelectorPlanFacturacion({ estaAbierto, alCerrar, alProcederPago }) {
 
   const [periodoFacturacion, setPeriodoFacturacion] = useState("mensual");
   const [planSeleccionado,   setPlanSeleccionado]   = useState(null);
@@ -146,6 +146,20 @@ function SelectorPlanFacturacion({ isOpen, onClose, onProcederPago }) {
   const [inputChat,    setInputChat]    = useState("");
   const refFinChat = useRef(null);
 
+  /* ── Drag-scroll en el scroll horizontal de planes ── */
+  const refPlanesScroll = useRef(null);
+  const dragScroll = useRef({ activo: false, startX: 0, scrollLeft: 0 });
+  const handlePlanesMouseDown = (e) => {
+    dragScroll.current = { activo: true, startX: e.pageX - refPlanesScroll.current.offsetLeft, scrollLeft: refPlanesScroll.current.scrollLeft };
+  };
+  const handlePlanesMouseMove = (e) => {
+    if (!dragScroll.current.activo) return;
+    e.preventDefault();
+    const x = e.pageX - refPlanesScroll.current.offsetLeft;
+    refPlanesScroll.current.scrollLeft = dragScroll.current.scrollLeft - (x - dragScroll.current.startX);
+  };
+  const handlePlanesMouseUp = () => { dragScroll.current.activo = false; };
+
   useEffect(() => {
     if (chatVisible) refFinChat.current?.scrollIntoView({ behavior: "smooth" });
   }, [mensajesChat, chatVisible]);
@@ -156,10 +170,10 @@ function SelectorPlanFacturacion({ isOpen, onClose, onProcederPago }) {
     setFeatureAbierta(null);
     setChatVisible(false);
     setMensajesChat([CHATBOT_BIENVENIDA_FACTURACION]);
-    onClose();
+    alCerrar();
   };
 
-  if (!isOpen) return null;
+  if (!estaAbierto) return null;
 
   const handleClickOverlay = (e) => {
     if (e.target === e.currentTarget) handleClose();
@@ -170,7 +184,7 @@ function SelectorPlanFacturacion({ isOpen, onClose, onProcederPago }) {
   const handleConfirmarPlan = () => {
     const precio = PRECIOS_FACTURACION[planSeleccionado][periodoFacturacion].replace(",", "");
     const plan   = PLANES_FACTURACION.find((p) => p.key === planSeleccionado);
-    onProcederPago?.({ planNombre: plan?.nombre, precio, billing: periodoFacturacion });
+    alProcederPago?.({ planNombre: plan?.nombre, precio, billing: periodoFacturacion });
   };
 
   const handleEnviarChat = (texto) => {
@@ -241,7 +255,14 @@ function SelectorPlanFacturacion({ isOpen, onClose, onProcederPago }) {
 
             {/* Scroll de planes */}
             <div className="mffe-planes-scroll-wrap">
-              <div className="mffe-planes-scroll">
+              <div
+                className="mffe-planes-scroll"
+                ref={refPlanesScroll}
+                onMouseDown={handlePlanesMouseDown}
+                onMouseMove={handlePlanesMouseMove}
+                onMouseUp={handlePlanesMouseUp}
+                onMouseLeave={handlePlanesMouseUp}
+              >
 
                 {PLANES_FACTURACION.map((plan) => {
                   const isSelected = planSeleccionado === plan.key;
@@ -479,8 +500,8 @@ function SelectorPlanFacturacion({ isOpen, onClose, onProcederPago }) {
       </div>
 
       <VisorCatalogoPDF
-        isOpen={!!visorPdf}
-        onClose={() => setVisorPdf(null)}
+        estaAbierto={!!visorPdf}
+        alCerrar={() => setVisorPdf(null)}
         pdfUrl={visorPdf?.url || ""}
         pdfNombre={visorPdf?.nombre || ""}
         pdfTamanio={visorPdf?.tamanio || ""}

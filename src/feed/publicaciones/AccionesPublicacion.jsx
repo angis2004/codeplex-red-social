@@ -3,7 +3,7 @@ import Icon from "../../ui/Icon/Icon";
 import PanelReacciones from "./PanelReacciones";
 import { useReactions } from "../reacciones/useReactions";
 
-function AccionesPublicacion({ initialLikeCount = 124, isDemo, onLoginClick }) {
+function AccionesPublicacion({ initialLikeCount = 124, modoExploracion, alIniciarSesion }) {
   const {
     liked,
     likeCount,
@@ -13,8 +13,8 @@ function AccionesPublicacion({ initialLikeCount = 124, isDemo, onLoginClick }) {
     handlers,
   } = useReactions(initialLikeCount);
 
-  const demoStyle = isDemo ? { cursor: "not-allowed", opacity: 0.6 } : undefined;
-  const demoTitle = isDemo ? "Inicia sesión para usar esta función" : undefined;
+  const demoStyle = modoExploracion ? { cursor: "not-allowed", opacity: 0.6 } : undefined;
+  const demoTitle = modoExploracion ? "Inicia sesión para usar esta función" : undefined;
 
   return (
     <>
@@ -45,25 +45,25 @@ function AccionesPublicacion({ initialLikeCount = 124, isDemo, onLoginClick }) {
       <div className="post-action-row">
         <div className="post-react-btn-wrapper">
           <button
-            className={`post-react-btn ${liked && !isDemo ? "reacted" : ""}`}
+            className={`post-react-btn ${liked && !modoExploracion ? "reacted" : ""}`}
             data-reaction={activeReaction?.label || ""}
-            onMouseEnter={isDemo ? undefined : () => setShowReactions(true)}
-            onMouseLeave={isDemo ? undefined : handlers.handleMouseLeaveButton}
-            onTouchStart={isDemo ? undefined : handlers.handleTouchStart}
-            onTouchEnd={isDemo ? undefined : handlers.handleTouchEnd}
-            onClick={isDemo ? onLoginClick : handlers.handleMainClick}
-            style={isDemo ? demoStyle : { color: activeReaction?.color || "#475569" }}
+            onMouseEnter={modoExploracion ? undefined : () => setShowReactions(true)}
+            onMouseLeave={modoExploracion ? undefined : handlers.handleMouseLeaveButton}
+            onTouchStart={modoExploracion ? undefined : handlers.handleTouchStart}
+            onTouchEnd={modoExploracion ? undefined : handlers.handleTouchEnd}
+            onClick={modoExploracion ? alIniciarSesion : handlers.handleMainClick}
+            style={modoExploracion ? demoStyle : { color: activeReaction?.color || "#475569" }}
             title={demoTitle}
           >
             <Icon
               name={activeReaction?.icon || "like"}
               size={20}
-              style={{ fill: isDemo ? "#64748b" : (activeReaction?.color || "#64748b") }}
+              style={{ fill: modoExploracion ? "#64748b" : (activeReaction?.color || "#64748b") }}
             />
             <span>{activeReaction?.label || "Me gusta"}</span>
           </button>
 
-          {!isDemo && showReactions && (
+          {!modoExploracion && showReactions && (
             <PanelReacciones
               onSelect={handlers.handleSelectReaction}
               onMouseEnter={handlers.handleMouseEnterPopup}
@@ -74,7 +74,7 @@ function AccionesPublicacion({ initialLikeCount = 124, isDemo, onLoginClick }) {
 
         <button
           className="post-react-btn"
-          onClick={isDemo ? onLoginClick : undefined}
+          onClick={modoExploracion ? alIniciarSesion : undefined}
           style={demoStyle}
           title={demoTitle}
         >
@@ -84,7 +84,7 @@ function AccionesPublicacion({ initialLikeCount = 124, isDemo, onLoginClick }) {
 
         <button
           className="post-react-btn"
-          onClick={isDemo ? onLoginClick : undefined}
+          onClick={modoExploracion ? alIniciarSesion : undefined}
           style={demoStyle}
           title={demoTitle}
         >

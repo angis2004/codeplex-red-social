@@ -5,8 +5,8 @@ import "./VisorCatalogoPDF.css";
    Visor de Catálogo PDF — in-app
    Uso:
      <VisorCatalogoPDF
-       isOpen={visorAbierto}
-       onClose={() => setVisorAbierto(false)}
+       estaAbierto={visorAbierto}
+       alCerrar={() => setVisorAbierto(false)}
        pdfUrl="/catalogos/contaplex-independientes-2026.pdf"
        pdfNombre="Brochure Conta-Plex Independientes 2026.pdf"
        pdfTamanio="1.8 MB · 4 páginas"
@@ -45,8 +45,8 @@ function IcoExternalLink() {
 }
 
 export default function VisorCatalogoPDF({
-  isOpen,
-  onClose,
+  estaAbierto,
+  alCerrar,
   pdfUrl,
   pdfNombre   = "Catálogo.pdf",
   pdfTamanio  = "",
@@ -56,23 +56,23 @@ export default function VisorCatalogoPDF({
 
   /* Reset carga al abrir */
   useEffect(() => {
-    if (isOpen) setCargando(true);
-  }, [isOpen, pdfUrl]);
+    if (estaAbierto) setCargando(true);
+  }, [estaAbierto, pdfUrl]);
 
   /* Bloquear scroll del body */
   useEffect(() => {
-    if (isOpen) {
+    if (estaAbierto) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
     }
     return () => { document.body.style.overflow = ""; };
-  }, [isOpen]);
+  }, [estaAbierto]);
 
-  if (!isOpen) return null;
+  if (!estaAbierto) return null;
 
   const handleOverlay = (e) => {
-    if (e.target === e.currentTarget) onClose();
+    if (e.target === e.currentTarget) alCerrar();
   };
 
   return (
@@ -107,7 +107,7 @@ export default function VisorCatalogoPDF({
             </a>
 
             {/* Cerrar */}
-            <button className="vcat-btn-cerrar" onClick={onClose}>
+            <button className="vcat-btn-cerrar" onClick={alCerrar}>
               <IcoX />
               <span>Cerrar</span>
             </button>
@@ -143,7 +143,7 @@ export default function VisorCatalogoPDF({
           <button
             className="vcat-footer-cerrar"
             style={{ color: accentColor, borderColor: accentColor }}
-            onClick={onClose}
+            onClick={alCerrar}
           >
             Volver a los planes
           </button>

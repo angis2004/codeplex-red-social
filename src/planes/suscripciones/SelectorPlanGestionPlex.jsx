@@ -155,7 +155,7 @@ function PlanCard({ plan, periodo, seleccionado, onSeleccionar, onFeatureClick }
 /* ═══════════════════════════════════════════
    COMPONENTE PRINCIPAL
 ═══════════════════════════════════════════ */
-function SelectorPlanGestionPlex({ isOpen, onClose, onProcederPago }) {
+function SelectorPlanGestionPlex({ estaAbierto, alCerrar, alProcederPago }) {
 
   const [periodoFacturacion, setPeriodoFacturacion] = useState("mensual");
   const [planSeleccionado,   setPlanSeleccionado]   = useState(null);
@@ -168,6 +168,20 @@ function SelectorPlanGestionPlex({ isOpen, onClose, onProcederPago }) {
   const [inputChat,    setInputChat]    = useState("");
   const refFinChat = useRef(null);
 
+  /* ── Drag-scroll en el scroll horizontal de planes ── */
+  const refPlanesScroll = useRef(null);
+  const dragScroll = useRef({ activo: false, startX: 0, scrollLeft: 0 });
+  const handlePlanesMouseDown = (e) => {
+    dragScroll.current = { activo: true, startX: e.pageX - refPlanesScroll.current.offsetLeft, scrollLeft: refPlanesScroll.current.scrollLeft };
+  };
+  const handlePlanesMouseMove = (e) => {
+    if (!dragScroll.current.activo) return;
+    e.preventDefault();
+    const x = e.pageX - refPlanesScroll.current.offsetLeft;
+    refPlanesScroll.current.scrollLeft = dragScroll.current.scrollLeft - (x - dragScroll.current.startX);
+  };
+  const handlePlanesMouseUp = () => { dragScroll.current.activo = false; };
+
   useEffect(() => {
     if (chatVisible) refFinChat.current?.scrollIntoView({ behavior: "smooth" });
   }, [mensajesChat, chatVisible]);
@@ -177,10 +191,10 @@ function SelectorPlanGestionPlex({ isOpen, onClose, onProcederPago }) {
     setPlanSeleccionado(null);
     setChatVisible(false);
     setMensajesChat([CHATBOT_BIENVENIDA_COMERCIAL]);
-    onClose();
+    alCerrar();
   };
 
-  if (!isOpen) return null;
+  if (!estaAbierto) return null;
 
   const handleClickOverlay = (e) => {
     if (e.target === e.currentTarget) handleClose();
@@ -189,7 +203,7 @@ function SelectorPlanGestionPlex({ isOpen, onClose, onProcederPago }) {
   const handleConfirmarPlan = () => {
     const plan = PLANES_COMERCIAL.find((p) => p.id === planSeleccionado);
     if (!plan) return;
-    onProcederPago?.({
+    alProcederPago?.({
       planNombre: plan.id,
       precio: plan.precio[periodoFacturacion].replace(",", ""),
       billing: periodoFacturacion,
@@ -267,7 +281,14 @@ function SelectorPlanGestionPlex({ isOpen, onClose, onProcederPago }) {
             </div>
 
             {/* Planes — scroll horizontal */}
-            <div className="mgpc-planes-scroll">
+            <div
+              className="mgpc-planes-scroll"
+              ref={refPlanesScroll}
+              onMouseDown={handlePlanesMouseDown}
+              onMouseMove={handlePlanesMouseMove}
+              onMouseUp={handlePlanesMouseUp}
+              onMouseLeave={handlePlanesMouseUp}
+            >
               {PLANES_COMERCIAL.map((plan) => (
                 <PlanCard
                   key={plan.id}
@@ -442,8 +463,8 @@ function SelectorPlanGestionPlex({ isOpen, onClose, onProcederPago }) {
       </div>{/* /mgpc-modal */}
 
       <VisorCatalogoPDF
-        isOpen={!!visorPdf}
-        onClose={() => setVisorPdf(null)}
+        estaAbierto={!!visorPdf}
+        alCerrar={() => setVisorPdf(null)}
         pdfUrl={visorPdf?.url || ""}
         pdfNombre={visorPdf?.nombre || ""}
         pdfTamanio={visorPdf?.tamanio || ""}

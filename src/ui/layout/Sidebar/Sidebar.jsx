@@ -3,24 +3,25 @@ import SidebarProfile from "../../../identidad/perfil/SidebarProfile";
 import SidebarMenu from "./SidebarMenu";
 import "./Sidebar.css";
 
-function Sidebar({ isOpen, onClose, vistaActiva, onNavegar }) {
+function Sidebar({ estaAbierto, alCerrar, vistaActiva, alNavegar, appsActivas = [] }) {
   const handleNavegar = (vista) => {
-    onNavegar(vista);
+    alNavegar(vista);
     if (window.innerWidth < 768) {
-      onClose();
+      alCerrar();
     }
   };
 
   return (
     <>
-      {isOpen && (
-        <div className="sidebar-overlay active" onClick={onClose}></div>
+      {estaAbierto && (
+        <div className="sidebar-overlay active" onClick={alCerrar}></div>
       )}
-      <aside className={`sidebar ${isOpen ? "open" : ""}`}>
+      <aside className={`sidebar ${estaAbierto ? "open" : ""}`}>
         <SidebarProfile />
         <SidebarMenu
           vistaActiva={vistaActiva}
-          onNavegar={handleNavegar}
+          alNavegar={handleNavegar}
+          appsActivas={appsActivas}
         />
       </aside>
     </>

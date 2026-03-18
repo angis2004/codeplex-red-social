@@ -37,6 +37,7 @@ function TarjetaAplicacion({
   alQuitarDelCarrito,
   estaActiva,
   estaEnCarrito,
+  modoExploracion = false,
 }) {
   return (
     <div className={`tarjeta-aplicacion tarjeta-aplicacion--${aplicacion.colorTema}`}>
@@ -73,7 +74,22 @@ function TarjetaAplicacion({
           <span className="precio-desde">Desde {aplicacion.precioDesde}/mes</span>
         </div>
 
-        {estaActiva ? (
+        {modoExploracion ? (
+          /* Modo exploración: botón bloqueado visualmente, sin acción */
+          <button
+            className="boton-suscribir boton--bloqueado"
+            disabled
+            title="Inicia sesión para adquirir esta aplicación"
+          >
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+              style={{ marginRight: 5, flexShrink: 0 }}>
+              <rect x="3" y="11" width="18" height="11" rx="2" />
+              <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+            </svg>
+            + Agregar
+          </button>
+        ) : estaActiva ? (
           <button className="boton-suscripcion-activa" disabled>
             ✓ Instalada
           </button>

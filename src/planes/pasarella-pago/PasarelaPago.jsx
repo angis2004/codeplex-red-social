@@ -150,7 +150,7 @@ function PantallaExito({ data, onIrMisApps }) {
 }
 
 /* ═══════════════════════════════════════════ */
-function PasarelaPago({ cartItems = [], onQuitarDelCarrito, onVolver, onActivar }) {
+function PasarelaPago({ itemsCarrito = [], alQuitarDelCarrito, alVolver, alActivar }) {
   const [tarjeta, setTarjeta]         = useState("");
   const [vencimiento, setVencimiento] = useState("");
   const [cvv, setCvv]                 = useState("");
@@ -175,7 +175,7 @@ function PasarelaPago({ cartItems = [], onQuitarDelCarrito, onVolver, onActivar 
   const fechaCobroStr = formatFecha(primerCobro);
 
   /* Totales */
-  const subtotalApps = cartItems.reduce((sum, i) => sum + parseFloat(i.precio || 0), 0);
+  const subtotalApps = itemsCarrito.reduce((sum, i) => sum + parseFloat(i.precio || 0), 0);
   const totalMensual = subtotalApps + (vipSeleccionado ? VIP_PRECIO : 0);
 
   /* Nombre de plan legible */
@@ -185,7 +185,7 @@ function PasarelaPago({ cartItems = [], onQuitarDelCarrito, onVolver, onActivar 
   const handleActivar = () => {
     const digits = tarjeta.replace(/\s/g, "");
     const data = {
-      apps: cartItems.map((item) => ({ ...item, planNombreDisplay: planNombreDisplay(item.planNombre) })),
+      apps: itemsCarrito.map((item) => ({ ...item, planNombreDisplay: planNombreDisplay(item.planNombre) })),
       vipIncluido: vipSeleccionado,
       totalMensual,
       fechaCobroStr,
@@ -198,7 +198,7 @@ function PasarelaPago({ cartItems = [], onQuitarDelCarrito, onVolver, onActivar 
   };
 
   const handleIrMisApps = () => {
-    onActivar?.(
+    alActivar?.(
       exitoData.apps.map((app) => ({
         ...app,
         planNombreDisplay: planNombreDisplay(app.planNombre),
@@ -207,11 +207,11 @@ function PasarelaPago({ cartItems = [], onQuitarDelCarrito, onVolver, onActivar 
   };
 
   /* Carrito vacío */
-  if (cartItems.length === 0 && !showExito) {
+  if (itemsCarrito.length === 0 && !showExito) {
     return (
       <div className="pp-container">
         <div className="pp-header">
-          <button className="pp-volver-btn" onClick={onVolver}>
+          <button className="pp-volver-btn" onClick={alVolver}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
             Volver
           </button>
@@ -221,7 +221,7 @@ function PasarelaPago({ cartItems = [], onQuitarDelCarrito, onVolver, onActivar 
           <div className="pp-carrito-vacio-icon">🛒</div>
           <h3>Tu carrito está vacío</h3>
           <p>Agrega aplicaciones desde el catálogo para continuar.</p>
-          <button className="pp-volver-catalogo-btn" onClick={onVolver}>Ver catálogo</button>
+          <button className="pp-volver-catalogo-btn" onClick={alVolver}>Ver catálogo</button>
         </div>
       </div>
     );
@@ -236,7 +236,7 @@ function PasarelaPago({ cartItems = [], onQuitarDelCarrito, onVolver, onActivar 
 
       {/* ── Header ── */}
       <div className="pp-header">
-        <button className="pp-volver-btn" onClick={onVolver}>
+        <button className="pp-volver-btn" onClick={alVolver}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
             <path d="M19 12H5M12 19l-7-7 7-7" />
           </svg>
@@ -451,16 +451,16 @@ function PasarelaPago({ cartItems = [], onQuitarDelCarrito, onVolver, onActivar 
           <div className="pp-resumen-card">
             <div className="pp-resumen-titulo-row">
               <h3 className="pp-resumen-titulo">Resumen de Pedido</h3>
-              {cartItems.length > 0 && (
+              {itemsCarrito.length > 0 && (
                 <span className="pp-resumen-count-badge">
-                  {cartItems.length} aplicacion{cartItems.length !== 1 ? "es" : ""}
+                  {itemsCarrito.length} aplicacion{itemsCarrito.length !== 1 ? "es" : ""}
                 </span>
               )}
             </div>
 
             {/* Items del carrito */}
             <div className="pp-resumen-items">
-              {cartItems.map((item) => (
+              {itemsCarrito.map((item) => (
                 <div key={item.cartId} className="pp-resumen-item">
                   <CartItemIcon icono={item.icono} colorTema={item.colorTema} size={36} />
                   <div className="pp-resumen-item-info">
@@ -470,13 +470,13 @@ function PasarelaPago({ cartItems = [], onQuitarDelCarrito, onVolver, onActivar 
                         <span className="pp-resumen-item-precio">S/{item.precio}</span>
                         <button
                           className="pp-resumen-item-x"
-                          onClick={() => onQuitarDelCarrito?.(item.cartId)}
+                          onClick={() => alQuitarDelCarrito?.(item.cartId)}
                           title="Quitar del carrito"
                         >×</button>
                       </div>
                     </div>
                     <div className="pp-resumen-item-plan">
-                      Plan {planNombreDisplay(item.planNombre)} · {item.billing || "mensual"}
+                      Plan {planNombreDisplay(item.planNombre)} · {item.periodoFacturacion || "mensual"}
                     </div>
                   </div>
                 </div>
@@ -517,7 +517,7 @@ function PasarelaPago({ cartItems = [], onQuitarDelCarrito, onVolver, onActivar 
 
             <button
               className="pp-activar-btn"
-              disabled={!terminosAceptados || cartItems.length === 0}
+              disabled={!terminosAceptados || itemsCarrito.length === 0}
               onClick={handleActivar}
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">

@@ -183,11 +183,26 @@
   box-shadow: 0 2px 8px rgba(30,58,138,0.35);
 }
 
-/* ── Grid de planes (2 columnas) ── */
+/* ── Scroll horizontal de planes ── */
 .mgt-planes {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
+  overflow-x: auto;
   gap: 16px;
+  padding-bottom: 10px;
+  -webkit-overflow-scrolling: touch;
+  cursor: grab;
+}
+.mgt-planes:active { cursor: grabbing; }
+.mgt-planes::-webkit-scrollbar { height: 5px; }
+@media (min-width: 768px) {
+  .mgt-planes { justify-content: center; }
+}
+.mgt-planes::-webkit-scrollbar-thumb { background: #BFDBFE; border-radius: 99px; }
+
+/* Ancho fijo para scroll horizontal */
+.mgt-plan--compact {
+  flex: 0 0 210px;
+  min-width: 210px;
 }
 
 /* ── Tarjeta base ── */
@@ -608,7 +623,6 @@
 @media (max-width: 640px) {
   .mgt-modal { max-height: 92vh; border-radius: 20px; }
   .mgt-planes-wrap { padding: 16px 14px 96px; }
-  .mgt-planes { grid-template-columns: 1fr; }
   .mgt-titulo { font-size: 19px; }
   .mgt-precio-num { font-size: 28px; }
 

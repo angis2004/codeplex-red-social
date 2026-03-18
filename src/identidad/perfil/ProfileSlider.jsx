@@ -43,19 +43,19 @@ function LanguageSelect() {
 }
 
 // Panel lateral "Mi Cuenta" — vivía dentro del return de Header.jsx
-function ProfileSlider({ onClose, darkMode, onToggleDarkMode, isDemo, onLoginClick, onLogout }) {
+function ProfileSlider({ alCerrar, darkMode, onToggleDarkMode, modoExploracion, alIniciarSesion, alCerrarSesion }) {
   return (
     <>
-      <div className="slider-overlay" onClick={onClose}></div>
+      <div className="slider-overlay" onClick={alCerrar}></div>
       <div className="slider-cuenta">
 
         <div className="slider-header">
           <h3 className="slider-title">Mi Cuenta</h3>
-          <button className="slider-close" onClick={onClose}>×</button>
+          <button className="slider-close" onClick={alCerrar}>×</button>
         </div>
 
         <div className="slider-body">
-          {isDemo ? (
+          {modoExploracion ? (
             /* ── MODO DEMO ── */
             <>
               <div className="slider-avatar slider-avatar--demo">
@@ -70,7 +70,7 @@ function ProfileSlider({ onClose, darkMode, onToggleDarkMode, isDemo, onLoginCli
                 <p className="slider-demo-card-text">
                   Inicia sesión para acceder a tu perfil completo y todas las funciones
                 </p>
-                <button className="slider-demo-card-btn" onClick={onLoginClick}>
+                <button className="slider-demo-card-btn" onClick={alIniciarSesion}>
                   Iniciar sesión
                 </button>
               </div>
@@ -130,10 +130,10 @@ function ProfileSlider({ onClose, darkMode, onToggleDarkMode, isDemo, onLoginCli
         </div>
 
         <div className="slider-actions">
-          {!isDemo && (
+          {!modoExploracion && (
             <>
               <button className="btn-guardar-cambios">Guardar Cambios</button>
-              <button className="btn-cerrar-sesion" onClick={onLogout}>
+              <button className="btn-cerrar-sesion" onClick={alCerrarSesion}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
                   <polyline points="16 17 21 12 16 7" />
