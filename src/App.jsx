@@ -44,9 +44,12 @@ function App() {
   // En modo exploración arranca con las 6 apps precargadas; al iniciar sesión se vacía
   const [misApps, setMisApps]           = useState(APPS_EXPLORACION);
   const [appsActivas, setAppsActivas]   = useState([]);   // apps seleccionadas en sidebar (multi)
-  const [pestanaAppsInicial, setPestanaAppsInicial] = useState("adquirir");
-
   const modoExploracion = estadoSesion === 'exploracion';
+
+  // En modo exploración arranca en "mis" para que el usuario vea las 6 apps de inmediato
+  const [pestanaAppsInicial, setPestanaAppsInicial] = useState(
+    estadoSesion === 'exploracion' ? "mis" : "adquirir"
+  );
 
   const {
     itemsCarrito,
@@ -153,6 +156,7 @@ function App() {
           // empieza con sus apps reales (las que adquiera).
           setMisApps([]);
           setAppsActivas([]);
+          setPestanaAppsInicial("adquirir");
           setEstadoSesion('autenticado');
         }}
         onBackToDemo={() => setEstadoSesion('exploracion')}
