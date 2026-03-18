@@ -52,9 +52,7 @@
 
 /* ── Sidebar perfil modo invitado ── */
 .sidebar-profile--guest {
-  background: linear-gradient(135deg, rgba(127,13,242,0.06), rgba(88,140,229,0.06));
-  border: 1px solid rgba(127,13,242,0.12);
-  border-radius: 12px;
+
   padding: 20px 16px;
   display: flex;
   flex-direction: column;
