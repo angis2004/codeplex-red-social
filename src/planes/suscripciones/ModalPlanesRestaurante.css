@@ -774,12 +774,12 @@
   /* Chat como bottom-sheet en mobile */
   .mpr-chat {
     position: fixed;
-    top: auto; bottom: 0; left: 0; right: 0;
-    width: calc(100% - 16px); left: 8px; right: 8px;
-    height: 62vh;
-    max-height: 62vh;
+    top: auto; bottom: 16px;
+    left: 8px; right: 8px; width: calc(100% - 16px);
+    height: auto;
+    max-height: 60vh;
     transform: none;
-    border-radius: 20px 20px 0 0;
+    border-radius: 20px;
     box-shadow: 0 -8px 40px rgba(0,0,0,0.28);
     z-index: 10001;
     animation: mpr-chat-mobile-in 0.3s cubic-bezier(0.34,1.2,0.64,1);
