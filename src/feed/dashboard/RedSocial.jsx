@@ -7,13 +7,13 @@ import RankingUsuarios from "./RankingUsuarios";
 import "./Red-social.css";
 
 // RedSocial es solo un ORQUESTADOR — no tiene lógica propia
-function RedSocial({ modoExploracion, alIniciarSesion }) {
+function RedSocial() {
   return (
     <div className="dashboard">
       <div className="dashboard-left">
         <TarjetasEstadisticas />
-        <CreadorPublicacion modoExploracion={modoExploracion} alIniciarSesion={alIniciarSesion} />
-        <PublicacionesFeed modoExploracion={modoExploracion} alIniciarSesion={alIniciarSesion} />
+        <CreadorPublicacion />
+        <PublicacionesFeed />
       </div>
 
       <div className="dashboard-right">

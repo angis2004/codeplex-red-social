@@ -1,5 +1,6 @@
 import React from "react";
 import IconoAplicacion from "./IconoAplicacion";
+import { useSesion } from "../../../identidad/sesion/SesionContext";
 
 function IconoVerificacion() {
   return (
@@ -37,8 +38,8 @@ function TarjetaAplicacion({
   alQuitarDelCarrito,
   estaActiva,
   estaEnCarrito,
-  modoExploracion = false,
 }) {
+  const { modoExploracion } = useSesion();
   return (
     <div className={`tarjeta-aplicacion tarjeta-aplicacion--${aplicacion.colorTema}`}>
 

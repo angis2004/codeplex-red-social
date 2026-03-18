@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Icon from "../../ui/Icon/Icon";
+import { useSesion } from "../../identidad/sesion/SesionContext";
 
 const POST_TABS = [
   { id: "post",     icon: "post",     label: "Post" },
@@ -7,11 +8,12 @@ const POST_TABS = [
   { id: "encuesta", icon: "encuesta", label: "Encuesta" },
 ];
 
-function CreadorPublicacion({ modoExploracion, alIniciarSesion }) {
+function CreadorPublicacion() {
+  const { modoExploracion, comenzarAutenticacion } = useSesion();
   const [activeTab, setActiveTab] = useState("post");
 
   const demoBlock = modoExploracion
-    ? { onClick: alIniciarSesion, title: "Inicia sesión para usar esta función", style: { cursor: "not-allowed", opacity: 0.6 } }
+    ? { onClick: comenzarAutenticacion, title: "Inicia sesión para usar esta función", style: { cursor: "not-allowed", opacity: 0.6 } }
     : {};
 
   return (
@@ -35,7 +37,7 @@ function CreadorPublicacion({ modoExploracion, alIniciarSesion }) {
           placeholder={modoExploracion ? "Inicia sesión para publicar..." : "¿Qué estas pensando, Gabriel ?"}
           className="post-input"
           readOnly={modoExploracion}
-          {...(modoExploracion ? { onClick: alIniciarSesion, style: { cursor: "not-allowed" } } : {})}
+          {...(modoExploracion ? { onClick: comenzarAutenticacion, style: { cursor: "not-allowed" } } : {})}
         />
       </div>
       <div className="post-actions">
@@ -44,7 +46,7 @@ function CreadorPublicacion({ modoExploracion, alIniciarSesion }) {
             <button
               key={id}
               className={`post-action-btn ${activeTab === id ? "active" : ""}`}
-              onClick={modoExploracion ? alIniciarSesion : () => setActiveTab(id)}
+              onClick={modoExploracion ? comenzarAutenticacion : () => setActiveTab(id)}
               title={modoExploracion ? "Inicia sesión para usar esta función" : undefined}
               style={modoExploracion ? { cursor: "not-allowed", opacity: 0.6 } : undefined}
             >

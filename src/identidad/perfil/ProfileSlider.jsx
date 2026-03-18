@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Icon from "../../ui/Icon/Icon";
+import { useSesion } from "../sesion/SesionContext";
 
 // Dropdown de idioma — vivía como función suelta dentro de Header.jsx
 function LanguageSelect() {
@@ -43,7 +44,10 @@ function LanguageSelect() {
 }
 
 // Panel lateral "Mi Cuenta" — vivía dentro del return de Header.jsx
-function ProfileSlider({ alCerrar, darkMode, onToggleDarkMode, modoExploracion, alIniciarSesion, alCerrarSesion }) {
+function ProfileSlider({ alCerrar, darkMode, onToggleDarkMode, alIniciarSesion, alCerrarSesion }) {
+  const { modoExploracion, comenzarAutenticacion, cerrarSesion: cerrarSesionCtx } = useSesion();
+  const handleIniciarSesion = alIniciarSesion ?? comenzarAutenticacion;
+  const handleCerrarSesion  = alCerrarSesion  ?? cerrarSesionCtx;
   return (
     <>
       <div className="slider-overlay" onClick={alCerrar}></div>
@@ -70,7 +74,7 @@ function ProfileSlider({ alCerrar, darkMode, onToggleDarkMode, modoExploracion, 
                 <p className="slider-demo-card-text">
                   Inicia sesión para acceder a tu perfil completo y todas las funciones
                 </p>
-                <button className="slider-demo-card-btn" onClick={alIniciarSesion}>
+                <button className="slider-demo-card-btn" onClick={handleIniciarSesion}>
                   Iniciar sesión
                 </button>
               </div>
@@ -133,7 +137,7 @@ function ProfileSlider({ alCerrar, darkMode, onToggleDarkMode, modoExploracion, 
           {!modoExploracion && (
             <>
               <button className="btn-guardar-cambios">Guardar Cambios</button>
-              <button className="btn-cerrar-sesion" onClick={alCerrarSesion}>
+              <button className="btn-cerrar-sesion" onClick={handleCerrarSesion}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
                   <polyline points="16 17 21 12 16 7" />

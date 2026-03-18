@@ -26,14 +26,14 @@ function EmptyState({ icon, title, description }) {
   );
 }
 
-function PublicacionesFeed({ modoExploracion, alIniciarSesion }) {
+function PublicacionesFeed() {
   const [activeTab, setActiveTab] = useState("post");
 
   return (
     <>
       <PestanasFeed activeTab={activeTab} onTabChange={setActiveTab} />
 
-      {activeTab === "post" && <Publicacion post={MOCK_POST} modoExploracion={modoExploracion} alIniciarSesion={alIniciarSesion} />}
+      {activeTab === "post" && <Publicacion post={MOCK_POST} />}
 
       {activeTab === "videos" && (
         <EmptyState

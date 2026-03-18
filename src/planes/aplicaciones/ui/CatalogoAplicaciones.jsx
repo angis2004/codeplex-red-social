@@ -1,5 +1,6 @@
 import React from "react";
 import "./catalogo.css";
+import { useSesion } from "../../../identidad/sesion/SesionContext";
 
 import { useCatalogoAplicaciones }   from "../aplicacion/useCatalogoAplicaciones";
 import TarjetaAplicacion             from "./TarjetaAplicacion";
@@ -46,10 +47,8 @@ function CatalogoAplicaciones({
   quitarDelCarrito,
   verificarEnCarrito,
   alVerCarrito,
-  // Modo exploración
-  modoExploracion = false,
-  alIniciarSesion,
 }) {
+  const { modoExploracion, comenzarAutenticacion } = useSesion();
   /* ── Caso de uso: catálogo (filtros, búsqueda, pestañas) ── */
   const {
     pestanaActiva,
@@ -201,8 +200,8 @@ function CatalogoAplicaciones({
                 <TarjetaAplicacion
                   key={app.id}
                   aplicacion={app}
-                  alIniciarAdquisicion={modoExploracion ? alIniciarSesion : iniciarSuscripcion}
-                  alQuitarDelCarrito={modoExploracion ? alIniciarSesion : quitarDelCarrito}
+                  alIniciarAdquisicion={modoExploracion ? comenzarAutenticacion : iniciarSuscripcion}
+                  alQuitarDelCarrito={modoExploracion ? comenzarAutenticacion : quitarDelCarrito}
                   estaActiva={suscripcionesActivas.some(
                     (s) => s.appNombre === app.nombre && s.appPublisher === app.publisher
                   )}
