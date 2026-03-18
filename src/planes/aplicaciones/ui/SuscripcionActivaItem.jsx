@@ -23,10 +23,16 @@ function IconoSuscripcionActiva() {
  *   alMejorarPlan            → callback para mejorar el plan
  *   alSolicitarDesinstalacion → callback para iniciar el flujo de desinstalación
  */
-function SuscripcionActivaItem({ suscripcion, alMejorarPlan, alSolicitarDesinstalacion }) {
+function SuscripcionActivaItem({ suscripcion, alMejorarPlan, alSolicitarDesinstalacion, modoExploracion = false }) {
+  // Soporta tanto apps adquiridas (appNombre/appPublisher) como apps de exploración (nombre/publisher)
+  const appNombre    = suscripcion.appNombre    || suscripcion.nombre    || "Aplicación";
+  const appPublisher = suscripcion.appPublisher || suscripcion.publisher || "";
+
   const planDisplay =
-    { gratis: "Gratis", basico: "Básico", gold: "Gold" }[suscripcion.planNombre] ||
-    suscripcion.planNombre;
+    { gratis: "Gratis", basico: "Básico", gold: "Gold", "Exploración": "Exploración" }[suscripcion.planNombre] ||
+    suscripcion.planDisplay ||
+    suscripcion.planNombre  ||
+    "—";
 
   const hoy        = new Date();
   const fechaVence = new Date(hoy);
@@ -47,12 +53,8 @@ function SuscripcionActivaItem({ suscripcion, alMejorarPlan, alSolicitarDesinsta
       <div className="suscripcion-activa-tarjeta__izquierda">
         <IconoSuscripcionActiva />
         <div>
-          <div className="suscripcion-activa-tarjeta__nombre">
-            {suscripcion.appNombre || "GestiónPlex"}
-          </div>
-          <div className="suscripcion-activa-tarjeta__publisher">
-            {suscripcion.appPublisher || "Restaurante"}
-          </div>
+          <div className="suscripcion-activa-tarjeta__nombre">{appNombre}</div>
+          <div className="suscripcion-activa-tarjeta__publisher">{appPublisher}</div>
         </div>
       </div>
 
@@ -86,10 +88,36 @@ function SuscripcionActivaItem({ suscripcion, alMejorarPlan, alSolicitarDesinsta
       </div>
 
       <div className="suscripcion-activa-tarjeta__acciones">
-        <button className="boton-mejorar-plan" onClick={alMejorarPlan}>
+        <button
+          className={`boton-mejorar-plan${modoExploracion ? " boton--bloqueado" : ""}`}
+          onClick={modoExploracion ? undefined : alMejorarPlan}
+          disabled={modoExploracion}
+          title={modoExploracion ? "Inicia sesión para gestionar tu plan" : undefined}
+        >
+          {modoExploracion && (
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+              style={{ marginRight: 5, flexShrink: 0 }}>
+              <rect x="3" y="11" width="18" height="11" rx="2" />
+              <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+            </svg>
+          )}
           Mejorar Plan
         </button>
-        <button className="boton-desinstalar" onClick={alSolicitarDesinstalacion}>
+        <button
+          className={`boton-desinstalar${modoExploracion ? " boton--bloqueado" : ""}`}
+          onClick={modoExploracion ? undefined : alSolicitarDesinstalacion}
+          disabled={modoExploracion}
+          title={modoExploracion ? "Inicia sesión para gestionar tus apps" : undefined}
+        >
+          {modoExploracion && (
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+              style={{ marginRight: 5, flexShrink: 0 }}>
+              <rect x="3" y="11" width="18" height="11" rx="2" />
+              <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+            </svg>
+          )}
           Desinstalar
         </button>
       </div>

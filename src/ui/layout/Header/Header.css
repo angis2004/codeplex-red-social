@@ -110,6 +110,207 @@
 .mis-apps-text-short { display: none; }
 .mis-apps-text-long  { display: inline; }
 
+/* Wrap posicionado para el dropdown */
+.mis-apps-wrap {
+  position: relative;
+}
+
+/* Badge de cantidad de apps activas */
+.mis-apps-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  background: linear-gradient(135deg, #7F0DF2, #588CE5);
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: 9px;
+  flex-shrink: 0;
+}
+
+/* Chevron animado */
+.mis-apps-chevron { transition: transform 0.2s ease; }
+.mis-apps-chevron--open { transform: rotate(180deg); }
+
+/* Botón activo (dropdown abierto) */
+.btn-mis-apps--open { background-color: var(--background-color); }
+
+/* ── DROPDOWN ── */
+.mis-apps-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 290px;
+  background: var(--white-color);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  z-index: 600;
+  overflow: hidden;
+  animation: dropdownFadeIn 0.15s ease;
+}
+
+@keyframes dropdownFadeIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.mis-apps-dropdown-title {
+  padding: 14px 16px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-gray);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Lista de apps */
+.mis-apps-list {
+  padding: 6px 0;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.mis-apps-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  transition: background 0.15s;
+}
+.mis-apps-item:hover { background: var(--background-color); }
+.mis-apps-item--activa { background: rgba(127, 13, 242, 0.04); }
+
+/* Ícono real de la app (36×36 con SVG 40×40 escalado) */
+.mis-apps-item-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mis-apps-item-icon svg {
+  width: 36px !important;
+  height: 36px !important;
+}
+
+.mis-apps-item-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.mis-apps-item-nombre {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mis-apps-item-plan {
+  font-size: 11px;
+  color: var(--text-gray);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Checkbox cuadrado */
+.mis-apps-checkbox {
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
+  border: 2px solid var(--border-color);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  background: transparent;
+}
+.mis-apps-checkbox--checked {
+  background: #7F0DF2;
+  border-color: #7F0DF2;
+}
+
+/* Sin apps */
+.mis-apps-empty {
+  padding: 20px 16px;
+  font-size: 13px;
+  color: var(--text-gray);
+  text-align: center;
+}
+
+/* Botones acción: Seleccionar / Deseleccionar */
+.mis-apps-dropdown-actions {
+  display: flex;
+  gap: 8px;
+  padding: 10px 16px;
+  border-top: 1px solid var(--border-color);
+}
+
+.mis-apps-action-btn {
+  flex: 1;
+  padding: 7px 10px;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+  background: var(--background-color);
+  border: 1px solid var(--border-color);
+  color: var(--text-dark);
+}
+.mis-apps-action-btn:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+/* Footer links */
+.mis-apps-dropdown-footer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px 12px;
+  border-top: 1px solid var(--border-color);
+}
+
+.mis-apps-footer-link {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--primary-color);
+  font-family: inherit;
+  padding: 0;
+  transition: opacity 0.15s;
+}
+.mis-apps-footer-link:hover { opacity: 0.75; }
+
+.mis-apps-footer-sep {
+  font-size: 12px;
+  color: var(--text-gray);
+}
+
 /* ── DESKTOP NAV: botones de navegación ── */
 .header-nav {
   display: flex;

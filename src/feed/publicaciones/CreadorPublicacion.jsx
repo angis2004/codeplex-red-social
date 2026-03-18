@@ -7,17 +7,17 @@ const POST_TABS = [
   { id: "encuesta", icon: "encuesta", label: "Encuesta" },
 ];
 
-function CreadorPublicacion({ isDemo, onLoginClick }) {
+function CreadorPublicacion({ modoExploracion, alIniciarSesion }) {
   const [activeTab, setActiveTab] = useState("post");
 
-  const demoBlock = isDemo
-    ? { onClick: onLoginClick, title: "Inicia sesión para usar esta función", style: { cursor: "not-allowed", opacity: 0.6 } }
+  const demoBlock = modoExploracion
+    ? { onClick: alIniciarSesion, title: "Inicia sesión para usar esta función", style: { cursor: "not-allowed", opacity: 0.6 } }
     : {};
 
   return (
-    <div className={`post-creator${isDemo ? " post-creator--demo" : ""}`}>
+    <div className={`post-creator${modoExploracion ? " post-creator--demo" : ""}`}>
       <div className="post-creator-header">
-        {isDemo ? (
+        {modoExploracion ? (
           <div className="post-creator-avatar post-creator-avatar--demo">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="1.5">
               <circle cx="12" cy="8" r="4" /><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
@@ -32,10 +32,10 @@ function CreadorPublicacion({ isDemo, onLoginClick }) {
         )}
         <input
           type="text"
-          placeholder={isDemo ? "Inicia sesión para publicar..." : "¿Qué estas pensando, Gabriel ?"}
+          placeholder={modoExploracion ? "Inicia sesión para publicar..." : "¿Qué estas pensando, Gabriel ?"}
           className="post-input"
-          readOnly={isDemo}
-          {...(isDemo ? { onClick: onLoginClick, style: { cursor: "not-allowed" } } : {})}
+          readOnly={modoExploracion}
+          {...(modoExploracion ? { onClick: alIniciarSesion, style: { cursor: "not-allowed" } } : {})}
         />
       </div>
       <div className="post-actions">
@@ -44,9 +44,9 @@ function CreadorPublicacion({ isDemo, onLoginClick }) {
             <button
               key={id}
               className={`post-action-btn ${activeTab === id ? "active" : ""}`}
-              onClick={isDemo ? onLoginClick : () => setActiveTab(id)}
-              title={isDemo ? "Inicia sesión para usar esta función" : undefined}
-              style={isDemo ? { cursor: "not-allowed", opacity: 0.6 } : undefined}
+              onClick={modoExploracion ? alIniciarSesion : () => setActiveTab(id)}
+              title={modoExploracion ? "Inicia sesión para usar esta función" : undefined}
+              style={modoExploracion ? { cursor: "not-allowed", opacity: 0.6 } : undefined}
             >
               <Icon name={icon} size={18} />
               <span>{label}</span>
@@ -55,7 +55,7 @@ function CreadorPublicacion({ isDemo, onLoginClick }) {
         </div>
         <button
           className="btn-publicar"
-          {...(isDemo ? demoBlock : {})}
+          {...(modoExploracion ? demoBlock : {})}
         >
           Publicar
         </button>

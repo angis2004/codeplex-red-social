@@ -587,6 +587,25 @@
   transform: translateY(-1px);
 }
 
+/* Modo exploración: botón/acción bloqueada — gris, candado, sin interacción */
+.boton--bloqueado,
+.boton--bloqueado:disabled {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--border-light, #e5e7eb) !important;
+  color: var(--text-secondary, #9ca3af) !important;
+  border: 1.5px solid var(--border-color, #d1d5db) !important;
+  cursor: not-allowed !important;
+  opacity: 0.7;
+  transform: none !important;
+  font-size: 13px;
+}
+.boton--bloqueado:hover {
+  background: var(--border-light, #e5e7eb) !important;
+  transform: none !important;
+}
+
 .boton-suscripcion-activa {
   background: var(--border-light);
   color: var(--text-secondary);

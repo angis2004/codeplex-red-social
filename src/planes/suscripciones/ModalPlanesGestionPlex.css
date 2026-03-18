@@ -196,7 +196,9 @@
   gap: 14px;
   padding-bottom: 10px;
   -webkit-overflow-scrolling: touch;
+  cursor: grab;
 }
+.mgpc-planes-scroll:active { cursor: grabbing; }
 .mgpc-planes-scroll::-webkit-scrollbar { height: 5px; }
 .mgpc-planes-scroll::-webkit-scrollbar-thumb { background: #99F6E4; border-radius: 99px; }
 

@@ -165,7 +165,7 @@ function PlanCard({ plan, periodo, seleccionado, onSeleccionar, compact = false,
 /* ═══════════════════════════════════════════
    COMPONENTE PRINCIPAL
 ═══════════════════════════════════════════ */
-function SelectorPlanContaPlex({ isOpen, onClose, onProcederPago }) {
+function SelectorPlanContaPlex({ estaAbierto, alCerrar, alProcederPago }) {
 
   const [tipoSeleccionado,   setTipoSeleccionado]   = useState("independiente");   /* "independiente" | "empresarial" */
   const [periodoFacturacion, setPeriodoFacturacion] = useState("mensual");
@@ -212,10 +212,10 @@ function SelectorPlanContaPlex({ isOpen, onClose, onProcederPago }) {
     setPlanSeleccionado(null);
     setChatVisible(false);
     setMensajesChat([CHATBOT_MSG_INICIAL]);
-    onClose();
+    alCerrar();
   };
 
-  if (!isOpen) return null;
+  if (!estaAbierto) return null;
 
   const handleClickOverlay = (e) => {
     if (e.target === e.currentTarget) handleClose();
@@ -226,7 +226,7 @@ function SelectorPlanContaPlex({ isOpen, onClose, onProcederPago }) {
   const handleConfirmarPlan = () => {
     const plan = planes.find((p) => p.id === planSeleccionado);
     if (!plan) return;
-    onProcederPago?.({
+    alProcederPago?.({
       planNombre: plan.id,
       precio: plan.precio[periodoFacturacion].replace(",", ""),
       billing: periodoFacturacion,
@@ -517,8 +517,8 @@ function SelectorPlanContaPlex({ isOpen, onClose, onProcederPago }) {
 
       {/* ── Visor PDF in-app ── */}
       <VisorCatalogoPDF
-        isOpen={!!visorPdf}
-        onClose={() => setVisorPdf(null)}
+        estaAbierto={!!visorPdf}
+        alCerrar={() => setVisorPdf(null)}
         pdfUrl={visorPdf?.url || ""}
         pdfNombre={visorPdf?.nombre || ""}
         pdfTamanio={visorPdf?.tamanio || ""}

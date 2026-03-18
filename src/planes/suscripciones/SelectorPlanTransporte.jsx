@@ -78,7 +78,7 @@ function PopoverDetalleFeature({ nombreFeature, onCerrar }) {
 /* ═══════════════════════════════════════════
    COMPONENTE PRINCIPAL
 ═══════════════════════════════════════════ */
-function SelectorPlanTransporte({ isOpen, onClose, onProcederPago }) {
+function SelectorPlanTransporte({ estaAbierto, alCerrar, alProcederPago }) {
 
   const [periodoFacturacion, setPeriodoFacturacion] = useState("mensual");
   const [planSeleccionado,   setPlanSeleccionado]   = useState(null);
@@ -90,6 +90,20 @@ function SelectorPlanTransporte({ isOpen, onClose, onProcederPago }) {
   const [inputChat,    setInputChat]    = useState("");
   const refFinChat = useRef(null);
 
+  /* ── Drag-scroll en el scroll horizontal de planes ── */
+  const refPlanesScroll = useRef(null);
+  const dragScroll = useRef({ activo: false, startX: 0, scrollLeft: 0 });
+  const handlePlanesMouseDown = (e) => {
+    dragScroll.current = { activo: true, startX: e.pageX - refPlanesScroll.current.offsetLeft, scrollLeft: refPlanesScroll.current.scrollLeft };
+  };
+  const handlePlanesMouseMove = (e) => {
+    if (!dragScroll.current.activo) return;
+    e.preventDefault();
+    const x = e.pageX - refPlanesScroll.current.offsetLeft;
+    refPlanesScroll.current.scrollLeft = dragScroll.current.scrollLeft - (x - dragScroll.current.startX);
+  };
+  const handlePlanesMouseUp = () => { dragScroll.current.activo = false; };
+
   useEffect(() => {
     if (chatVisible) refFinChat.current?.scrollIntoView({ behavior: "smooth" });
   }, [mensajesChat, chatVisible]);
@@ -99,10 +113,10 @@ function SelectorPlanTransporte({ isOpen, onClose, onProcederPago }) {
     setFeatureAbierta(null);
     setChatVisible(false);
     setMensajesChat([CHATBOT_BIENVENIDA_TRANSPORTE]);
-    onClose();
+    alCerrar();
   };
 
-  if (!isOpen) return null;
+  if (!estaAbierto) return null;
 
   const handleClickOverlay = (e) => {
     if (e.target === e.currentTarget) handleClose();
@@ -113,7 +127,7 @@ function SelectorPlanTransporte({ isOpen, onClose, onProcederPago }) {
 
   const handleConfirmarPlan = () => {
     const precio = planSeleccionado === "gratis" ? "0" : precioTransporte.replace(",", "");
-    onProcederPago?.({ planNombre: planSeleccionado, precio, billing: periodoFacturacion });
+    alProcederPago?.({ planNombre: planSeleccionado, precio, billing: periodoFacturacion });
   };
 
   const handleEnviarChat = (texto) => {
@@ -186,11 +200,18 @@ function SelectorPlanTransporte({ isOpen, onClose, onProcederPago }) {
               </div>
             </div>
 
-            {/* Grid de planes */}
-            <div className="mgt-planes">
+            {/* Scroll horizontal de planes */}
+            <div
+              className="mgt-planes"
+              ref={refPlanesScroll}
+              onMouseDown={handlePlanesMouseDown}
+              onMouseMove={handlePlanesMouseMove}
+              onMouseUp={handlePlanesMouseUp}
+              onMouseLeave={handlePlanesMouseUp}
+            >
 
               {/* ── Plan Gratis ── */}
-              <div className={`mgt-plan${planSeleccionado === "gratis" ? " mgt-plan--selected" : ""}`}>
+              <div className={`mgt-plan mgt-plan--compact${planSeleccionado === "gratis" ? " mgt-plan--selected" : ""}`}>
                 <h3 className="mgt-plan-nombre">Gratis</h3>
 
                 <div className="mgt-precio">
@@ -222,7 +243,7 @@ function SelectorPlanTransporte({ isOpen, onClose, onProcederPago }) {
               </div>
 
               {/* ── Plan Transporte (dark) ── */}
-              <div className={`mgt-plan mgt-plan--dark${planSeleccionado === "transporte" ? " mgt-plan--dark-sel" : ""}`}>
+              <div className={`mgt-plan mgt-plan--compact mgt-plan--dark${planSeleccionado === "transporte" ? " mgt-plan--dark-sel" : ""}`}>
                 <div className="mgt-popular-badge">TODO INCLUIDO</div>
 
                 <h3 className="mgt-plan-nombre mgt-plan-nombre--white">Plan Transporte</h3>
@@ -413,8 +434,8 @@ function SelectorPlanTransporte({ isOpen, onClose, onProcederPago }) {
       </div>{/* /mgt-modal */}
 
       <VisorCatalogoPDF
-        isOpen={!!visorPdf}
-        onClose={() => setVisorPdf(null)}
+        estaAbierto={!!visorPdf}
+        alCerrar={() => setVisorPdf(null)}
         pdfUrl={visorPdf?.url || ""}
         pdfNombre={visorPdf?.nombre || ""}
         pdfTamanio={visorPdf?.tamanio || ""}

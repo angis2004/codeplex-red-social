@@ -26,13 +26,13 @@ function IconoApp({ app, size = 44 }) {
   );
 }
 
-function PaginaCarrito({ itemsCarrito = [], totalCarrito = 0, onQuitarItem, onProcederPago, onExplorar, onVolver }) {
+function PaginaCarrito({ itemsCarrito = [], totalCarrito = 0, alQuitarItem, alProcederPago, alExplorar, alVolver }) {
   return (
     <div className="pgcarrito-container">
 
       {/* Header de la página */}
       <div className="pgcarrito-header">
-        <button className="pgcarrito-volver" onClick={onVolver}>
+        <button className="pgcarrito-volver" onClick={alVolver}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
             <path d="M19 12H5M12 19l-7-7 7-7"/>
           </svg>
@@ -55,7 +55,7 @@ function PaginaCarrito({ itemsCarrito = [], totalCarrito = 0, onQuitarItem, onPr
               <div className="pgcarrito-vacio-icono">🛒</div>
               <h3>No has agregado ninguna aplicación aún</h3>
               <p>Explora el catálogo y agrega las apps que necesitas</p>
-              <button className="pgcarrito-explorar-btn" onClick={onExplorar}>
+              <button className="pgcarrito-explorar-btn" onClick={alExplorar}>
                 Explorar aplicaciones
               </button>
             </div>
@@ -72,7 +72,7 @@ function PaginaCarrito({ itemsCarrito = [], totalCarrito = 0, onQuitarItem, onPr
                   <div className="pgcarrito-item-precio">{item.precioDesde}/mes</div>
                   <button
                     className="pgcarrito-item-quitar"
-                    onClick={() => onQuitarItem(item.id)}
+                    onClick={() => alQuitarItem(item.id)}
                     title="Quitar del carrito"
                   >
                     ✕
@@ -109,7 +109,7 @@ function PaginaCarrito({ itemsCarrito = [], totalCarrito = 0, onQuitarItem, onPr
                 🎉 1 mes gratis activado — Hoy pagas <strong>S/0.00</strong>
               </div>
 
-              <button className="pgcarrito-cta-btn" onClick={onProcederPago}>
+              <button className="pgcarrito-cta-btn" onClick={alProcederPago}>
                 Proceder al Pago →
               </button>
 

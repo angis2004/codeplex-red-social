@@ -18,18 +18,35 @@ import ViewPasarellaPago from './planes/pasarella-pago/ViewPasarellaPago';
 import { useCarritoSuscripciones } from './planes/aplicaciones/aplicacion/useCarritoSuscripciones';
 import PaginaCarrito from './planes/carrito/ui/PaginaCarrito';
 import CarritoMobile from './planes/carrito/ui/CarritoMobile';
+import VistaPlaceholder from './ui/placeholders/VistaPlaceholder';
 import './styles/App.css';
 
-// appState: 'demo' | 'login' | 'authenticated'
+/* ── Apps precargadas en modo exploración ──────────────────────────────────
+   El usuario sin login ve todas las apps disponibles en "Mis Aplicaciones"
+   para que pueda explorar el sistema completo. Al iniciar sesión este array
+   se limpia y queda solo con las apps que el usuario realmente adquiera.
+──────────────────────────────────────────────────────────────────────────── */
+const APPS_EXPLORACION = [
+  { id: 1, suscripcionModal: "contaplex",   nombre: "Conta-Plex",              publisher: "CodePlex",    icono: "contaplex",               colorTema: "color-contaplex",   planDisplay: "Exploración" },
+  { id: 2, suscripcionModal: "gestionplex", nombre: "GestiónPlex",             publisher: "Comercial",   icono: "gestionplex-comercial",   colorTema: "color-comercial",   planDisplay: "Exploración" },
+  { id: 3, suscripcionModal: "restaurante", nombre: "GestiónPlex",             publisher: "Restaurante", icono: "gestionplex-restaurante", colorTema: "color-restaurante", planDisplay: "Exploración" },
+  { id: 4, suscripcionModal: "grifo",       nombre: "Gestión-Plex Grifo",      publisher: "CodePlex",    icono: "contaplex",               colorTema: "color-grifo",       planDisplay: "Exploración" },
+  { id: 5, suscripcionModal: "facturacion", nombre: "Facturación Electrónica", publisher: "CodePlex",    icono: "contaplex",               colorTema: "color-facturacion", planDisplay: "Exploración" },
+  { id: 6, suscripcionModal: "transporte",  nombre: "Gestión-Plex Transporte", publisher: "CodePlex",    icono: "contaplex",               colorTema: "color-transporte",  planDisplay: "Exploración" },
+];
+
+// estadoSesion: 'exploracion' | 'autenticando' | 'autenticado'
 function App() {
-  const [appState, setAppState] = useState('demo');
+  const [estadoSesion, setEstadoSesion] = useState('exploracion');
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [vistaActiva, setVistaActiva] = useState("red-social");
   const [pagoData, setPagoData]   = useState(null);
-  const [misApps, setMisApps]     = useState([]);
-  const [tabAppsInicial, setTabAppsInicial] = useState("adquirir");
+  // En modo exploración arranca con las 6 apps precargadas; al iniciar sesión se vacía
+  const [misApps, setMisApps]           = useState(APPS_EXPLORACION);
+  const [appsActivas, setAppsActivas]   = useState([]);   // apps seleccionadas en sidebar (multi)
+  const [pestanaAppsInicial, setPestanaAppsInicial] = useState("adquirir");
 
-  const isDemo = appState === 'demo';
+  const modoExploracion = estadoSesion === 'exploracion';
 
   const {
     itemsCarrito,
@@ -53,17 +70,30 @@ function App() {
       ...prev,
       ...items.map((a, i) => ({ ...a, id: Date.now() + i })),
     ]);
-    setTabAppsInicial("mis");
+    setPestanaAppsInicial("mis");
     setVistaActiva("aplicaciones");
   };
 
   const handleDesinstalarApp = (id) => {
     setMisApps((prev) => prev.filter((a) => a.id !== id));
+    setAppsActivas((prev) => prev.filter((a) => a.id !== id));
   };
+
+  /* Toggle individual: agrega o quita del array de activas */
+  const handleToggleAppActiva = (app) => {
+    setAppsActivas((prev) =>
+      prev.some((a) => a.id === app.id)
+        ? prev.filter((a) => a.id !== app.id)
+        : [...prev, app]
+    );
+  };
+
+  const handleSelectAllApps  = () => setAppsActivas([...misApps]);
+  const handleDeselectAllApps = () => setAppsActivas([]);
 
   const renderVista = () => {
     switch (vistaActiva) {
-      case "red-social":        return <RedSocial isDemo={isDemo} onLoginClick={() => setAppState('login')} />;
+      case "red-social":        return <RedSocial modoExploracion={modoExploracion} alIniciarSesion={() => setEstadoSesion('autenticando')} />;
       case "datos-personales":  return <DatosPersonales />;
       case "empresas":          return <GestionEmpresas />;
       case "datos-facturacion": return <DatosFacturacion />;
@@ -76,48 +106,56 @@ function App() {
       case "monetizacion":      return <Monetizacion />;
       case "aplicaciones":      return (
         <CatalogoAplicaciones
-          onProcederPago={handleProcederPago}
+          alProcederPago={handleProcederPago}
           suscripcionesActivas={misApps}
-          pestanaInicial={tabAppsInicial}
-          onCambiarPestana={setTabAppsInicial}
-          onDesinstalar={handleDesinstalarApp}
+          pestanaInicial={pestanaAppsInicial}
+          alCambiarPestana={setPestanaAppsInicial}
+          alDesinstalar={handleDesinstalarApp}
           itemsCarrito={itemsCarrito}
           totalCarrito={totalCarrito}
           agregarAlCarrito={agregarAlCarrito}
           quitarDelCarrito={quitarDelCarrito}
           verificarEnCarrito={verificarEnCarrito}
-          onVerCarrito={handleVerCarrito}
+          alVerCarrito={handleVerCarrito}
+          modoExploracion={modoExploracion}
+          alIniciarSesion={() => setEstadoSesion('autenticando')}
         />
       );
       case "carrito":           return (
         <PaginaCarrito
           itemsCarrito={itemsCarrito}
           totalCarrito={totalCarrito}
-          onQuitarItem={quitarDelCarrito}
-          onProcederPago={() => {
-            handleProcederPago({ itemsCarrito, totalCarrito, billing: "mensual" });
+          alQuitarItem={quitarDelCarrito}
+          alProcederPago={() => {
+            handleProcederPago({ itemsCarrito, totalCarrito, periodoFacturacion: "mensual" });
             limpiarCarrito();
           }}
-          onExplorar={() => setVistaActiva("aplicaciones")}
-          onVolver={() => setVistaActiva("aplicaciones")}
+          alExplorar={() => setVistaActiva("aplicaciones")}
+          alVolver={() => setVistaActiva("aplicaciones")}
         />
       );
       case "pasarela-pago":     return (
         <ViewPasarellaPago
           planData={pagoData}
-          onVolver={() => setVistaActiva("aplicaciones")}
-          onActivar={handleActivar}
+          alVolver={() => setVistaActiva("aplicaciones")}
+          alActivar={handleActivar}
         />
       );
-      default:                  return <Dashboard isDemo={isDemo} onLoginClick={() => setAppState('login')} />;
+      default:                  return <VistaPlaceholder vista={vistaActiva} />;
     }
   };
 
-  if (appState === 'login') {
+  if (estadoSesion === 'autenticando') {
     return (
       <Login
-        onLogin={() => setAppState('authenticated')}
-        onBackToDemo={() => setAppState('demo')}
+        onLogin={() => {
+          // Al autenticarse limpiamos las apps de exploración — el usuario
+          // empieza con sus apps reales (las que adquiera).
+          setMisApps([]);
+          setAppsActivas([]);
+          setEstadoSesion('autenticado');
+        }}
+        onBackToDemo={() => setEstadoSesion('exploracion')}
       />
     );
   }
@@ -125,27 +163,33 @@ function App() {
   return (
     <div className="app">
       <Sidebar
-        isOpen={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
+        estaAbierto={sidebarOpen}
+        alCerrar={() => setSidebarOpen(false)}
         vistaActiva={vistaActiva}
-        onNavegar={setVistaActiva}
+        alNavegar={setVistaActiva}
+        appsActivas={appsActivas}
       />
 
       {/* ─── CAMBIO: Header fuera del main-content ─── */}
       <Header
-        onMenuToggle={() => setSidebarOpen(!sidebarOpen)}
-        onNavegar={setVistaActiva}
+        alAlternarMenu={() => setSidebarOpen(!sidebarOpen)}
+        alNavegar={setVistaActiva}
         vistaActiva={vistaActiva}
-        isDemo={isDemo}
-        onLoginClick={() => setAppState('login')}
-        onLogout={() => setAppState('login')}
+        modoExploracion={modoExploracion}
+        alIniciarSesion={() => setEstadoSesion('autenticando')}
+        alCerrarSesion={() => setEstadoSesion('autenticando')}
         itemsCarrito={itemsCarrito}
         totalCarrito={totalCarrito}
-        onVerCarrito={handleVerCarrito}
+        alVerCarrito={handleVerCarrito}
+        misApps={misApps}
+        appsActivas={appsActivas}
+        alAlternarAppActiva={handleToggleAppActiva}
+        alSeleccionarTodasApps={handleSelectAllApps}
+        alDeseleccionarTodasApps={handleDeselectAllApps}
       />
 
       {/* ─── CAMBIO: main-content solo tiene el contenido ─── */}
-      <div className={`main-content${isDemo ? " main-content--demo" : ""}`}>
+      <div className={`main-content${modoExploracion ? " main-content--demo" : ""}`}>
         <main className="view-container">
           {renderVista()}
         </main>
@@ -154,8 +198,8 @@ function App() {
       <CarritoMobile
         itemsCarrito={itemsCarrito}
         totalCarrito={totalCarrito}
-        onQuitarItem={quitarDelCarrito}
-        onVerCarrito={handleVerCarrito}
+        alQuitarItem={quitarDelCarrito}
+        alVerCarrito={handleVerCarrito}
       />
     </div>
   );

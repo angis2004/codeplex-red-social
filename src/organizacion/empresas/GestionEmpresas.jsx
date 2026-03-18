@@ -30,9 +30,9 @@ function GestionEmpresas() {
       </div>
 
       <RegistroEmpresa
-        isOpen={showModal}
-        onClose={() => setShowModal(false)}
-        onSuccess={(data) => {
+        estaAbierto={showModal}
+        alCerrar={() => setShowModal(false)}
+        alExito={(data) => {
           console.log("Empresa creada desde Vista Empresas:", data);
           setShowModal(false);
         }}

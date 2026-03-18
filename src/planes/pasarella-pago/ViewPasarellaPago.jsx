@@ -16,7 +16,7 @@ function IconoRestauranteSmall({ size = 40 }) {
 
 /* ─── Mapa de prefijos telefónicos por país ─── */
 const PREFIJOS = {
-  Peru:      "+51",
+  "Perú":    "+51",
   Colombia:  "+57",
   Ecuador:   "+593",
   Bolivia:   "+591",
@@ -99,7 +99,7 @@ function PantallaExito({ data, onIrMisApps }) {
           </div>
           <div className="pp-exito-fila">
             <span className="pp-exito-key">Renovación</span>
-            <span className="pp-exito-val">Automática {data.billing}</span>
+            <span className="pp-exito-val">Automática {data.periodoFacturacion}</span>
           </div>
           <div className="pp-exito-fila">
             <span className="pp-exito-key">Comprobantes a</span>
@@ -125,14 +125,14 @@ function PantallaExito({ data, onIrMisApps }) {
 }
 
 /* ═══════════════════════════════════════════ */
-function ViewPasarellaPago({ planData, onVolver, onActivar }) {
+function ViewPasarellaPago({ planData, alVolver, alActivar }) {
   const [tarjeta, setTarjeta]         = useState("");
   const [vencimiento, setVencimiento] = useState("");
   const [cvv, setCvv]                 = useState("");
   const [propietario, setPropietario] = useState("");
   const [ruc, setRuc]                 = useState("");
   const [razonSocial, setRazonSocial] = useState("");
-  const [pais, setPais]               = useState("Peru");
+  const [pais, setPais]               = useState("Perú");
   const [direccion, setDireccion]     = useState("");
   const [correo, setCorreo]           = useState("");
   const [celular, setCelular]         = useState("");
@@ -145,8 +145,8 @@ function ViewPasarellaPago({ planData, onVolver, onActivar }) {
   /* ── Datos del carrito o plan individual ── */
   const itemsCarrito   = planData?.itemsCarrito || [];
   const totalCarrito   = planData?.totalCarrito || planData?.precio || "150";
-  const billing        = planData?.billing      || "mensual";
-  const periodoLabel   = billing === "mensual" ? "/mes" : "/año";
+  const periodoFacturacion = planData?.periodoFacturacion || "mensual";
+  const periodoLabel       = periodoFacturacion === "mensual" ? "/mes" : "/año";
   const planNombre     = planData?.planNombre   || "basico";
   const planNombreDisplay = { gratis: "Gratis", basico: "Básico", gold: "Gold" }[planNombre] || planNombre;
 
@@ -170,7 +170,7 @@ function ViewPasarellaPago({ planData, onVolver, onActivar }) {
       planNombre,
       planNombreDisplay,
       precio: totalCarrito,
-      billing,
+      periodoFacturacion,
       fechaCobroStr,
       fechaInicioStr,
       fechaVencimiento: primerCobro.toISOString(),
@@ -186,14 +186,15 @@ function ViewPasarellaPago({ planData, onVolver, onActivar }) {
   const handleIrMisApps = () => {
     if (itemsCarrito.length > 0) {
       const appsActivadas = itemsCarrito.map((item, i) => ({
-        ...exitoData,
-        id: Date.now() + i,
+        ...item,           // nombre, publisher, suscripcionModal, icono, colorTema, planDisplay…
+        ...exitoData,      // planNombre, planNombreDisplay, billing, fechas…
+        id:           Date.now() + i,
         appNombre:    item.nombre,
         appPublisher: item.publisher,
       }));
-      onActivar?.(appsActivadas);
+      alActivar?.(appsActivadas);
     } else {
-      onActivar?.({
+      alActivar?.({
         ...exitoData,
         appNombre:    "GestiónPlex",
         appPublisher: "Restaurante",
@@ -212,7 +213,7 @@ function ViewPasarellaPago({ planData, onVolver, onActivar }) {
 
       {/* ── Header ── */}
       <div className="pp-header">
-        <button className="pp-volver-btn" onClick={onVolver}>
+        <button className="pp-volver-btn" onClick={alVolver}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
             <path d="M19 12H5M12 19l-7-7 7-7" />
           </svg>
@@ -324,7 +325,7 @@ function ViewPasarellaPago({ planData, onVolver, onActivar }) {
               <label>País o Región</label>
               <div className="pp-select-wrap">
                 <select value={pais} onChange={(e) => setPais(e.target.value)}>
-                  <option>Peru</option>
+                  <option>Perú</option>
                   <option>Colombia</option>
                   <option>Ecuador</option>
                   <option>Bolivia</option>
@@ -493,7 +494,7 @@ function ViewPasarellaPago({ planData, onVolver, onActivar }) {
 
             <div className="pp-resumen-total-row">
               <div>
-                <div className="pp-resumen-total-label">Total {billing}:</div>
+                <div className="pp-resumen-total-label">Total {periodoFacturacion}:</div>
                 <div className="pp-resumen-fecha">A partir del {fechaCobroStr}</div>
               </div>
               <div className="pp-resumen-total-precio">S/{totalCarrito}</div>

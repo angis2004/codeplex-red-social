@@ -116,6 +116,13 @@
   letter-spacing: 0.5px;
 }
 
+/* Separador entre sección de app y menú general */
+.menu-section-divider {
+  height: 1px;
+  background: var(--border-color);
+  margin: 8px 20px 4px;
+}
+
 @media (max-width: 1024px) {
   .sidebar {
     transform: translateX(-100%);

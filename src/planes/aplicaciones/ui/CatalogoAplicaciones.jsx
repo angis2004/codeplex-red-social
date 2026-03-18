@@ -27,37 +27,42 @@ const CATEGORIAS_FILTRO = ["todos", "e-commerce", "otros"];
  *   2. Usuario hace clic en "Proceder al pago" → navega a PasarelaPago
  *
  * Props:
- *   onProcederPago       → callback({ itemsCarrito, totalCarrito, billing })
+ *   alProcederPago       → callback({ itemsCarrito, totalCarrito, periodoFacturacion })
  *   suscripcionesActivas → lista de SuscripcionesActivas del usuario
  *   pestanaInicial       → "mis" | "adquirir"
- *   onCambiarPestana     → callback al cambiar de pestaña
- *   onDesinstalar        → callback(id) al confirmar desinstalación
+ *   alCambiarPestana     → callback al cambiar de pestaña
+ *   alDesinstalar        → callback(id) al confirmar desinstalación
  */
 function CatalogoAplicaciones({
-  onProcederPago,
+  alProcederPago,
   suscripcionesActivas = [],
   pestanaInicial = "adquirir",
-  onCambiarPestana,
-  onDesinstalar,
+  alCambiarPestana,
+  alDesinstalar,
   // Props del carrito (levantado a App)
   itemsCarrito = [],
   totalCarrito = 0,
   agregarAlCarrito,
   quitarDelCarrito,
   verificarEnCarrito,
-  onVerCarrito,
+  alVerCarrito,
+  // Modo exploración
+  modoExploracion = false,
+  alIniciarSesion,
 }) {
   /* ── Caso de uso: catálogo (filtros, búsqueda, pestañas) ── */
   const {
     pestanaActiva,
     categoriaSeleccionada,
     terminoBusqueda,
+    ordenSeleccionado,
     modalSuscripcionAbierto,
     aplicacionADesinstalar,
     aplicacionesFiltradas,
     cambiarPestana,
     setCategoriaSeleccionada,
     setTerminoBusqueda,
+    setOrdenSeleccionado,
     iniciarSuscripcion,
     cerrarModalSuscripcion,
     procesarPago,
@@ -66,9 +71,9 @@ function CatalogoAplicaciones({
     confirmarDesinstalacion,
   } = useCatalogoAplicaciones({
     suscripcionesActivas,
-    alProcederPago:      onProcederPago,
-    alCambiarPestana:    onCambiarPestana,
-    alDesinstalar:       onDesinstalar,
+    alProcederPago,
+    alCambiarPestana,
+    alDesinstalar,
     alAgregarAlCarrito:  agregarAlCarrito,
     pestanaInicial,
   });
@@ -136,45 +141,48 @@ function CatalogoAplicaciones({
           ))}
         </div>
         <div className="filtros-derecha">
-          <select className="selector-orden">
-            <option>Mas Populares</option>
-            <option>Menor Precio</option>
-            <option>Mayor Precio</option>
-            <option>Más Recientes</option>
+          <select
+            className="selector-orden"
+            value={ordenSeleccionado}
+            onChange={(e) => setOrdenSeleccionado(e.target.value)}
+          >
+            <option value="populares">Más Populares</option>
+            <option value="menor">Menor Precio</option>
+            <option value="mayor">Mayor Precio</option>
           </select>
         </div>
       </div>
 
       {/* ── Modales de Suscripción ── */}
       <ModalPlanesRestaurante
-        isOpen={modalSuscripcionAbierto === "restaurante"}
-        onClose={cerrarModalSuscripcion}
-        onProcederPago={procesarPago}
+        estaAbierto={modalSuscripcionAbierto ==="restaurante"}
+        alCerrar={cerrarModalSuscripcion}
+        alProcederPago={procesarPago}
       />
       <ModalPlanesContaPlex
-        isOpen={modalSuscripcionAbierto === "contaplex"}
-        onClose={cerrarModalSuscripcion}
-        onProcederPago={procesarPago}
+        estaAbierto={modalSuscripcionAbierto ==="contaplex"}
+        alCerrar={cerrarModalSuscripcion}
+        alProcederPago={procesarPago}
       />
       <ModalPlanesGestionPlex
-        isOpen={modalSuscripcionAbierto === "gestionplex"}
-        onClose={cerrarModalSuscripcion}
-        onProcederPago={procesarPago}
+        estaAbierto={modalSuscripcionAbierto ==="gestionplex"}
+        alCerrar={cerrarModalSuscripcion}
+        alProcederPago={procesarPago}
       />
       <ModalPlanesTransporte
-        isOpen={modalSuscripcionAbierto === "transporte"}
-        onClose={cerrarModalSuscripcion}
-        onProcederPago={procesarPago}
+        estaAbierto={modalSuscripcionAbierto ==="transporte"}
+        alCerrar={cerrarModalSuscripcion}
+        alProcederPago={procesarPago}
       />
       <ModalPlanesGrifo
-        isOpen={modalSuscripcionAbierto === "grifo"}
-        onClose={cerrarModalSuscripcion}
-        onProcederPago={procesarPago}
+        estaAbierto={modalSuscripcionAbierto ==="grifo"}
+        alCerrar={cerrarModalSuscripcion}
+        alProcederPago={procesarPago}
       />
       <ModalPlanesFacturacion
-        isOpen={modalSuscripcionAbierto === "facturacion"}
-        onClose={cerrarModalSuscripcion}
-        onProcederPago={procesarPago}
+        estaAbierto={modalSuscripcionAbierto ==="facturacion"}
+        alCerrar={cerrarModalSuscripcion}
+        alProcederPago={procesarPago}
       />
 
       {/* ── Confirmación de Desinstalación ── */}
@@ -193,12 +201,13 @@ function CatalogoAplicaciones({
                 <TarjetaAplicacion
                   key={app.id}
                   aplicacion={app}
-                  alIniciarAdquisicion={iniciarSuscripcion}
-                  alQuitarDelCarrito={quitarDelCarrito}
+                  alIniciarAdquisicion={modoExploracion ? alIniciarSesion : iniciarSuscripcion}
+                  alQuitarDelCarrito={modoExploracion ? alIniciarSesion : quitarDelCarrito}
                   estaActiva={suscripcionesActivas.some(
                     (s) => s.appNombre === app.nombre && s.appPublisher === app.publisher
                   )}
                   estaEnCarrito={verificarEnCarrito ? verificarEnCarrito(app.id) : false}
+                  modoExploracion={modoExploracion}
                 />
               ))
             ) : (
@@ -213,6 +222,7 @@ function CatalogoAplicaciones({
                 suscripcion={s}
                 alMejorarPlan={() => {}}
                 alSolicitarDesinstalacion={() => solicitarDesinstalacion(s)}
+                modoExploracion={modoExploracion}
               />
             ))}
           </div>
