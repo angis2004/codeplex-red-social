@@ -2,8 +2,10 @@ import React from "react";
 import Icon from "../../ui/Icon/Icon";
 import PanelReacciones from "./PanelReacciones";
 import { useReactions } from "../reacciones/useReactions";
+import { useSesion } from "../../identidad/sesion/SesionContext";
 
-function AccionesPublicacion({ initialLikeCount = 124, modoExploracion, alIniciarSesion }) {
+function AccionesPublicacion({ initialLikeCount = 124 }) {
+  const { modoExploracion, comenzarAutenticacion } = useSesion();
   const {
     liked,
     likeCount,
@@ -51,7 +53,7 @@ function AccionesPublicacion({ initialLikeCount = 124, modoExploracion, alInicia
             onMouseLeave={modoExploracion ? undefined : handlers.handleMouseLeaveButton}
             onTouchStart={modoExploracion ? undefined : handlers.handleTouchStart}
             onTouchEnd={modoExploracion ? undefined : handlers.handleTouchEnd}
-            onClick={modoExploracion ? alIniciarSesion : handlers.handleMainClick}
+            onClick={modoExploracion ? comenzarAutenticacion : handlers.handleMainClick}
             style={modoExploracion ? demoStyle : { color: activeReaction?.color || "#475569" }}
             title={demoTitle}
           >
@@ -74,7 +76,7 @@ function AccionesPublicacion({ initialLikeCount = 124, modoExploracion, alInicia
 
         <button
           className="post-react-btn"
-          onClick={modoExploracion ? alIniciarSesion : undefined}
+          onClick={modoExploracion ? comenzarAutenticacion : undefined}
           style={demoStyle}
           title={demoTitle}
         >
@@ -84,7 +86,7 @@ function AccionesPublicacion({ initialLikeCount = 124, modoExploracion, alInicia
 
         <button
           className="post-react-btn"
-          onClick={modoExploracion ? alIniciarSesion : undefined}
+          onClick={modoExploracion ? comenzarAutenticacion : undefined}
           style={demoStyle}
           title={demoTitle}
         >

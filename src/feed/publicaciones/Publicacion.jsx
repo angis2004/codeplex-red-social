@@ -2,7 +2,7 @@ import React from "react";
 import AccionesPublicacion from "./AccionesPublicacion";
 import Comentarios from "./Comentarios";
 
-function Publicacion({ post, modoExploracion, alIniciarSesion }) {
+function Publicacion({ post }) {
   return (
     <div className="post-card">
 
@@ -51,7 +51,7 @@ function Publicacion({ post, modoExploracion, alIniciarSesion }) {
 
       {/* Footer: reacciones + comentarios */}
       <div className="post-footer">
-        <AccionesPublicacion initialLikeCount={post.likeCount} modoExploracion={modoExploracion} alIniciarSesion={alIniciarSesion} />
+        <AccionesPublicacion initialLikeCount={post.likeCount} />
         <div className="post-divider"></div>
         <Comentarios />
       </div>

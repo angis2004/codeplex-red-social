@@ -1,4 +1,5 @@
 import React from "react";
+import { useSesion } from "../../../identidad/sesion/SesionContext";
 
 function IconoSuscripcionActiva() {
   return (
@@ -23,7 +24,8 @@ function IconoSuscripcionActiva() {
  *   alMejorarPlan            → callback para mejorar el plan
  *   alSolicitarDesinstalacion → callback para iniciar el flujo de desinstalación
  */
-function SuscripcionActivaItem({ suscripcion, alMejorarPlan, alSolicitarDesinstalacion, modoExploracion = false }) {
+function SuscripcionActivaItem({ suscripcion, alMejorarPlan, alSolicitarDesinstalacion }) {
+  const { modoExploracion } = useSesion();
   // Soporta tanto apps adquiridas (appNombre/appPublisher) como apps de exploración (nombre/publisher)
   const appNombre    = suscripcion.appNombre    || suscripcion.nombre    || "Aplicación";
   const appPublisher = suscripcion.appPublisher || suscripcion.publisher || "";

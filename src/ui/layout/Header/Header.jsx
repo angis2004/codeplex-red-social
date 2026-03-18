@@ -2,14 +2,16 @@ import React, { useState, useEffect, useRef } from "react";
 import Icon from "../../Icon/Icon";
 import ProfileSlider from "../../../identidad/perfil/ProfileSlider";
 import { useTheme } from "../../useTheme";
+import { useSesion } from "../../../identidad/sesion/SesionContext";
 import "./Header.css";
 import RegistroEmpresa from "../../../organizacion/empresas/RegistroEmpresa";
 import IconoAplicacion from "../../../planes/aplicaciones/ui/IconoAplicacion";
 
 
-function Header({ alAlternarMenu, alNavegar, vistaActiva, modoExploracion, alIniciarSesion, alCerrarSesion,
+function Header({ alAlternarMenu, alNavegar, vistaActiva,
   itemsCarrito = [], totalCarrito = 0, alVerCarrito,
   misApps = [], appsActivas = [], alAlternarAppActiva, alSeleccionarTodasApps, alDeseleccionarTodasApps }) {
+  const { modoExploracion, comenzarAutenticacion, cerrarSesion } = useSesion();
   const [showSlider, setShowSlider]             = useState(false);
   const [showModalEmpresa, setShowModalEmpresa] = useState(false);
   const [showMisApps, setShowMisApps]           = useState(false);
@@ -248,7 +250,7 @@ function Header({ alAlternarMenu, alNavegar, vistaActiva, modoExploracion, alIni
               </button>
             )}
             {modoExploracion ? (
-              <button className="btn-login-header" onClick={alIniciarSesion}>
+              <button className="btn-login-header" onClick={comenzarAutenticacion}>
                 Iniciar sesión
               </button>
             ) : (
@@ -295,8 +297,8 @@ function Header({ alAlternarMenu, alNavegar, vistaActiva, modoExploracion, alIni
           darkMode={darkMode}
           onToggleDarkMode={toggleDarkMode}
           modoExploracion={modoExploracion}
-          alIniciarSesion={() => { setShowSlider(false); alIniciarSesion(); }}
-          alCerrarSesion={() => { setShowSlider(false); alCerrarSesion(); }}
+          alIniciarSesion={() => { setShowSlider(false); comenzarAutenticacion(); }}
+          alCerrarSesion={() => { setShowSlider(false); cerrarSesion(); }}
         />
       )}
 

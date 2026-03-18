@@ -28,7 +28,23 @@
       "Bash(pkill -f \"vite\")",
       "Bash(netstat -ano)",
       "Bash(findstr \":3000\")",
-      "Bash(findstr LISTEN)"
+      "Bash(findstr LISTEN)",
+      "Bash(node -e \":*)",
+      "Bash(npx vite:*)",
+      "Bash(find /c/proyectos/codeplex-red-social/.claude/worktrees/nifty-shaw/src -type f \\\\\\(-name *opBar* -o -name *avbar* -o -name *eader* \\\\\\))",
+      "Bash(find /c/proyectos/codeplex-red-social/.claude/worktrees/nifty-shaw/src -type f -name *context* -o -name *provider*)",
+      "Bash(start cmd:*)",
+      "Bash(grep -v \"^\\\\s*//\")",
+      "Bash(done)",
+      "Bash(sed -i 's/width: 54%;/width: 360px;/g' ModalPlanesContaPlex.css ModalPlanesGestionPlex.css ModalPlanesRestaurante.css)",
+      "Bash(sed -i 's/width: 44%;/width: 360px;/g' ModalPlanesFacturacion.css)",
+      "Bash(sed -i 's/width: 56%;/width: 360px;/g' ModalPlanesGrifo.css ModalPlanesTransporte.css)",
+      "Bash(for css:*)",
+      "Bash(do echo:*)",
+      "Read(//c/proyectos/codeplex-red-social/.claude/worktrees/nifty-shaw/src/planes/suscripciones/src/planes/suscripciones/**)",
+      "Bash(grep -l \"calc\\(100% - 16px\\)\" src/planes/suscripciones/Modal*.css)",
+      "Bash(grep -rn \"calc\\(100% - 16px\\)\" src/planes/suscripciones/Modal*.css)",
+      "Bash(start /B npx vite --port 5173)"
     ]
   }
 }

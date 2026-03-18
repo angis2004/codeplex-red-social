@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { SesionProvider, useSesion } from './identidad/sesion/SesionContext';
 import Sidebar from './ui/layout/Sidebar/Sidebar';
 import Header from './ui/layout/Header/Header';
 import RedSocial from './feed/dashboard/RedSocial';
@@ -35,21 +36,18 @@ const APPS_EXPLORACION = [
   { id: 6, suscripcionModal: "transporte",  nombre: "Gestión-Plex Transporte", publisher: "CodePlex",    icono: "contaplex",               colorTema: "color-transporte",  planDisplay: "Exploración" },
 ];
 
-// estadoSesion: 'exploracion' | 'autenticando' | 'autenticado'
-function App() {
-  const [estadoSesion, setEstadoSesion] = useState('exploracion');
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [vistaActiva, setVistaActiva] = useState("red-social");
-  const [pagoData, setPagoData]   = useState(null);
-  // En modo exploración arranca con las 6 apps precargadas; al iniciar sesión se vacía
-  const [misApps, setMisApps]           = useState(APPS_EXPLORACION);
-  const [appsActivas, setAppsActivas]   = useState([]);   // apps seleccionadas en sidebar (multi)
-  const modoExploracion = estadoSesion === 'exploracion';
+/* ══════════════════════════════════════════════════════════════
+   AppContent — consume SesionContext, maneja estado de UI/apps
+══════════════════════════════════════════════════════════════ */
+function AppContent() {
+  const { estadoSesion, modoExploracion, comenzarAutenticacion, confirmarSesion, irAExploracion } = useSesion();
 
-  // En modo exploración arranca en "mis" para que el usuario vea las 6 apps de inmediato
-  const [pestanaAppsInicial, setPestanaAppsInicial] = useState(
-    estadoSesion === 'exploracion' ? "mis" : "adquirir"
-  );
+  const [sidebarOpen, setSidebarOpen]           = useState(false);
+  const [vistaActiva, setVistaActiva]           = useState("red-social");
+  const [pagoData, setPagoData]                 = useState(null);
+  const [misApps, setMisApps]                   = useState(APPS_EXPLORACION);
+  const [appsActivas, setAppsActivas]           = useState([]);
+  const [pestanaAppsInicial, setPestanaAppsInicial] = useState("mis");
 
   const {
     itemsCarrito,
@@ -59,6 +57,19 @@ function App() {
     limpiarCarrito,
     verificarEnCarrito,
   } = useCarritoSuscripciones();
+
+  /* Al confirmar sesión: limpiar apps de exploración */
+  useEffect(() => {
+    if (estadoSesion === 'autenticado') {
+      setMisApps([]);
+      setAppsActivas([]);
+      setPestanaAppsInicial("adquirir");
+    }
+    if (estadoSesion === 'exploracion') {
+      setMisApps(APPS_EXPLORACION);
+      setPestanaAppsInicial("mis");
+    }
+  }, [estadoSesion]);
 
   const handleVerCarrito = () => setVistaActiva("carrito");
 
@@ -82,7 +93,6 @@ function App() {
     setAppsActivas((prev) => prev.filter((a) => a.id !== id));
   };
 
-  /* Toggle individual: agrega o quita del array de activas */
   const handleToggleAppActiva = (app) => {
     setAppsActivas((prev) =>
       prev.some((a) => a.id === app.id)
@@ -91,12 +101,12 @@ function App() {
     );
   };
 
-  const handleSelectAllApps  = () => setAppsActivas([...misApps]);
+  const handleSelectAllApps   = () => setAppsActivas([...misApps]);
   const handleDeselectAllApps = () => setAppsActivas([]);
 
   const renderVista = () => {
     switch (vistaActiva) {
-      case "red-social":        return <RedSocial modoExploracion={modoExploracion} alIniciarSesion={() => setEstadoSesion('autenticando')} />;
+      case "red-social":        return <RedSocial />;
       case "datos-personales":  return <DatosPersonales />;
       case "empresas":          return <GestionEmpresas />;
       case "datos-facturacion": return <DatosFacturacion />;
@@ -120,8 +130,6 @@ function App() {
           quitarDelCarrito={quitarDelCarrito}
           verificarEnCarrito={verificarEnCarrito}
           alVerCarrito={handleVerCarrito}
-          modoExploracion={modoExploracion}
-          alIniciarSesion={() => setEstadoSesion('autenticando')}
         />
       );
       case "carrito":           return (
@@ -151,15 +159,8 @@ function App() {
   if (estadoSesion === 'autenticando') {
     return (
       <Login
-        onLogin={() => {
-          // Al autenticarse limpiamos las apps de exploración — el usuario
-          // empieza con sus apps reales (las que adquiera).
-          setMisApps([]);
-          setAppsActivas([]);
-          setPestanaAppsInicial("adquirir");
-          setEstadoSesion('autenticado');
-        }}
-        onBackToDemo={() => setEstadoSesion('exploracion')}
+        onLogin={confirmarSesion}
+        onBackToDemo={irAExploracion}
       />
     );
   }
@@ -174,14 +175,10 @@ function App() {
         appsActivas={appsActivas}
       />
 
-      {/* ─── CAMBIO: Header fuera del main-content ─── */}
       <Header
         alAlternarMenu={() => setSidebarOpen(!sidebarOpen)}
         alNavegar={setVistaActiva}
         vistaActiva={vistaActiva}
-        modoExploracion={modoExploracion}
-        alIniciarSesion={() => setEstadoSesion('autenticando')}
-        alCerrarSesion={() => setEstadoSesion('autenticando')}
         itemsCarrito={itemsCarrito}
         totalCarrito={totalCarrito}
         alVerCarrito={handleVerCarrito}
@@ -192,7 +189,6 @@ function App() {
         alDeseleccionarTodasApps={handleDeselectAllApps}
       />
 
-      {/* ─── CAMBIO: main-content solo tiene el contenido ─── */}
       <div className={`main-content${modoExploracion ? " main-content--demo" : ""}`}>
         <main className="view-container">
           {renderVista()}
@@ -206,6 +202,17 @@ function App() {
         alVerCarrito={handleVerCarrito}
       />
     </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════════
+   App — solo envuelve con el provider de sesión
+══════════════════════════════════════════════════════════════ */
+function App() {
+  return (
+    <SesionProvider>
+      <AppContent />
+    </SesionProvider>
   );
 }
 
