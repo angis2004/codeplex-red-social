@@ -58,6 +58,7 @@ function CatalogoAplicaciones({
     cambiarPestana,
     setCategoriaSeleccionada,
     setTerminoBusqueda,
+    iniciarSuscripcion,
     cerrarModalSuscripcion,
     procesarPago,
     solicitarDesinstalacion,
@@ -65,9 +66,10 @@ function CatalogoAplicaciones({
     confirmarDesinstalacion,
   } = useCatalogoAplicaciones({
     suscripcionesActivas,
-    alProcederPago:   onProcederPago,
-    alCambiarPestana: onCambiarPestana,
-    alDesinstalar:    onDesinstalar,
+    alProcederPago:      onProcederPago,
+    alCambiarPestana:    onCambiarPestana,
+    alDesinstalar:       onDesinstalar,
+    alAgregarAlCarrito:  agregarAlCarrito,
     pestanaInicial,
   });
 
@@ -191,7 +193,7 @@ function CatalogoAplicaciones({
                 <TarjetaAplicacion
                   key={app.id}
                   aplicacion={app}
-                  alAgregarAlCarrito={agregarAlCarrito}
+                  alIniciarAdquisicion={iniciarSuscripcion}
                   alQuitarDelCarrito={quitarDelCarrito}
                   estaActiva={suscripcionesActivas.some(
                     (s) => s.appNombre === app.nombre && s.appPublisher === app.publisher

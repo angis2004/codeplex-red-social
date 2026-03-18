@@ -33,7 +33,7 @@ function IconoVerificacion() {
  */
 function TarjetaAplicacion({
   aplicacion,
-  alAgregarAlCarrito,
+  alIniciarAdquisicion,
   alQuitarDelCarrito,
   estaActiva,
   estaEnCarrito,
@@ -88,7 +88,7 @@ function TarjetaAplicacion({
         ) : (
           <button
             className="boton-suscribir"
-            onClick={() => alAgregarAlCarrito?.(aplicacion)}
+            onClick={() => alIniciarAdquisicion?.(aplicacion)}
           >
             + Agregar
           </button>

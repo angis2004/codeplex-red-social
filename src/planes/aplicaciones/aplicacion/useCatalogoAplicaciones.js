@@ -23,6 +23,7 @@ export function useCatalogoAplicaciones({
   alProcederPago,
   alCambiarPestana,
   alDesinstalar,
+  alAgregarAlCarrito,
   pestanaInicial = "adquirir",
 }) {
   const [pestanaActiva, setPestanaActiva]                     = useState(pestanaInicial);
@@ -30,6 +31,7 @@ export function useCatalogoAplicaciones({
   const [terminoBusqueda, setTerminoBusqueda]                 = useState("");
   const [modalSuscripcionAbierto, setModalSuscripcionAbierto] = useState(null);
   const [aplicacionADesinstalar, setAplicacionADesinstalar]   = useState(null);
+  const [aplicacionSeleccionada, setAplicacionSeleccionada]   = useState(null);
 
   const cambiarPestana = (pestana) => {
     setPestanaActiva(pestana);
@@ -38,15 +40,31 @@ export function useCatalogoAplicaciones({
 
   /** Abre el modal de planes correspondiente a la Aplicacion seleccionada */
   const iniciarSuscripcion = (aplicacion) => {
+    setAplicacionSeleccionada(aplicacion);
     setModalSuscripcionAbierto(aplicacion.suscripcionModal);
   };
 
-  const cerrarModalSuscripcion = () => setModalSuscripcionAbierto(null);
+  const cerrarModalSuscripcion = () => {
+    setModalSuscripcionAbierto(null);
+    setAplicacionSeleccionada(null);
+  };
 
-  /** Cierra el modal y delega el pago al orquestador principal (App) */
-  const procesarPago = (data) => {
+  /**
+   * El usuario eligió un plan en el modal.
+   * → Agrega la app al carrito CON el plan seleccionado.
+   * → NO navega a pasarela todavía (eso lo hace el botón del carrito).
+   */
+  const procesarPago = (planData) => {
+    if (aplicacionSeleccionada) {
+      const planDisplay = { gratis: "Gratis", basico: "Básico", estandar: "Estándar", gold: "Gold" }[planData.planNombre] || planData.planNombre;
+      alAgregarAlCarrito?.({
+        ...aplicacionSeleccionada,
+        planSeleccionado:  planData.planNombre,
+        planDisplay,
+        precioDesde: `S/${planData.precio}`,
+      });
+    }
     cerrarModalSuscripcion();
-    alProcederPago?.(data);
   };
 
   /** Marca una SuscripcionActiva para confirmar su desinstalación */
