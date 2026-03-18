@@ -1,31 +1,33 @@
 import React from "react";
 import "./catalogo.css";
 
-import { useCatalogoAplicaciones }    from "../aplicacion/useCatalogoAplicaciones";
-import { useCarritoSuscripciones }   from "../aplicacion/useCarritoSuscripciones";
+import { useCatalogoAplicaciones }   from "../aplicacion/useCatalogoAplicaciones";
 import TarjetaAplicacion             from "./TarjetaAplicacion";
 import SuscripcionActivaItem         from "./SuscripcionActivaItem";
 import ConfirmacionDesinstalacion    from "./ConfirmacionDesinstalacion";
-import BarraCarritoSuscripciones     from "./BarraCarritoSuscripciones";
 
-import SelectorPlanRestaurante  from "../../suscripciones/SelectorPlanRestaurante";
-import SelectorPlanContaPlex    from "../../suscripciones/SelectorPlanContaPlex";
-import SelectorPlanGestionPlex  from "../../suscripciones/SelectorPlanGestionPlex";
-import SelectorPlanTransporte   from "../../suscripciones/SelectorPlanTransporte";
-import SelectorPlanGrifo        from "../../suscripciones/SelectorPlanGrifo";
-import SelectorPlanFacturacion  from "../../suscripciones/SelectorPlanFacturacion";
+import ModalPlanesRestaurante  from "../../suscripciones/ModalPlanesRestaurante";
+import ModalPlanesContaPlex    from "../../suscripciones/ModalPlanesContaPlex";
+import ModalPlanesGestionPlex  from "../../suscripciones/ModalPlanesGestionPlex";
+import ModalPlanesTransporte   from "../../suscripciones/ModalPlanesTransporte";
+import ModalPlanesGrifo        from "../../suscripciones/ModalPlanesGrifo";
+import ModalPlanesFacturacion  from "../../suscripciones/ModalPlanesFacturacion";
 
 const CATEGORIAS_FILTRO = ["todos", "e-commerce", "otros"];
 
 /**
  * Vista — Catálogo de Aplicaciones CodePlex
  *
- * Orquesta la experiencia de exploración y gestión de Aplicaciones:
- *   - Pestaña "Mis Aplicaciones": SuscripcionesActivas del usuario
- *   - Pestaña "Adquirir Aplicaciones": catálogo completo con filtros
+ * Layout de dos columnas:
+ *   Izquierda → grilla de TarjetaAplicacion (catálogo / mis suscripciones)
+ *   Derecha   → PanelCarrito (sticky, siempre visible)
+ *
+ * Flujo de adquisición:
+ *   1. Usuario hace clic en "+ Agregar" → app entra al PanelCarrito
+ *   2. Usuario hace clic en "Proceder al pago" → navega a PasarelaPago
  *
  * Props:
- *   onProcederPago       → callback para ir a la pasarela de pago
+ *   onProcederPago       → callback({ itemsCarrito, totalCarrito, billing })
  *   suscripcionesActivas → lista de SuscripcionesActivas del usuario
  *   pestanaInicial       → "mis" | "adquirir"
  *   onCambiarPestana     → callback al cambiar de pestaña
@@ -37,7 +39,15 @@ function CatalogoAplicaciones({
   pestanaInicial = "adquirir",
   onCambiarPestana,
   onDesinstalar,
+  // Props del carrito (levantado a App)
+  itemsCarrito = [],
+  totalCarrito = 0,
+  agregarAlCarrito,
+  quitarDelCarrito,
+  verificarEnCarrito,
+  onVerCarrito,
 }) {
+  /* ── Caso de uso: catálogo (filtros, búsqueda, pestañas) ── */
   const {
     pestanaActiva,
     categoriaSeleccionada,
@@ -48,7 +58,6 @@ function CatalogoAplicaciones({
     cambiarPestana,
     setCategoriaSeleccionada,
     setTerminoBusqueda,
-    iniciarSuscripcion,
     cerrarModalSuscripcion,
     procesarPago,
     solicitarDesinstalacion,
@@ -61,15 +70,6 @@ function CatalogoAplicaciones({
     alDesinstalar:    onDesinstalar,
     pestanaInicial,
   });
-
-  const {
-    itemsCarrito,
-    totalCarrito,
-    agregarAlCarrito,
-    quitarDelCarrito,
-    procederAlPago,
-    verificarEnCarrito,
-  } = useCarritoSuscripciones({ alIniciarSuscripcion: iniciarSuscripcion });
 
   return (
     <div className="catalogo-aplicaciones">
@@ -144,43 +144,35 @@ function CatalogoAplicaciones({
       </div>
 
       {/* ── Modales de Suscripción ── */}
-      <SelectorPlanRestaurante
+      <ModalPlanesRestaurante
         isOpen={modalSuscripcionAbierto === "restaurante"}
         onClose={cerrarModalSuscripcion}
         onProcederPago={procesarPago}
       />
-      <SelectorPlanContaPlex
+      <ModalPlanesContaPlex
         isOpen={modalSuscripcionAbierto === "contaplex"}
         onClose={cerrarModalSuscripcion}
         onProcederPago={procesarPago}
       />
-      <SelectorPlanGestionPlex
+      <ModalPlanesGestionPlex
         isOpen={modalSuscripcionAbierto === "gestionplex"}
         onClose={cerrarModalSuscripcion}
         onProcederPago={procesarPago}
       />
-      <SelectorPlanTransporte
+      <ModalPlanesTransporte
         isOpen={modalSuscripcionAbierto === "transporte"}
         onClose={cerrarModalSuscripcion}
         onProcederPago={procesarPago}
       />
-      <SelectorPlanGrifo
+      <ModalPlanesGrifo
         isOpen={modalSuscripcionAbierto === "grifo"}
         onClose={cerrarModalSuscripcion}
         onProcederPago={procesarPago}
       />
-      <SelectorPlanFacturacion
+      <ModalPlanesFacturacion
         isOpen={modalSuscripcionAbierto === "facturacion"}
         onClose={cerrarModalSuscripcion}
         onProcederPago={procesarPago}
-      />
-
-      {/* ── Barra flotante del Carrito ── */}
-      <BarraCarritoSuscripciones
-        items={itemsCarrito}
-        totalCarrito={totalCarrito}
-        alQuitarItem={quitarDelCarrito}
-        alProcederPago={procederAlPago}
       />
 
       {/* ── Confirmación de Desinstalación ── */}
@@ -190,49 +182,52 @@ function CatalogoAplicaciones({
         alConfirmar={confirmarDesinstalacion}
       />
 
-      {/* ── Contenido según pestaña ── */}
-      {pestanaActiva === "adquirir" ? (
-        <div className="catalogo-grid">
-          {aplicacionesFiltradas.length > 0 ? (
-            aplicacionesFiltradas.map((app) => (
-              <TarjetaAplicacion
-                key={app.id}
-                aplicacion={app}
-                alSuscribirse={agregarAlCarrito}
-                estaActiva={suscripcionesActivas.some(
-                  (s) => s.appNombre === app.nombre && s.appPublisher === app.publisher
-                )}
-                estaEnCarrito={verificarEnCarrito(app.id)}
+      {/* CONTENIDO — una sola columna, sin panel lateral */}
+      <div className="catalogo-contenido">
+        {pestanaActiva === "adquirir" ? (
+          <div className="catalogo-grid">
+            {aplicacionesFiltradas.length > 0 ? (
+              aplicacionesFiltradas.map((app) => (
+                <TarjetaAplicacion
+                  key={app.id}
+                  aplicacion={app}
+                  alAgregarAlCarrito={agregarAlCarrito}
+                  alQuitarDelCarrito={quitarDelCarrito}
+                  estaActiva={suscripcionesActivas.some(
+                    (s) => s.appNombre === app.nombre && s.appPublisher === app.publisher
+                  )}
+                  estaEnCarrito={verificarEnCarrito ? verificarEnCarrito(app.id) : false}
+                />
+              ))
+            ) : (
+              <p className="catalogo-sin-resultados">No se encontraron aplicaciones.</p>
+            )}
+          </div>
+        ) : suscripcionesActivas.length > 0 ? (
+          <div className="suscripciones-activas-lista">
+            {suscripcionesActivas.map((s) => (
+              <SuscripcionActivaItem
+                key={s.id}
+                suscripcion={s}
+                alMejorarPlan={() => {}}
+                alSolicitarDesinstalacion={() => solicitarDesinstalacion(s)}
               />
-            ))
-          ) : (
-            <p className="catalogo-sin-resultados">No se encontraron aplicaciones.</p>
-          )}
-        </div>
-      ) : suscripcionesActivas.length > 0 ? (
-        <div className="suscripciones-activas-lista">
-          {suscripcionesActivas.map((s) => (
-            <SuscripcionActivaItem
-              key={s.id}
-              suscripcion={s}
-              alMejorarPlan={() => iniciarSuscripcion({ suscripcionModal: "restaurante" })}
-              alSolicitarDesinstalacion={() => solicitarDesinstalacion(s)}
-            />
-          ))}
-        </div>
-      ) : (
-        <div className="catalogo-vacio">
-          <div className="catalogo-vacio__icono">📦</div>
-          <h3>No tienes aplicaciones activas</h3>
-          <p>Explora el catálogo en la pestaña "Adquirir Aplicaciones"</p>
-          <button
-            className="pestana-btn pestana-btn--activa"
-            onClick={() => cambiarPestana("adquirir")}
-          >
-            Ver catálogo
-          </button>
-        </div>
-      )}
+            ))}
+          </div>
+        ) : (
+          <div className="catalogo-vacio">
+            <div className="catalogo-vacio__icono">📦</div>
+            <h3>No tienes aplicaciones activas</h3>
+            <p>Explora el catálogo en la pestaña "Adquirir Aplicaciones"</p>
+            <button
+              className="pestana-btn pestana-btn--activa"
+              onClick={() => cambiarPestana("adquirir")}
+            >
+              Ver catálogo
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

@@ -1,47 +1,45 @@
 import { useState } from "react";
-import { calcularTotalCarrito, estaEnCarrito } from "../dominio/carritoSuscripciones";
+import {
+  calcularTotalCarrito,
+  estaEnCarrito,
+} from "../dominio/carritoSuscripciones";
 
 /**
  * Caso de uso — Gestión del Carrito de Suscripciones
  *
- * Permite al usuario acumular Aplicaciones antes de proceder al pago.
- * Diseñado para escalar al backend: cuando llegue la API, solo
- * se reemplaza el useState por llamadas HTTP aquí — el JSX no cambia.
+ * Controla las interacciones del usuario con el carrito:
+ *   - agregar una Aplicacion al carrito
+ *   - quitar una Aplicacion del carrito
+ *   - calcular el total de la selección
+ *   - verificar si una Aplicacion ya está seleccionada
  *
- * Lenguaje ubicuo:
- *   agregarAlCarrito      → el usuario selecciona una Aplicacion
- *   quitarDelCarrito      → el usuario descarta una Aplicacion
- *   limpiarCarrito        → vaciar después de completar el pago
- *   procederAlPago        → iniciar el flujo de SelectorPlan con el primer item
+ * ⚡ Punto de integración con backend:
+ *   Solo este hook necesita cambiar cuando llegue la API real.
+ *   La UI (PanelCarrito, TarjetaAplicacion) no se toca.
  */
-export function useCarritoSuscripciones({ alIniciarSuscripcion } = {}) {
+export function useCarritoSuscripciones() {
   const [itemsCarrito, setItemsCarrito] = useState([]);
 
+  /** Agrega una Aplicacion al carrito (sin duplicados) */
   const agregarAlCarrito = (aplicacion) => {
-    setItemsCarrito((prev) => {
-      if (estaEnCarrito(prev, aplicacion.id)) return prev;
-      return [...prev, aplicacion];
-    });
+    if (!estaEnCarrito(itemsCarrito, aplicacion.id)) {
+      setItemsCarrito((prev) => [...prev, aplicacion]);
+    }
   };
 
+  /** Quita una Aplicacion del carrito por id */
   const quitarDelCarrito = (aplicacionId) => {
     setItemsCarrito((prev) => prev.filter((item) => item.id !== aplicacionId));
   };
 
+  /** Vacía el carrito después de completar el pago */
   const limpiarCarrito = () => setItemsCarrito([]);
 
-  /** Abre el SelectorPlan del primer item y lo quita del carrito */
-  const procederAlPago = () => {
-    if (itemsCarrito.length === 0) return;
-    const primerItem = itemsCarrito[0];
-    quitarDelCarrito(primerItem.id);
-    alIniciarSuscripcion?.(primerItem);
-  };
-
-  const totalCarrito = calcularTotalCarrito(itemsCarrito);
-
+  /** Consulta si una Aplicacion ya está seleccionada */
   const verificarEnCarrito = (aplicacionId) =>
     estaEnCarrito(itemsCarrito, aplicacionId);
+
+  const totalCarrito = calcularTotalCarrito(itemsCarrito);
 
   return {
     itemsCarrito,
@@ -49,7 +47,6 @@ export function useCarritoSuscripciones({ alIniciarSuscripcion } = {}) {
     agregarAlCarrito,
     quitarDelCarrito,
     limpiarCarrito,
-    procederAlPago,
     verificarEnCarrito,
   };
 }

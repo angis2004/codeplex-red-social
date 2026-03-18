@@ -1,37 +1,23 @@
 /**
  * Dominio — Carrito de Suscripciones
  *
- * Representa la intención del usuario de suscribirse a una o más
- * Aplicaciones antes de proceder al pago.
+ * Lógica de negocio pura del carrito. Sin estado, sin React.
+ * Lista para conectarse a una API real sin modificar la UI.
  *
  * Lenguaje ubicuo:
- *   CarritoSuscripciones → colección temporal de Aplicaciones seleccionadas
- *   ItemCarrito          → una Aplicacion agregada al carrito
- *   totalCarrito         → suma de precioDesde de todos los items
- *
- * Nota backend:
- *   Cuando se integre el backend, esta capa persiste igual.
- *   Solo cambia useCarritoSuscripciones.js para llamar a la API.
+ *   itemsCarrito   → Aplicaciones seleccionadas pendientes de suscribir
+ *   totalCarrito   → Suma de precios base de los items
  */
 
-/**
- * Calcula el precio total sumando el precioDesde de cada item.
- * @param {Array} items — lista de Aplicaciones en el carrito
- * @returns {number}
- */
+/** Suma el precio base de cada Aplicacion en el carrito */
 export function calcularTotalCarrito(items) {
   return items.reduce((total, item) => {
-    const precio = parseInt(item.precioDesde.replace("S/", "")) || 0;
+    const precio = parseFloat(item.precioDesde?.replace(/[^\d.]/g, "")) || 0;
     return total + precio;
   }, 0);
 }
 
-/**
- * Verifica si una Aplicacion ya está en el carrito.
- * @param {Array} items
- * @param {number} aplicacionId
- * @returns {boolean}
- */
+/** Retorna true si una Aplicacion ya está en el carrito */
 export function estaEnCarrito(items, aplicacionId) {
   return items.some((item) => item.id === aplicacionId);
 }

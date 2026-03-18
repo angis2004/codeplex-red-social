@@ -5,7 +5,7 @@ import { useTheme } from "../../useTheme";
 import "./Header.css";
 import RegistroEmpresa from "../../../organizacion/empresas/RegistroEmpresa";
 
-function Header({ onMenuToggle, onNavegar, vistaActiva, isDemo, onLoginClick, onLogout }) {
+function Header({ onMenuToggle, onNavegar, vistaActiva, isDemo, onLoginClick, onLogout, itemsCarrito = [], totalCarrito = 0, onVerCarrito }) {
   const [showSlider, setShowSlider] = useState(false);
   const [showModalEmpresa, setShowModalEmpresa] = useState(false);
   const { darkMode, toggleDarkMode } = useTheme();
@@ -87,6 +87,32 @@ function Header({ onMenuToggle, onNavegar, vistaActiva, isDemo, onLoginClick, on
 
           {/* RIGHT: iconos + usuario */}
           <div className="header-right">
+            {/* Botón Carrito — visible solo si hay items */}
+            {itemsCarrito.length > 0 && (
+              <button className="btn-carrito" onClick={onVerCarrito} title="Ver carrito">
+                {/* Estado A+B: pill (desktop y laptop) */}
+                <span className="btn-carrito-pill">
+                  <span className="carrito-pill-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                      <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                      <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                    </svg>
+                    <span className="carrito-badge">{itemsCarrito.length}</span>
+                  </span>
+                  <span className="carrito-label">{itemsCarrito.length} app{itemsCarrito.length > 1 ? 's' : ''}</span>
+                  <span className="carrito-separator">·</span>
+                  <span className="carrito-total">S/{totalCarrito}/mes</span>
+                </span>
+                {/* Estado C: ícono circular (tablet) */}
+                <span className="btn-carrito-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round">
+                    <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                  </svg>
+                  <span className="carrito-badge-circle">{itemsCarrito.length}</span>
+                </span>
+              </button>
+            )}
             <button className="icon-btn ayuda-btn" title="Ayuda">
               <Icon name="ayuda" size={22} />
             </button>
