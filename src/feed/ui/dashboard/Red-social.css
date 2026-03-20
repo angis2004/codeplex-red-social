@@ -622,7 +622,9 @@
 }
 
 .comment-bubble {
+  background-color: var(--background-color, #f0f2f5);
   border-radius: 12px;
+  padding: 8px 12px;
 }
 
 .comment-user-name {
