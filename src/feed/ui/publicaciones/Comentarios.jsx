@@ -227,15 +227,6 @@ function Comment({
         <div className="comment-bubble">
           <div className="comment-bubble-header">
             <div className="comment-user-name">{name}</div>
-            {isOwner && hovering && (
-              <CommentMenu
-                onEdit={() => {
-                  setEditText(text);
-                  setIsEditing(true);
-                }}
-                onDelete={() => onDelete(id)}
-              />
-            )}
           </div>
           {isEditing ? (
             <div className="comment-edit-form">
@@ -263,11 +254,22 @@ function Comment({
               </div>
             </div>
           ) : (
-            <div className="comment-text">
-              {mentionedUser && (
-                <span className="comment-mention">{mentionedUser}</span>
-              )}{" "}
-              {text}
+            <div className="comment-text-row">
+              <div className="comment-text">
+                {mentionedUser && (
+                  <span className="comment-mention">{mentionedUser}</span>
+                )}{" "}
+                {text}
+              </div>
+              {isOwner && hovering && (
+                <CommentMenu
+                  onEdit={() => {
+                    setEditText(text);
+                    setIsEditing(true);
+                  }}
+                  onDelete={() => onDelete(id)}
+                />
+              )}
             </div>
           )}
           <div className="comment-actions">

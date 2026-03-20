@@ -622,10 +622,7 @@
 }
 
 .comment-bubble {
-  /* background-color: var(--background-color);
   border-radius: 12px;
-  padding: 10px 14px; */
-  flex: 1;
 }
 
 .comment-user-name {
@@ -633,6 +630,12 @@
   font-weight: 700;
   color: var(--text-dark);
   margin-bottom: 4px;
+}
+
+.comment-text-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
 }
 
 .comment-text {
@@ -1962,8 +1965,8 @@ stroke:1px solid green;
 /* ── Comment bubble header (name + menu) ── */
 .comment-bubble-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 6px;
 }
 
 /* ── "..." Menu on hover ── */
