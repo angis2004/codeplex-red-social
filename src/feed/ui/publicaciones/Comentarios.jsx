@@ -251,12 +251,15 @@ function Comment({
                   }}
                   rows={1}
                 />
-                <button className="comment-edit-send" onClick={handleEditSave}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <line x1="22" y1="2" x2="11" y2="13" />
-                    <polygon points="22 2 15 22 11 13 2 9 22 2" />
-                  </svg>
-                </button>
+                <div className="comment-edit-bottom">
+                  <CommentMediaIcons />
+                  <button className="comment-edit-send" onClick={handleEditSave}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <line x1="22" y1="2" x2="11" y2="13" />
+                      <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                    </svg>
+                  </button>
+                </div>
               </div>
               <span className="comment-edit-hint">
                 Pulsa "Esc" para{" "}
@@ -360,7 +363,7 @@ function Comment({
             alt={currentUser?.nombre || "Tu"}
             className="comment-avatar comment-avatar--reply"
           />
-          <div className="comment-input-wrapper">
+          <div className="comment-input-container">
             <input
               type="text"
               className="comment-input"
@@ -370,22 +373,53 @@ function Comment({
               onKeyDown={handleReplyKeyDown}
               autoFocus
             />
-            <button className="comment-send-btn" onClick={handleReplySubmit}>
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <line x1="22" y1="2" x2="11" y2="13" />
-                <polygon points="22 2 15 22 11 13 2 9 22 2" />
-              </svg>
-            </button>
+            <div className="comment-input-bottom">
+              <CommentMediaIcons />
+              <button className="comment-send-btn" onClick={handleReplySubmit}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <line x1="22" y1="2" x2="11" y2="13" />
+                  <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+/* ── Íconos de acción (emoji, foto, cámara, gif, sticker) ── */
+function CommentMediaIcons() {
+  return (
+    <div className="comment-media-icons">
+      <button className="comment-media-btn" title="Emoji" disabled>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+          <circle cx="12" cy="12" r="10" />
+          <path d="M8 14s1.5 2 4 2 4-2 4-2" />
+          <line x1="9" y1="9" x2="9.01" y2="9" strokeWidth="3" strokeLinecap="round" />
+          <line x1="15" y1="9" x2="15.01" y2="9" strokeWidth="3" strokeLinecap="round" />
+        </svg>
+      </button>
+      <button className="comment-media-btn" title="Foto" disabled>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+          <circle cx="8.5" cy="8.5" r="1.5" />
+          <polyline points="21 15 16 10 5 21" />
+        </svg>
+      </button>
+      <button className="comment-media-btn" title="GIF" disabled>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+          <rect x="2" y="4" width="20" height="16" rx="3" />
+          <text x="12" y="15" textAnchor="middle" fill="currentColor" stroke="none" fontSize="8" fontWeight="700">GIF</text>
+        </svg>
+      </button>
+      <button className="comment-media-btn" title="Sticker" disabled>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+          <path d="M12 2a10 10 0 1 0 10 10h-10V2z" />
+          <path d="M12 2v10h10" />
+        </svg>
+      </button>
     </div>
   );
 }
@@ -418,7 +452,7 @@ function CommentInput({ onSend, modoExploracion, comenzarAutenticacion, currentU
         alt={currentUser?.nombre || "Gabriel"}
         className="comment-avatar"
       />
-      <div className="comment-input-wrapper">
+      <div className="comment-input-container">
         <input
           type="text"
           placeholder={
@@ -434,27 +468,23 @@ function CommentInput({ onSend, modoExploracion, comenzarAutenticacion, currentU
           onClick={modoExploracion ? comenzarAutenticacion : undefined}
           style={modoExploracion ? { cursor: "not-allowed" } : undefined}
         />
-        <button
-          className="comment-send-btn"
-          onClick={handleSend}
-          style={
-            modoExploracion
-              ? { cursor: "not-allowed", opacity: 0.6 }
-              : undefined
-          }
-        >
-          <svg
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
+        <div className="comment-input-bottom">
+          <CommentMediaIcons />
+          <button
+            className="comment-send-btn"
+            onClick={handleSend}
+            style={
+              modoExploracion
+                ? { cursor: "not-allowed", opacity: 0.6 }
+                : undefined
+            }
           >
-            <line x1="22" y1="2" x2="11" y2="13" />
-            <polygon points="22 2 15 22 11 13 2 9 22 2" />
-          </svg>
-        </button>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <line x1="22" y1="2" x2="11" y2="13" />
+              <polygon points="22 2 15 22 11 13 2 9 22 2" />
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
   );
