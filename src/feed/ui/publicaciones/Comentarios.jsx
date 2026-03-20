@@ -254,10 +254,12 @@ function Comment({
                 rows={1}
               />
               <div className="comment-edit-footer">
-                <span className="comment-edit-hint">Enter para guardar</span>
-                <button className="comment-edit-cancel" onClick={handleEditCancel}>
-                  Cancelar
-                </button>
+                <span className="comment-edit-hint">
+                  Pulsa "Esc" para{" "}
+                  <button className="comment-edit-cancel" onClick={handleEditCancel}>
+                    cancelar
+                  </button>.
+                </span>
               </div>
             </div>
           ) : (

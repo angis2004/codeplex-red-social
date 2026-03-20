@@ -2061,7 +2061,7 @@ stroke:1px solid green;
 .comment-edit-textarea {
   width: 100%;
   padding: 10px 14px;
-  border: 1px solid var(--primary-color);
+  border: 1px solid var(--border-color);
   border-radius: 12px;
   font-size: 14px;
   font-family: inherit;
@@ -2070,8 +2070,8 @@ stroke:1px solid green;
   background: var(--background-color, #f0f2f5);
   color: var(--text-dark);
   resize: none;
-  overflow: hidden;
-  min-height: 38px;
+  overflow-y: auto;
+  min-height: 60px;
   box-sizing: border-box;
 }
 
@@ -2081,9 +2081,6 @@ stroke:1px solid green;
 }
 
 .comment-edit-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   padding: 0 4px;
 }
 
@@ -2096,10 +2093,11 @@ stroke:1px solid green;
   background: none;
   border: none;
   color: var(--primary-color);
-  font-size: 13px;
+  font-size: inherit;
   font-weight: 600;
   cursor: pointer;
-  padding: 2px 0;
+  padding: 0;
+  display: inline;
 }
 
 .comment-edit-cancel:hover {
