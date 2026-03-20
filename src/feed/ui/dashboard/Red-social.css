@@ -1056,7 +1056,7 @@ stroke:1px solid green;
     gap: 6px;
     border-radius: 50px;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-30%);
     bottom: calc(100% + 4px);
     z-index: 200;
   }
@@ -1145,23 +1145,6 @@ stroke:1px solid green;
 
 
 
-@media (max-width: 480px) {
-  .reactions-popup {
-    padding: 10px 12px;
-    gap: 8px;
-    border-radius: 50px;
-  }
-
-  .reaction-option {
-    width: 60px;
-    height: 60px;
-  }
-
-  .reaction-option .icon {
-    width: 34px;
-    height: 34px;
-  }
-}
 /* ═══════════════════════════════════════════════════════════
    CONTADOR DE REACCIONES ARRIBA
 ═══════════════════════════════════════════════════════════ */
@@ -1175,54 +1158,7 @@ stroke:1px solid green;
   /* fill: currentColor; */
 }
 
-/* RESPONSIVE */
-@media (max-width: 768px) {
-  .reactions-popup {
-    padding: 10px 12px;
-    gap: 8px;
-    border-radius: 50px;
-  }
-
-  .reaction-option {
-    min-width: 60px;
-    padding: 8px 10px;
-    gap: 6px;
-  }
-
-  .reaction-label {
-    font-size: 11px;
-  }
-}
-
-@media (max-width: 480px) {
-  .reactions-popup {
-    left: 50%;
-    transform: translateX(-50%);
-    width: auto;
-    max-width: calc(100vw - 20px);
-    justify-content: space-around;
-  }
-
-  .reactions-popup::after {
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  .reaction-option {
-    min-width: auto;
-    flex: 1;
-    padding: 8px 6px;
-  }
-
-  .reaction-option .icon {
-    width: 24px !important;
-    height: 24px !important;
-  }
-
-  .reaction-label {
-    font-size: 10px;
-  }
-}
+/* (bloque duplicado de reactions-popup eliminado) */
 
 
 
