@@ -251,7 +251,7 @@ function Comment({
           ) : (
             <div className="comment-text">
               {mentionedUser && (
-                <span className="comment-mention">@{mentionedUser}</span>
+                <span className="comment-mention">{mentionedUser}</span>
               )}{" "}
               {text}
             </div>
@@ -296,7 +296,7 @@ function Comment({
                   return;
                 }
                 setShowReplyInput(!showReplyInput);
-                setReplyText(`@${name} `);
+                setReplyText("");
               }}
             >
               Responder
@@ -484,21 +484,27 @@ function Comentarios({ visible }) {
   };
 
   const handleReply = (parentId, texto) => {
-    // Extract mentioned user from @Username prefix
-    let mentionedUser = null;
-    let cleanText = texto;
-    const mentionMatch = texto.match(/^@(\S+)\s*(.*)/);
-    if (mentionMatch) {
-      mentionedUser = mentionMatch[1];
-      cleanText = mentionMatch[2] || "";
-    }
-    if (!cleanText.trim()) return;
+    if (!texto.trim()) return;
+
+    // Buscar el nombre del usuario al que se responde
+    const findCommentName = (comments, id) => {
+      for (const c of comments) {
+        if (c.id === id) return c.name;
+        if (c.replies?.length) {
+          const found = findCommentName(c.replies, id);
+          if (found) return found;
+        }
+      }
+      return null;
+    };
+
+    const mentionedUser = findCommentName(comentarios, parentId);
 
     const reply = {
       id: genId(),
       img: 12,
       name: usuario?.nombre || "Gabriel Chumpitazi",
-      text: cleanText.trim(),
+      text: texto.trim(),
       time: "Ahora",
       avatarUrl: usuario?.avatar || "https://i.pravatar.cc/150?img=12",
       replies: [],
