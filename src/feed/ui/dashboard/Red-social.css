@@ -92,6 +92,8 @@
   width: 50px;
   height: 50px;
   border-radius: 50%;
+  flex-shrink: 0;
+  object-fit: cover;
 }
 
 .post-input {
@@ -1943,8 +1945,8 @@ stroke:1px solid green;
   }
 
   .post-creator-header {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: row;
+    align-items: center;
   }
 
   .post-input {

@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import AccionesPublicacion from "./AccionesPublicacion";
 import Comentarios from "./Comentarios";
 
 function Publicacion({ post }) {
+  const [showComments, setShowComments] = useState(true);
+
+  const toggleComments = () => setShowComments((prev) => !prev);
+
   return (
     <div className="post-card">
 
@@ -19,7 +23,7 @@ function Publicacion({ post }) {
             <div className="post-time">{post.time}</div>
           </div>
         </div>
-        <button className="post-menu-btn">⋯</button>
+        <button className="post-menu-btn">&#x22EF;</button>
       </div>
 
       {/* Texto + hashtags */}
@@ -51,9 +55,12 @@ function Publicacion({ post }) {
 
       {/* Footer: reacciones + comentarios */}
       <div className="post-footer">
-        <AccionesPublicacion initialLikeCount={post.likeCount} />
+        <AccionesPublicacion
+          initialLikeCount={post.likeCount}
+          onToggleComments={toggleComments}
+        />
         <div className="post-divider"></div>
-        <Comentarios />
+        <Comentarios visible={showComments} />
       </div>
 
     </div>

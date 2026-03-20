@@ -1,14 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { MOCK_COMMENTS } from "./publicaciones.data";
+import { useSesion } from "../../../identidad/aplicacion/SesionContext";
 
-function Comment({ img, name, text, time }) {
+function Comment({ img, name, text, time, avatarUrl }) {
   return (
     <div className="comment-item">
-      <img
-        src={`https://i.pravatar.cc/150?img=${img}`}
-        alt={name}
-        className="comment-avatar"
-      />
+      {avatarUrl ? (
+        <img src={avatarUrl} alt={name} className="comment-avatar" />
+      ) : (
+        <img
+          src={`https://i.pravatar.cc/150?img=${img}`}
+          alt={name}
+          className="comment-avatar"
+        />
+      )}
       <div className="comment-bubble">
         <div className="comment-user-name">{name}</div>
         <div className="comment-text">{text}</div>
@@ -22,7 +27,27 @@ function Comment({ img, name, text, time }) {
   );
 }
 
-function CommentInput() {
+function CommentInput({ onSend, modoExploracion, comenzarAutenticacion }) {
+  const [texto, setTexto] = useState("");
+
+  const handleSend = () => {
+    if (modoExploracion) {
+      comenzarAutenticacion();
+      return;
+    }
+    const trimmed = texto.trim();
+    if (!trimmed) return;
+    onSend(trimmed);
+    setTexto("");
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
+    }
+  };
+
   return (
     <div className="comment-input-row">
       <img
@@ -33,10 +58,20 @@ function CommentInput() {
       <div className="comment-input-wrapper">
         <input
           type="text"
-          placeholder="Escribe un comentario..."
+          placeholder={modoExploracion ? "Inicia sesión para comentar..." : "Escribe un comentario..."}
           className="comment-input"
+          value={texto}
+          onChange={(e) => setTexto(e.target.value)}
+          onKeyDown={handleKeyDown}
+          readOnly={modoExploracion}
+          onClick={modoExploracion ? comenzarAutenticacion : undefined}
+          style={modoExploracion ? { cursor: "not-allowed" } : undefined}
         />
-        <button className="comment-send-btn">
+        <button
+          className="comment-send-btn"
+          onClick={handleSend}
+          style={modoExploracion ? { cursor: "not-allowed", opacity: 0.6 } : undefined}
+        >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <line x1="22" y1="2" x2="11" y2="13" />
             <polygon points="22 2 15 22 11 13 2 9 22 2" />
@@ -47,13 +82,33 @@ function CommentInput() {
   );
 }
 
-function Comentarios() {
+function Comentarios({ visible }) {
+  const { modoExploracion, comenzarAutenticacion, usuario } = useSesion();
+  const [comentarios, setComentarios] = useState(MOCK_COMMENTS);
+
+  const handleSend = (texto) => {
+    const nuevo = {
+      img: 12,
+      name: usuario?.nombre || "Gabriel Chumpitazi",
+      text: texto,
+      time: "Ahora",
+      avatarUrl: usuario?.avatar || "https://i.pravatar.cc/150?img=12",
+    };
+    setComentarios((prev) => [...prev, nuevo]);
+  };
+
+  if (!visible) return null;
+
   return (
     <div className="comments-section">
-      {MOCK_COMMENTS.map((c) => (
-        <Comment key={c.name} {...c} />
+      {comentarios.map((c, idx) => (
+        <Comment key={`${c.name}-${idx}`} {...c} />
       ))}
-      <CommentInput />
+      <CommentInput
+        onSend={handleSend}
+        modoExploracion={modoExploracion}
+        comenzarAutenticacion={comenzarAutenticacion}
+      />
     </div>
   );
 }

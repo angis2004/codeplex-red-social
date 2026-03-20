@@ -4,7 +4,7 @@ import PanelReacciones from "./PanelReacciones";
 import { useReacciones } from "../../aplicacion/useReacciones";
 import { useSesion } from "../../../identidad/aplicacion/SesionContext";
 
-function AccionesPublicacion({ initialLikeCount = 124 }) {
+function AccionesPublicacion({ initialLikeCount = 124, onToggleComments, commentCount = 0 }) {
   const { modoExploracion, comenzarAutenticacion } = useSesion();
   const {
     liked,
@@ -23,20 +23,37 @@ function AccionesPublicacion({ initialLikeCount = 124 }) {
       {/* Avatares + contadores */}
       <div className="post-stats">
         <div className="post-stats-left">
-          <div className="reaction-avatars">
-            {[20, 25, 30].map((img) => (
-              <img
-                key={img}
-                src={`https://i.pravatar.cc/150?img=${img}`}
-                alt="Usuario"
-                className="reaction-avatar-img"
+          {activeReaction && !modoExploracion ? (
+            <div className="reaction-count-with-icon">
+              <Icon
+                name={activeReaction.icon}
+                size={20}
+                style={{ fill: activeReaction.color }}
               />
-            ))}
-          </div>
-          <span className="reaction-count-text">{likeCount} reacciones</span>
+              <span className="reaction-count-text" style={{ color: activeReaction.color, fontWeight: 600 }}>
+                {likeCount} reacciones
+              </span>
+            </div>
+          ) : (
+            <>
+              <div className="reaction-avatars">
+                {[20, 25, 30].map((img) => (
+                  <img
+                    key={img}
+                    src={`https://i.pravatar.cc/150?img=${img}`}
+                    alt="Usuario"
+                    className="reaction-avatar-img"
+                  />
+                ))}
+              </div>
+              <span className="reaction-count-text">{likeCount} reacciones</span>
+            </>
+          )}
         </div>
         <div className="post-stat-right">
-          <span className="stat-link">18 comentarios</span>
+          <span className="stat-link" onClick={onToggleComments} style={{ cursor: "pointer" }}>
+            {commentCount > 0 ? `${commentCount} comentarios` : "18 comentarios"}
+          </span>
           <span className="stat-link">5 compartidos</span>
         </div>
       </div>
@@ -76,7 +93,7 @@ function AccionesPublicacion({ initialLikeCount = 124 }) {
 
         <button
           className="post-react-btn"
-          onClick={modoExploracion ? comenzarAutenticacion : undefined}
+          onClick={modoExploracion ? comenzarAutenticacion : onToggleComments}
           style={demoStyle}
           title={demoTitle}
         >

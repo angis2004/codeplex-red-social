@@ -18,7 +18,8 @@
       "Bash(ls \"C:/proyectos/codeplex-red-social/.claude/worktrees/brave-snyder/src/App.\"*)",
       "Bash(ls \"C:/proyectos/codeplex-red-social/.claude/worktrees/brave-snyder/src/main.\"*)",
       "Bash(ls \"C:/proyectos/codeplex-red-social/.claude/worktrees/brave-snyder/src/feed/ui/publicaciones/AccionesPublicacion.\"*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ]
   }
 }

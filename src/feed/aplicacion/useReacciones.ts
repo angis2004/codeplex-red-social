@@ -42,7 +42,7 @@ export function useReacciones(initialCount: number = 0): UseReaccionesReturn {
   }, []);
 
   const handleMouseLeaveButton = (): void => {
-    closeTimeoutRef.current = setTimeout(() => setShowReactions(false), 500);
+    closeTimeoutRef.current = setTimeout(() => setShowReactions(false), 200);
   };
 
   const handleMouseEnterPopup = (): void => {
@@ -50,7 +50,7 @@ export function useReacciones(initialCount: number = 0): UseReaccionesReturn {
   };
 
   const handleMouseLeavePopup = (): void => {
-    closeTimeoutRef.current = setTimeout(() => setShowReactions(false), 300);
+    closeTimeoutRef.current = setTimeout(() => setShowReactions(false), 150);
   };
 
   const handleTouchStart = (): void => {
