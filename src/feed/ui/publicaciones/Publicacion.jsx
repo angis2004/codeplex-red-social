@@ -3,7 +3,7 @@ import AccionesPublicacion from "./AccionesPublicacion";
 import Comentarios from "./Comentarios";
 
 function Publicacion({ post }) {
-  const [showComments, setShowComments] = useState(true);
+  const [showComments, setShowComments] = useState(false);
 
   const toggleComments = () => setShowComments((prev) => !prev);
 
