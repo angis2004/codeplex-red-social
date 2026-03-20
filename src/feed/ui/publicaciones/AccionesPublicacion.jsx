@@ -66,7 +66,7 @@ function AccionesPublicacion({ initialLikeCount = 124, onToggleComments, comment
           <button
             className={`post-react-btn ${liked && !modoExploracion ? "reacted" : ""}`}
             data-reaction={activeReaction?.label || ""}
-            onMouseEnter={modoExploracion ? undefined : () => setShowReactions(true)}
+            onMouseEnter={modoExploracion ? undefined : handlers.handleMouseEnterButton}
             onMouseLeave={modoExploracion ? undefined : handlers.handleMouseLeaveButton}
             onTouchStart={modoExploracion ? undefined : handlers.handleTouchStart}
             onTouchEnd={modoExploracion ? undefined : handlers.handleTouchEnd}

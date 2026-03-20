@@ -7,6 +7,7 @@ export interface Reaction {
 }
 
 export interface UseReaccionesHandlers {
+  handleMouseEnterButton: () => void;
   handleMouseLeaveButton: () => void;
   handleMouseEnterPopup: () => void;
   handleMouseLeavePopup: () => void;
@@ -33,6 +34,7 @@ export function useReacciones(initialCount: number = 0): UseReaccionesReturn {
 
   const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const longPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const cooldownRef = useRef<boolean>(false);
 
   useEffect(() => {
     return () => {
@@ -41,8 +43,14 @@ export function useReacciones(initialCount: number = 0): UseReaccionesReturn {
     };
   }, []);
 
+  const handleMouseEnterButton = (): void => {
+    if (cooldownRef.current) return; // evita reabrir después de seleccionar
+    if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
+    setShowReactions(true);
+  };
+
   const handleMouseLeaveButton = (): void => {
-    closeTimeoutRef.current = setTimeout(() => setShowReactions(false), 200);
+    closeTimeoutRef.current = setTimeout(() => setShowReactions(false), 150);
   };
 
   const handleMouseEnterPopup = (): void => {
@@ -50,7 +58,7 @@ export function useReacciones(initialCount: number = 0): UseReaccionesReturn {
   };
 
   const handleMouseLeavePopup = (): void => {
-    closeTimeoutRef.current = setTimeout(() => setShowReactions(false), 150);
+    closeTimeoutRef.current = setTimeout(() => setShowReactions(false), 100);
   };
 
   const handleTouchStart = (): void => {
@@ -85,6 +93,9 @@ export function useReacciones(initialCount: number = 0): UseReaccionesReturn {
       setLiked(true);
     }
     setShowReactions(false);
+    // Cooldown: evita que el popup se reabra inmediatamente
+    cooldownRef.current = true;
+    setTimeout(() => { cooldownRef.current = false; }, 300);
   };
 
   return {
@@ -94,6 +105,7 @@ export function useReacciones(initialCount: number = 0): UseReaccionesReturn {
     activeReaction,
     setShowReactions,
     handlers: {
+      handleMouseEnterButton,
       handleMouseLeaveButton,
       handleMouseEnterPopup,
       handleMouseLeavePopup,
