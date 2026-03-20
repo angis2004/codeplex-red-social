@@ -93,7 +93,7 @@ function AccionesPublicacion({ initialLikeCount = 124, onToggleComments, comment
 
         <button
           className="post-react-btn"
-          onClick={modoExploracion ? comenzarAutenticacion : onToggleComments}
+          onClick={modoExploracion ? comenzarAutenticacion : () => { setShowReactions(false); onToggleComments(); }}
           style={demoStyle}
           title={demoTitle}
         >
@@ -103,7 +103,7 @@ function AccionesPublicacion({ initialLikeCount = 124, onToggleComments, comment
 
         <button
           className="post-react-btn"
-          onClick={modoExploracion ? comenzarAutenticacion : undefined}
+          onClick={modoExploracion ? comenzarAutenticacion : () => { setShowReactions(false); }}
           style={demoStyle}
           title={demoTitle}
         >
