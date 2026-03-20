@@ -230,37 +230,40 @@ function Comment({
           </div>
           {isEditing ? (
             <div className="comment-edit-form">
-              <textarea
-                className="comment-edit-textarea"
-                value={editText}
-                onChange={(e) => {
-                  setEditText(e.target.value);
-                  // Auto-resize al contenido
-                  e.target.style.height = "auto";
-                  e.target.style.height = e.target.scrollHeight + "px";
-                }}
-                onKeyDown={handleEditKeyDown}
-                autoFocus
-                ref={(el) => {
-                  // Auto-resize al montar
-                  if (el) {
-                    el.style.height = "auto";
-                    el.style.height = el.scrollHeight + "px";
-                    // Cursor al final del texto
-                    el.selectionStart = el.value.length;
-                    el.selectionEnd = el.value.length;
-                  }
-                }}
-                rows={1}
-              />
-              <div className="comment-edit-footer">
-                <span className="comment-edit-hint">
-                  Pulsa "Esc" para{" "}
-                  <button className="comment-edit-cancel" onClick={handleEditCancel}>
-                    cancelar
-                  </button>.
-                </span>
+              <div className="comment-edit-container">
+                <textarea
+                  className="comment-edit-textarea"
+                  value={editText}
+                  onChange={(e) => {
+                    setEditText(e.target.value);
+                    e.target.style.height = "auto";
+                    e.target.style.height = e.target.scrollHeight + "px";
+                  }}
+                  onKeyDown={handleEditKeyDown}
+                  autoFocus
+                  ref={(el) => {
+                    if (el) {
+                      el.style.height = "auto";
+                      el.style.height = el.scrollHeight + "px";
+                      el.selectionStart = el.value.length;
+                      el.selectionEnd = el.value.length;
+                    }
+                  }}
+                  rows={1}
+                />
+                <button className="comment-edit-send" onClick={handleEditSave}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <line x1="22" y1="2" x2="11" y2="13" />
+                    <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                  </svg>
+                </button>
               </div>
+              <span className="comment-edit-hint">
+                Pulsa "Esc" para{" "}
+                <button className="comment-edit-cancel" onClick={handleEditCancel}>
+                  cancelar
+                </button>.
+              </span>
             </div>
           ) : (
             <div className="comment-text-row">
