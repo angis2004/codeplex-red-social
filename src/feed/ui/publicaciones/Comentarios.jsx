@@ -230,28 +230,30 @@ function Comment({
           </div>
           {isEditing ? (
             <div className="comment-edit-form">
-              <input
-                type="text"
-                className="comment-edit-input"
+              <textarea
+                className="comment-edit-textarea"
                 value={editText}
-                onChange={(e) => setEditText(e.target.value)}
+                onChange={(e) => {
+                  setEditText(e.target.value);
+                  // Auto-resize al contenido
+                  e.target.style.height = "auto";
+                  e.target.style.height = e.target.scrollHeight + "px";
+                }}
                 onKeyDown={handleEditKeyDown}
                 autoFocus
+                ref={(el) => {
+                  // Auto-resize al montar
+                  if (el) {
+                    el.style.height = "auto";
+                    el.style.height = el.scrollHeight + "px";
+                    // Cursor al final del texto
+                    el.selectionStart = el.value.length;
+                    el.selectionEnd = el.value.length;
+                  }
+                }}
+                rows={1}
               />
-              <div className="comment-edit-actions">
-                <button
-                  className="comment-edit-btn comment-edit-btn--save"
-                  onClick={handleEditSave}
-                >
-                  Guardar
-                </button>
-                <button
-                  className="comment-edit-btn comment-edit-btn--cancel"
-                  onClick={handleEditCancel}
-                >
-                  Cancelar
-                </button>
-              </div>
+              <span className="comment-edit-hint">Escape para cancelar · Enter para guardar</span>
             </div>
           ) : (
             <div className="comment-text-row">

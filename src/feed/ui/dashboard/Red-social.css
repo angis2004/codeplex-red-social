@@ -2050,57 +2050,40 @@ stroke:1px solid green;
   background: rgba(239, 68, 68, 0.15);
 }
 
-/* ── Edit form within comment ── */
+/* ── Edit form within comment (estilo Facebook) ── */
 .comment-edit-form {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 4px;
   margin-bottom: 8px;
 }
 
-.comment-edit-input {
+.comment-edit-textarea {
   width: 100%;
-  padding: 8px 12px;
+  padding: 10px 14px;
   border: 1px solid var(--primary-color);
-  border-radius: 8px;
+  border-radius: 12px;
   font-size: 14px;
+  font-family: inherit;
+  line-height: 1.5;
   outline: none;
-  background: white;
+  background: var(--background-color, #f0f2f5);
   color: var(--text-dark);
-  box-shadow: 0 0 0 3px rgba(127, 13, 242, 0.1);
+  resize: none;
+  overflow: hidden;
+  min-height: 38px;
+  box-sizing: border-box;
 }
 
-.comment-edit-actions {
-  display: flex;
-  gap: 8px;
+.comment-edit-textarea:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(127, 13, 242, 0.1);
 }
 
-.comment-edit-btn {
-  padding: 4px 14px;
-  border-radius: 6px;
-  border: none;
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.comment-edit-btn--save {
-  background: var(--primary-color);
-  color: white;
-}
-
-.comment-edit-btn--save:hover {
-  background: #6a0bd0;
-}
-
-.comment-edit-btn--cancel {
-  background: #f1f5f9;
-  color: var(--sidebar-text);
-}
-
-.comment-edit-btn--cancel:hover {
-  background: #e2e8f0;
+.comment-edit-hint {
+  font-size: 11px;
+  color: #94a3b8;
+  padding-left: 4px;
 }
 
 /* ── Comment Like wrapper (for reaction popup positioning) ── */
