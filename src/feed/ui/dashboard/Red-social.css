@@ -1230,15 +1230,16 @@ stroke:1px solid green;
 
 @media (max-width: 480px) {
   .reactions-popup {
-    left: 0px;
-    transform: none;
+    left: 50%;
+    transform: translateX(-50%);
     width: auto;
     max-width: calc(100vw - 20px);
     justify-content: space-around;
   }
 
   .reactions-popup::after {
-    left: 30%;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   .reaction-option {
