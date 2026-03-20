@@ -2045,3 +2045,342 @@ stroke:1px solid green;
   justify-content: center;
   flex-shrink: 0;
 }
+
+/* ═══════════════════════════════════════════════════════════
+   ENHANCED COMMENTS - Reactions, Replies, Edit/Delete
+═══════════════════════════════════════════════════════════ */
+
+/* ── Comment Thread Container ── */
+.comment-thread {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Comment bubble header (name + menu) ── */
+.comment-bubble-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ── "..." Menu on hover ── */
+.comment-menu-wrapper {
+  position: relative;
+}
+
+.comment-menu-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--sidebar-text);
+  padding: 0 6px;
+  line-height: 1;
+  border-radius: 50%;
+  transition: background 0.2s, color 0.2s;
+  letter-spacing: 1px;
+  opacity: 0.6;
+}
+
+.comment-menu-btn:hover {
+  background: var(--hover-color, #f1f5f9);
+  color: var(--text-dark);
+  opacity: 1;
+}
+
+.comment-menu-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  z-index: 50;
+  min-width: 120px;
+  overflow: hidden;
+  animation: menuFadeIn 0.12s ease-out;
+}
+
+@keyframes menuFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.comment-menu-item {
+  display: block;
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  background: none;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-dark);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.comment-menu-item:hover {
+  background: #f8fafc;
+}
+
+.comment-menu-item--danger {
+  color: #ef4444;
+}
+
+.comment-menu-item--danger:hover {
+  background: #fef2f2;
+}
+
+/* ── Edit form within comment ── */
+.comment-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.comment-edit-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--primary-color);
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  background: white;
+  color: var(--text-dark);
+  box-shadow: 0 0 0 3px rgba(127, 13, 242, 0.1);
+}
+
+.comment-edit-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.comment-edit-btn {
+  padding: 4px 14px;
+  border-radius: 6px;
+  border: none;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.comment-edit-btn--save {
+  background: var(--primary-color);
+  color: white;
+}
+
+.comment-edit-btn--save:hover {
+  background: #6a0bd0;
+}
+
+.comment-edit-btn--cancel {
+  background: #f1f5f9;
+  color: var(--sidebar-text);
+}
+
+.comment-edit-btn--cancel:hover {
+  background: #e2e8f0;
+}
+
+/* ── Comment Like wrapper (for reaction popup positioning) ── */
+.comment-like-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.comment-reaction-count {
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* ── Mini Reaction Popup for Comments ── */
+.comment-reactions-popup {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border-radius: 24px;
+  padding: 4px 8px;
+  display: flex;
+  gap: 2px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05), 0 6px 20px rgba(0, 0, 0, 0.12);
+  z-index: 100;
+  animation: miniPopupIn 0.12s cubic-bezier(0.34, 1.56, 0.64, 1);
+  white-space: nowrap;
+}
+
+.comment-reactions-popup::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 8px;
+  height: 8px;
+  background: white;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.04);
+  z-index: -1;
+}
+
+@keyframes miniPopupIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(4px) scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+}
+
+.comment-reaction-option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 6px;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.comment-reaction-option:hover {
+  transform: scale(1.35) translateY(-3px);
+}
+
+.comment-reaction-option:active {
+  transform: scale(1.1);
+}
+
+.comment-reaction-option .icon {
+  width: 18px;
+  height: 18px;
+  transition: all 0.15s;
+}
+
+/* Reaction colors on hover - mini version */
+.comment-reaction-option:nth-child(1) .icon {
+  fill: #7F0DF2;
+}
+.comment-reaction-option:nth-child(1):hover .icon {
+  filter: drop-shadow(0 2px 4px rgba(127, 13, 242, 0.5));
+}
+
+.comment-reaction-option:nth-child(2) .icon {
+  fill: #ef4444;
+}
+.comment-reaction-option:nth-child(2):hover .icon {
+  filter: drop-shadow(0 2px 4px rgba(239, 68, 68, 0.5));
+}
+
+.comment-reaction-option:nth-child(3) .icon {
+  fill: #f59e0b;
+}
+.comment-reaction-option:nth-child(3):hover .icon {
+  filter: drop-shadow(0 2px 4px rgba(245, 158, 11, 0.5));
+}
+
+/* ── Nested Replies ── */
+.comment-replies {
+  margin-left: 46px;
+  padding-left: 16px;
+  border-left: 2px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.comment-replies .comment-avatar {
+  width: 28px;
+  height: 28px;
+}
+
+.comment-replies .comment-user-name {
+  font-size: 12px;
+}
+
+.comment-replies .comment-text {
+  font-size: 13px;
+}
+
+.comment-replies .comment-time {
+  font-size: 11px;
+}
+
+.comment-replies .comment-like-btn {
+  font-size: 11px;
+}
+
+/* ── Reply Input Row ── */
+.comment-reply-input-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 8px;
+  margin-left: 46px;
+  padding-left: 16px;
+}
+
+.comment-avatar--reply {
+  width: 28px !important;
+  height: 28px !important;
+}
+
+.comment-reply-input-row .comment-input {
+  padding: 8px 40px 8px 14px;
+  font-size: 13px;
+  border-radius: 20px;
+}
+
+.comment-reply-input-row .comment-send-btn {
+  width: 28px;
+  height: 28px;
+}
+
+/* ── Mention tag ── */
+.comment-mention {
+  color: var(--primary-color);
+  font-weight: 600;
+  font-size: inherit;
+}
+
+/* ── Responsive adjustments ── */
+@media (max-width: 480px) {
+  .comment-replies {
+    margin-left: 30px;
+    padding-left: 12px;
+  }
+
+  .comment-reply-input-row {
+    margin-left: 30px;
+    padding-left: 12px;
+  }
+
+  .comment-reactions-popup {
+    padding: 3px 6px;
+  }
+
+  .comment-reaction-option {
+    padding: 3px 4px;
+  }
+
+  .comment-reaction-option .icon {
+    width: 16px;
+    height: 16px;
+  }
+}
