@@ -6,13 +6,14 @@
     "moduleResolution": "bundler",
     "moduleDetection": "force",
     "jsx": "react-jsx",
+    "allowJs": true,
     "baseUrl": ".",
     "paths": {
       "@feed/*":          ["src/feed/*"],
       "@identidad/*":     ["src/identidad/*"],
       "@organizacion/*":  ["src/organizacion/*"],
       "@planes/*":        ["src/planes/*"],
-      "@ui/*":            ["src/ui/*"],
+      "@compartido/*":    ["src/compartido/*"],
       "@styles/*":        ["src/styles/*"]
     },
     "strict": false,

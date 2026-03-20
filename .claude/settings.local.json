@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(for f:*)",
+      "Bash(do)",
+      "Bash(sed -i 's|from \"\"../../ui/visor-catalogo/VisorCatalogoPDF\"\"|from \"\"../../compartido/visor-catalogo/VisorCatalogoPDF\"\"|g' \"$f\")",
+      "Bash(done)",
+      "Bash(find src:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npx vite:*)",
+      "Bash(find /c/proyectos/codeplex-red-social/.claude/worktrees/brave-snyder/src -type f \\\\\\(-name *.css -o -name *.scss \\\\\\))",
+      "Bash(xargs wc:*)",
+      "Bash(npm run:*)",
+      "Bash(WD=\"C:/proyectos/codeplex-red-social/.claude/worktrees/brave-snyder\")",
+      "Read(//c/proyectos/codeplex-red-social/.claude/worktrees/brave-snyder/**)",
+      "Bash(while read:*)",
+      "Bash(do git:*)",
+      "Bash(ls \"C:/proyectos/codeplex-red-social/.claude/worktrees/brave-snyder/src/App.\"*)",
+      "Bash(ls \"C:/proyectos/codeplex-red-social/.claude/worktrees/brave-snyder/src/main.\"*)",
+      "Bash(ls \"C:/proyectos/codeplex-red-social/.claude/worktrees/brave-snyder/src/feed/ui/publicaciones/AccionesPublicacion.\"*)",
+      "Bash(git add:*)"
+    ]
+  }
+}
