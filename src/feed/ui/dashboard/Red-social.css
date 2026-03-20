@@ -1050,8 +1050,8 @@ stroke:1px solid green;
 ═══════════════════════════════════════════════════════════ */
 @media (max-width: 768px) {
   .reactions-popup {
-    background: white;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    background: none;
+    box-shadow: none;
     padding: 8px 12px;
     gap: 6px;
     border-radius: 50px;
