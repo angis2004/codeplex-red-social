@@ -746,11 +746,12 @@
   align-items: center;
   justify-content: center;
   color: white;
-  transition: all 0.3s ease;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
 }
 
 .comment-send-btn:hover {
-  transform: translateY(-50%) scale(1.1);
+  transform: scale(1.1);
   box-shadow: 0 4px 12px rgba(127, 13, 242, 0.3);
 }
 
@@ -2306,7 +2307,7 @@ stroke:1px solid green;
 .comment-reply-input-row {
   display: flex;
   gap: 10px;
-  align-items: center;
+  align-items: flex-start;
   margin-top: 8px;
   margin-left: 46px;
   padding-left: 16px;
@@ -2315,12 +2316,7 @@ stroke:1px solid green;
 .comment-avatar--reply {
   width: 28px !important;
   height: 28px !important;
-}
-
-.comment-reply-input-row .comment-input {
-  padding: 8px 40px 8px 14px;
-  font-size: 13px;
-  border-radius: 20px;
+  margin-top: 8px;
 }
 
 .comment-reply-input-row .comment-send-btn {
