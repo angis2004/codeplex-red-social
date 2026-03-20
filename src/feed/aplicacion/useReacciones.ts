@@ -34,7 +34,6 @@ export function useReacciones(initialCount: number = 0): UseReaccionesReturn {
 
   const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const longPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const cooldownRef = useRef<boolean>(false);
 
   useEffect(() => {
     return () => {
@@ -43,14 +42,15 @@ export function useReacciones(initialCount: number = 0): UseReaccionesReturn {
     };
   }, []);
 
+  // Abrir popup INSTANTÁNEO al hover (0 delay, como Facebook)
   const handleMouseEnterButton = (): void => {
-    if (cooldownRef.current) return; // evita reabrir después de seleccionar
     if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
     setShowReactions(true);
   };
 
+  // Cerrar con pequeño margen para mover mouse al popup
   const handleMouseLeaveButton = (): void => {
-    closeTimeoutRef.current = setTimeout(() => setShowReactions(false), 150);
+    closeTimeoutRef.current = setTimeout(() => setShowReactions(false), 80);
   };
 
   const handleMouseEnterPopup = (): void => {
@@ -58,7 +58,7 @@ export function useReacciones(initialCount: number = 0): UseReaccionesReturn {
   };
 
   const handleMouseLeavePopup = (): void => {
-    closeTimeoutRef.current = setTimeout(() => setShowReactions(false), 100);
+    closeTimeoutRef.current = setTimeout(() => setShowReactions(false), 80);
   };
 
   const handleTouchStart = (): void => {
@@ -92,10 +92,8 @@ export function useReacciones(initialCount: number = 0): UseReaccionesReturn {
       setActiveReaction(reaction);
       setLiked(true);
     }
-    setShowReactions(false);
-    // Cooldown: evita que el popup se reabra inmediatamente
-    cooldownRef.current = true;
-    setTimeout(() => { cooldownRef.current = false; }, 300);
+    // NO cerramos el popup → el usuario puede cambiar de reacción instantáneamente
+    // El popup se cierra solo cuando el mouse se va del área
   };
 
   return {
