@@ -253,7 +253,12 @@ function Comment({
                 }}
                 rows={1}
               />
-              <span className="comment-edit-hint">Escape para cancelar · Enter para guardar</span>
+              <div className="comment-edit-footer">
+                <span className="comment-edit-hint">Enter para guardar</span>
+                <button className="comment-edit-cancel" onClick={handleEditCancel}>
+                  Cancelar
+                </button>
+              </div>
             </div>
           ) : (
             <div className="comment-text-row">

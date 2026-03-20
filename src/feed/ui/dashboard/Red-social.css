@@ -2080,10 +2080,30 @@ stroke:1px solid green;
   box-shadow: 0 0 0 2px rgba(127, 13, 242, 0.1);
 }
 
+.comment-edit-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px;
+}
+
 .comment-edit-hint {
   font-size: 11px;
   color: #94a3b8;
-  padding-left: 4px;
+}
+
+.comment-edit-cancel {
+  background: none;
+  border: none;
+  color: var(--primary-color);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 2px 0;
+}
+
+.comment-edit-cancel:hover {
+  text-decoration: underline;
 }
 
 /* ── Comment Like wrapper (for reaction popup positioning) ── */
