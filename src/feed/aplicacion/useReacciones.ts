@@ -48,9 +48,9 @@ export function useReacciones(initialCount: number = 0): UseReaccionesReturn {
     setShowReactions(true);
   };
 
-  // Cerrar con pequeño margen para mover mouse al popup
+  // Cerrar después de ~800ms fuera del área (como Facebook)
   const handleMouseLeaveButton = (): void => {
-    closeTimeoutRef.current = setTimeout(() => setShowReactions(false), 80);
+    closeTimeoutRef.current = setTimeout(() => setShowReactions(false), 800);
   };
 
   const handleMouseEnterPopup = (): void => {
@@ -58,7 +58,7 @@ export function useReacciones(initialCount: number = 0): UseReaccionesReturn {
   };
 
   const handleMouseLeavePopup = (): void => {
-    closeTimeoutRef.current = setTimeout(() => setShowReactions(false), 80);
+    closeTimeoutRef.current = setTimeout(() => setShowReactions(false), 800);
   };
 
   const handleTouchStart = (): void => {
