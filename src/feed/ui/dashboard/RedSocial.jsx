@@ -4,6 +4,7 @@ import CreadorPublicacion from "../publicaciones/CreadorPublicacion";
 import PublicacionesFeed from "../publicaciones/PublicacionesFeed";
 import TarjetaMonedero from "../../../planes/monedero/ui/TarjetaMonedero";
 import RankingUsuarios from "./RankingUsuarios";
+import MensajesFlotante from "../buzon/MensajesFlotante";
 import "./Red-social.css";
 
 // RedSocial es solo un ORQUESTADOR — no tiene lógica propia
@@ -20,6 +21,8 @@ function RedSocial() {
         <TarjetaMonedero />
         <RankingUsuarios />
       </div>
+
+      <MensajesFlotante />
     </div>
   );
 }

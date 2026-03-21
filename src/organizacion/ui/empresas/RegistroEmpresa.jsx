@@ -59,13 +59,11 @@ const FORM_INICIAL = {
 function RegistroEmpresa({ estaAbierto, alCerrar, alExito }) {
   const [form, setForm] = useState(FORM_INICIAL);
   const [errors, setErrors] = useState({});
-  const [alertaVisible, setAlertaVisible] = useState(true);
   const overlayRef = useRef();
 
   useEffect(() => {
     if (estaAbierto) {
       document.body.style.overflow = "hidden";
-      setAlertaVisible(true);
     } else {
       document.body.style.overflow = "";
     }
@@ -141,20 +139,6 @@ function RegistroEmpresa({ estaAbierto, alCerrar, alExito }) {
         {/* BODY */}
         <div className="mce-body">
 
-          {/* Alerta bienvenida */}
-          {alertaVisible && (
-            <div className="mce-alerta">
-              <span className="mce-alerta-icon"><Icon name="informacion" size={16} /></span>
-              <p className="mce-alerta-texto">
-                Crea tu primera empresa para empezar a trabajar. Recuerda colocar todos
-                tus datos y en caso de que ya termines, se habilitara en el sidebar una
-                seccion de empresas donde veras todas las que agregues.
-              </p>
-              <button className="mce-alerta-close" onClick={() => setAlertaVisible(false)}>
-                <Icon name="cerrar" size={10} />
-              </button>
-            </div>
-          )}
 
           {/* Fila 1: RUC (izq) | Nombre Comercial (der) */}
           <div className="mce-grid-2">
