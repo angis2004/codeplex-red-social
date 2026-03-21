@@ -9,6 +9,7 @@
 ═══════════════════════════════════════════════════════════ */
 import React, { useState, useRef, useEffect } from "react";
 import { CONVERSACIONES_MOCK, SUGERIDOS_MOCK } from "./mensajes.data";
+import { useSesion } from "../../../identidad/aplicacion/SesionContext";
 import "./MensajesFlotante.css";
 
 /* ── Tabs del popup ── */
@@ -276,6 +277,7 @@ function VistaChat({ conversacion, onVolver, onCerrar, onMinimizar }) {
    ORQUESTADOR — MensajesFlotante
 ═══════════════════════════════════════════ */
 function MensajesFlotante({ alNavegar }) {
+  const { modoExploracion, comenzarAutenticacion } = useSesion();
   const [estado, setEstado] = useState("cerrado"); // cerrado | lista | chat
   const [chatActivo, setChatActivo] = useState(null);
 
@@ -324,7 +326,7 @@ function MensajesFlotante({ alNavegar }) {
       {/* Botón flotante siempre visible */}
       <BotonFlotante
         totalSinLeer={totalSinLeer}
-        onClick={estado === "cerrado" ? abrirLista : cerrarTodo}
+        onClick={modoExploracion ? comenzarAutenticacion : (estado === "cerrado" ? abrirLista : cerrarTodo)}
       />
     </div>
   );
