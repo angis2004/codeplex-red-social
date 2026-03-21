@@ -81,7 +81,7 @@ function SugeridoItem({ contacto }) {
 /* ═══════════════════════════════════════════
    POPUP LISTA DE CONVERSACIONES
 ═══════════════════════════════════════════ */
-function PopupLista({ onCerrar, onAbrirChat, onMinimizar }) {
+function PopupLista({ onCerrar, onAbrirChat, onMinimizar, onExpandir }) {
   const [tabActivo, setTabActivo] = useState("todos");
   const [busqueda, setBusqueda] = useState("");
 
@@ -106,7 +106,7 @@ function PopupLista({ onCerrar, onAbrirChat, onMinimizar }) {
           <button className="mensajes-popup-btn" title="Minimizar" onClick={onMinimizar}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="5" y1="12" x2="19" y2="12" /></svg>
           </button>
-          <button className="mensajes-popup-btn" title="Expandir">
+          <button className="mensajes-popup-btn" title="Expandir" onClick={onExpandir}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <polyline points="15 3 21 3 21 9" /><polyline points="9 21 3 21 3 15" />
               <line x1="21" y1="3" x2="14" y2="10" /><line x1="3" y1="21" x2="10" y2="14" />
@@ -275,7 +275,7 @@ function VistaChat({ conversacion, onVolver, onCerrar, onMinimizar }) {
 /* ═══════════════════════════════════════════
    ORQUESTADOR — MensajesFlotante
 ═══════════════════════════════════════════ */
-function MensajesFlotante() {
+function MensajesFlotante({ alNavegar }) {
   const [estado, setEstado] = useState("cerrado"); // cerrado | lista | chat
   const [chatActivo, setChatActivo] = useState(null);
 
@@ -284,6 +284,11 @@ function MensajesFlotante() {
   const abrirLista = () => setEstado("lista");
   const cerrarTodo = () => { setEstado("cerrado"); setChatActivo(null); };
   const minimizar = () => { setEstado("cerrado"); };
+
+  const expandir = () => {
+    cerrarTodo();
+    if (alNavegar) alNavegar("mensajes");
+  };
 
   const abrirChat = (conversacion) => {
     setChatActivo(conversacion);
@@ -303,6 +308,7 @@ function MensajesFlotante() {
           onCerrar={cerrarTodo}
           onAbrirChat={abrirChat}
           onMinimizar={minimizar}
+          onExpandir={expandir}
         />
       )}
 

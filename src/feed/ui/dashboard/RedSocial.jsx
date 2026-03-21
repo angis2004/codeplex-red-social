@@ -8,7 +8,7 @@ import MensajesFlotante from "../buzon/MensajesFlotante";
 import "./Red-social.css";
 
 // RedSocial es solo un ORQUESTADOR — no tiene lógica propia
-function RedSocial() {
+function RedSocial({ alNavegar }) {
   return (
     <div className="dashboard">
       <div className="dashboard-left">
@@ -22,7 +22,7 @@ function RedSocial() {
         <RankingUsuarios />
       </div>
 
-      <MensajesFlotante />
+      <MensajesFlotante alNavegar={alNavegar} />
     </div>
   );
 }

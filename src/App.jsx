@@ -107,7 +107,7 @@ function AppContent() {
 
   const renderVista = () => {
     switch (vistaActiva) {
-      case "red-social":        return <RedSocial />;
+      case "red-social":        return <RedSocial alNavegar={setVistaActiva} />;
       case "datos-personales":  return <DatosPersonales />;
       case "empresas":          return <GestionEmpresas />;
       case "datos-facturacion": return <DatosFacturacion />;
