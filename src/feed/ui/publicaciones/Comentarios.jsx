@@ -281,7 +281,7 @@ function Comment({
                 </div>
               )}
             </div>
-            {isOwner && hovering && (
+            {isOwner && (
               <CommentMenu
                 onEdit={() => {
                   setEditText(text);
