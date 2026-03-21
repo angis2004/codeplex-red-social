@@ -138,7 +138,7 @@
 
 .post-action-btn.active {
   background-color: var(--hover-color);
-  color: black;
+  color: var(--primary-color);
   border-color: var(--primary-color);
 }
 
@@ -540,7 +540,7 @@
 
 .post-react-btn .action-count {
   font-size: 13px;
-  color: #b694b8;
+  color: var(--text-muted);
   font-weight: 500;
 }
 
@@ -621,6 +621,11 @@
   object-fit: cover;
 }
 
+.comment-content {
+  flex: 1;
+  min-width: 0;
+}
+
 .comment-bubble-row {
   display: flex;
   align-items: center;
@@ -631,6 +636,16 @@
   background-color: var(--background-color, #f0f2f5);
   border-radius: 12px;
   padding: 8px 12px;
+}
+
+.comment-bubble:has(.comment-edit-form) {
+  flex: 1;
+  background: transparent;
+  padding: 0;
+}
+
+.comment-bubble-row:has(.comment-edit-form) {
+  width: 100%;
 }
 
 .comment-user-name {
@@ -661,7 +676,7 @@
 
 .comment-time {
   font-size: 12px;
-   color: #cbd5e1;
+  color: var(--text-muted);
 }
 
 .comment-like-btn {
@@ -728,7 +743,7 @@
   background: none;
   border: none;
   cursor: not-allowed;
-  color: #94a3b8;
+  color: var(--text-muted);
   padding: 4px;
   border-radius: 50%;
   display: flex;
@@ -739,8 +754,8 @@
 }
 
 .comment-media-btn:hover {
-  color: #64748b;
-  background: rgba(0, 0, 0, 0.05);
+  color: var(--text-dark);
+  background: var(--hover-color);
 }
 
 .comment-send-btn {
@@ -805,7 +820,6 @@
 }
 
 /* ── REACTION WRAPPER ── */
-/* ── REACTION WRAPPER ── */
 
 .reaction-wrapper {
   position: relative;
@@ -833,7 +847,7 @@
   padding: 8px 16px;
   display: flex;
   gap: 4px;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05), 0 8px 30px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-lg);
   z-index: 100;
   animation: popupIn 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
   white-space: nowrap;
@@ -1210,10 +1224,6 @@ stroke:1px solid green;
   /* fill: currentColor; */
 }
 
-/* (bloque duplicado de reactions-popup eliminado) */
-
-
-
 
 
 
@@ -1369,7 +1379,7 @@ stroke:1px solid green;
 
 .balance-label {
   font-size: 14px;
-  color: #94a3b8;
+  color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 1px;
   font-weight: 500;
@@ -1681,7 +1691,7 @@ stroke:1px solid green;
   left: -6px;
   width: 28px;
   height: 28px;
-  background: white;
+  background: var(--white-color);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -1993,8 +2003,8 @@ stroke:1px solid green;
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: #f1f5f9;
-  border: 2px dashed #cbd5e1;
+  background: var(--border-light);
+  border: 2px dashed var(--border-color);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2050,9 +2060,9 @@ stroke:1px solid green;
   position: absolute;
   top: 100%;
   right: 0;
-  background: #1e293b;
+  background: var(--surface-elevated);
   border-radius: 10px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--shadow-lg);
   z-index: 50;
   min-width: 160px;
   overflow: hidden;
@@ -2105,17 +2115,24 @@ stroke:1px solid green;
   flex-direction: column;
   gap: 4px;
   margin-bottom: 8px;
+  width: 100%;
 }
 
 .comment-edit-container {
   display: flex;
-  align-items: flex-end;
+  flex-direction: column;
   border: 1px solid var(--border-color);
   border-radius: 18px;
-  background: var(--background-color, #f0f2f5);
-  padding: 6px 6px 6px 14px;
-  gap: 8px;
+  background: var(--input-bg);
+  padding: 8px 14px 6px;
+  width: 100%;
   transition: border-color 0.2s;
+}
+
+@media (min-width: 769px) {
+  .comment-edit-container {
+    min-width: 600px;
+  }
 }
 
 .comment-edit-container:focus-within {
@@ -2162,7 +2179,7 @@ stroke:1px solid green;
 }
 
 .comment-edit-send:hover {
-  background: #6a0bd0;
+  background: var(--accent-hover);
 }
 
 .comment-edit-footer {
@@ -2171,7 +2188,7 @@ stroke:1px solid green;
 
 .comment-edit-hint {
   font-size: 11px;
-  color: #94a3b8;
+  color: var(--text-muted);
 }
 
 .comment-edit-cancel {
@@ -2296,7 +2313,7 @@ stroke:1px solid green;
 .comment-replies {
   margin-left: 46px;
   padding-left: 16px;
-  border-left: 2px solid #e2e8f0;
+  border-left: 2px solid var(--border-color);
   display: flex;
   flex-direction: column;
   gap: 12px;
