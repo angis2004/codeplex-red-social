@@ -8,6 +8,7 @@ import GestionEmpresas from './organizacion/ui/empresas/GestionEmpresas';
 import DatosPersonales from './identidad/ui/datos-personales/DatosPersonales';
 import DatosFacturacion from './organizacion/ui/facturacion/DatosFacturacion';
 import Buzon from './feed/ui/buzon/Buzon';
+import Mensajes from './feed/ui/buzon/Mensajes';
 import Tickets from './organizacion/ui/tickets/Tickets';
 import Mantenedores from './organizacion/ui/mantenedores/Mantenedores';
 import CanjeMonedas from './planes/monedero/ui/CanjeMonedas';
@@ -111,6 +112,7 @@ function AppContent() {
       case "empresas":          return <GestionEmpresas />;
       case "datos-facturacion": return <DatosFacturacion />;
       case "buzon":             return <Buzon />;
+      case "mensajes":          return <Mensajes />;
       case "tickets":           return <Tickets />;
       case "mantenedores":      return <Mantenedores />;
       case "canje-monedas":     return <CanjeMonedas />;

@@ -7,6 +7,7 @@ const MENU_ITEMS = [
   { icon: "empresa",          label: "Empresas",             vista: "empresas" },
   { icon: "datosFacturacion", label: "Datos de Facturación", vista: "datos-facturacion" },
   { icon: "buzon",            label: "Buzón",                vista: "buzon" },
+  { icon: "buzon",            label: "Mensajes",             vista: "mensajes" },
   { icon: "tickets",          label: "Tickets",              vista: "tickets" },
   { icon: "mantenedores",     label: "Mantenedores",         vista: "mantenedores" },
 ];
