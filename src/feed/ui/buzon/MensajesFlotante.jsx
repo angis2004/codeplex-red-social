@@ -84,14 +84,11 @@ function SugeridoItem({ contacto }) {
 ═══════════════════════════════════════════ */
 function PopupLista({ onCerrar, onAbrirChat, onMinimizar, onExpandir }) {
   const [tabActivo, setTabActivo] = useState("todos");
-  const [busqueda, setBusqueda] = useState("");
 
   const conversacionesFiltradas = CONVERSACIONES_MOCK.filter((c) => {
     if (tabActivo === "noLeidos") return c.sinLeer > 0;
     return true;
-  }).filter((c) =>
-    c.nombre.toLowerCase().includes(busqueda.toLowerCase())
-  );
+  });
 
   return (
     <div className="mensajes-popup">
@@ -117,17 +114,6 @@ function PopupLista({ onCerrar, onAbrirChat, onMinimizar, onExpandir }) {
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
           </button>
         </div>
-      </div>
-
-      {/* Búsqueda */}
-      <div className="mensajes-popup-busqueda">
-        <input
-          type="text"
-          placeholder="Buscar conversación .."
-          value={busqueda}
-          onChange={(e) => setBusqueda(e.target.value)}
-          className="mensajes-search-input"
-        />
       </div>
 
       {/* Tabs */}
