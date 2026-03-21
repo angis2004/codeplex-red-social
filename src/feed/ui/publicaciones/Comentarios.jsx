@@ -27,7 +27,7 @@ function MiniReactionPopup({ onSelect, onMouseEnter, onMouseLeave }) {
           }}
           title={reaction.label}
         >
-          <Icon name={reaction.icon} size={18} />
+          <Icon name={reaction.icon} size={18} color={reaction.color} />
         </button>
       ))}
     </div>
@@ -224,115 +224,119 @@ function Comment({
         onMouseLeave={() => setHovering(false)}
       >
         <img src={avatarSrc} alt={name} className="comment-avatar" />
-        <div className="comment-bubble">
-          <div className="comment-bubble-header">
-            <div className="comment-user-name">{name}</div>
-          </div>
-          {isEditing ? (
-            <div className="comment-edit-form">
-              <div className="comment-edit-container">
-                <textarea
-                  className="comment-edit-textarea"
-                  value={editText}
-                  onChange={(e) => {
-                    setEditText(e.target.value);
-                    e.target.style.height = "auto";
-                    e.target.style.height = e.target.scrollHeight + "px";
-                  }}
-                  onKeyDown={handleEditKeyDown}
-                  autoFocus
-                  ref={(el) => {
-                    if (el) {
-                      el.style.height = "auto";
-                      el.style.height = el.scrollHeight + "px";
-                      el.selectionStart = el.value.length;
-                      el.selectionEnd = el.value.length;
-                    }
-                  }}
-                  rows={1}
-                />
-                <div className="comment-edit-bottom">
-                  <CommentMediaIcons />
-                  <button className="comment-edit-send" onClick={handleEditSave}>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <line x1="22" y1="2" x2="11" y2="13" />
-                      <polygon points="22 2 15 22 11 13 2 9 22 2" />
-                    </svg>
-                  </button>
+        <div className="comment-content">
+          <div className="comment-bubble-row">
+            <div className="comment-bubble">
+              <div className="comment-bubble-header">
+                <div className="comment-user-name">{name}</div>
+              </div>
+              {isEditing ? (
+                <div className="comment-edit-form">
+                  <div className="comment-edit-container">
+                    <textarea
+                      className="comment-edit-textarea"
+                      value={editText}
+                      onChange={(e) => {
+                        setEditText(e.target.value);
+                        e.target.style.height = "auto";
+                        e.target.style.height = e.target.scrollHeight + "px";
+                      }}
+                      onKeyDown={handleEditKeyDown}
+                      autoFocus
+                      ref={(el) => {
+                        if (el) {
+                          el.style.height = "auto";
+                          el.style.height = el.scrollHeight + "px";
+                          el.selectionStart = el.value.length;
+                          el.selectionEnd = el.value.length;
+                        }
+                      }}
+                      rows={1}
+                    />
+                    <div className="comment-edit-bottom">
+                      <CommentMediaIcons />
+                      <button className="comment-edit-send" onClick={handleEditSave}>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <line x1="22" y1="2" x2="11" y2="13" />
+                          <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                  <span className="comment-edit-hint">
+                    Pulsa "Esc" para{" "}
+                    <button className="comment-edit-cancel" onClick={handleEditCancel}>
+                      cancelar
+                    </button>.
+                  </span>
                 </div>
-              </div>
-              <span className="comment-edit-hint">
-                Pulsa "Esc" para{" "}
-                <button className="comment-edit-cancel" onClick={handleEditCancel}>
-                  cancelar
-                </button>.
-              </span>
-            </div>
-          ) : (
-            <div className="comment-text-row">
-              <div className="comment-text">
-                {mentionedUser && (
-                  <span className="comment-mention">{mentionedUser}</span>
-                )}{" "}
-                {text}
-              </div>
-              {isOwner && hovering && (
-                <CommentMenu
-                  onEdit={() => {
-                    setEditText(text);
-                    setIsEditing(true);
-                  }}
-                  onDelete={() => onDelete(id)}
-                />
+              ) : (
+                <div className="comment-text-row">
+                  <div className="comment-text">
+                    {mentionedUser && (
+                      <span className="comment-mention">{mentionedUser}</span>
+                    )}{" "}
+                    {text}
+                  </div>
+                </div>
               )}
             </div>
-          )}
+            {isOwner && hovering && (
+              <CommentMenu
+                onEdit={() => {
+                  setEditText(text);
+                  setIsEditing(true);
+                }}
+                onDelete={() => onDelete(id)}
+              />
+            )}
+          </div>
           <div className="comment-actions">
-            <span className="comment-time">{time}</span>
-            <div
-              className="comment-like-wrapper"
-              onMouseEnter={handleMouseEnterLike}
-              onMouseLeave={handleMouseLeaveLike}
-            >
-              <button
-                className="comment-like-btn"
-                onClick={handleLikeClick}
-                style={
-                  activeReaction ? { color: activeReaction.color } : undefined
-                }
-              >
-                {activeReaction ? activeReaction.label : "Me gusta"}
-              </button>
-              {reactionCount > 0 && (
-                <span
-                  className="comment-reaction-count"
-                  style={{ color: activeReaction?.color || "#7F0DF2" }}
-                >
-                  {reactionCount}
-                </span>
-              )}
-              {!modoExploracion && showReactions && (
-                <MiniReactionPopup
-                  onSelect={handleSelectReaction}
-                  onMouseEnter={handleMouseEnterPopup}
-                  onMouseLeave={handleMouseLeavePopup}
-                />
-              )}
-            </div>
+          <span className="comment-time">{time}</span>
+          <div
+            className="comment-like-wrapper"
+            onMouseEnter={handleMouseEnterLike}
+            onMouseLeave={handleMouseLeaveLike}
+          >
             <button
               className="comment-like-btn"
-              onClick={() => {
-                if (modoExploracion) {
-                  comenzarAutenticacion();
-                  return;
-                }
-                setShowReplyInput(!showReplyInput);
-                setReplyText("");
-              }}
+              onClick={handleLikeClick}
+              style={
+                activeReaction ? { color: activeReaction.color } : undefined
+              }
             >
-              Responder
+              {activeReaction ? activeReaction.label : "Me gusta"}
             </button>
+            {reactionCount > 0 && (
+              <span
+                className="comment-reaction-count"
+                style={{ color: activeReaction?.color || "#7F0DF2" }}
+              >
+                {reactionCount}
+              </span>
+            )}
+            {!modoExploracion && showReactions && (
+              <MiniReactionPopup
+                onSelect={handleSelectReaction}
+                onMouseEnter={handleMouseEnterPopup}
+                onMouseLeave={handleMouseLeavePopup}
+              />
+            )}
           </div>
+          <button
+            className="comment-like-btn"
+            onClick={() => {
+              if (modoExploracion) {
+                comenzarAutenticacion();
+                return;
+              }
+              setShowReplyInput(!showReplyInput);
+              setReplyText("");
+            }}
+          >
+            Responder
+          </button>
+        </div>
         </div>
       </div>
 

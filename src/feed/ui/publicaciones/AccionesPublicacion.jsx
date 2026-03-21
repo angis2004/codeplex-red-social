@@ -71,13 +71,13 @@ function AccionesPublicacion({ initialLikeCount = 124, onToggleComments, comment
             onTouchStart={modoExploracion ? undefined : handlers.handleTouchStart}
             onTouchEnd={modoExploracion ? undefined : handlers.handleTouchEnd}
             onClick={modoExploracion ? comenzarAutenticacion : handlers.handleMainClick}
-            style={modoExploracion ? demoStyle : { color: activeReaction?.color || "#475569" }}
+            style={modoExploracion ? demoStyle : activeReaction ? { color: activeReaction.color } : undefined}
             title={demoTitle}
           >
             <Icon
               name={activeReaction?.icon || "like"}
               size={20}
-              style={{ fill: modoExploracion ? "#64748b" : (activeReaction?.color || "#64748b") }}
+              color={activeReaction && !modoExploracion ? activeReaction.color : undefined}
             />
             <span>{activeReaction?.label || "Me gusta"}</span>
           </button>

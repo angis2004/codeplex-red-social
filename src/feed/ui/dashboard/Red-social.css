@@ -507,13 +507,13 @@
   justify-content: center;
   gap: 10px;
   padding: 12px 16px;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
   border-radius: 10px;
   cursor: pointer;
   font-size: 14px;
   font-weight: 600;
-  color: #5a6947;
+  color: var(--text-dark);
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
@@ -621,6 +621,12 @@
   object-fit: cover;
 }
 
+.comment-bubble-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
 .comment-bubble {
   background-color: var(--background-color, #f0f2f5);
   border-radius: 12px;
@@ -683,16 +689,16 @@
 
 .comment-input-container {
   flex: 1;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--border-color);
   border-radius: 18px;
-  background: #f8fafc;
+  background: var(--input-bg);
   padding: 8px 14px 6px;
   transition: border-color 0.2s;
 }
 
 .comment-input-container:focus-within {
   border-color: var(--primary-color);
-  background: white;
+  background: var(--surface-color);
 }
 
 .comment-input {
@@ -2234,6 +2240,7 @@ stroke:1px solid green;
   border: none;
   border-radius: 50%;
   cursor: pointer;
+  color: inherit;
   transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
@@ -2251,23 +2258,23 @@ stroke:1px solid green;
   transition: all 0.15s;
 }
 
-/* Reaction colors on hover - mini version */
+/* Reaction colors - mini version (SVGs usan fill="currentColor") */
 .comment-reaction-option:nth-child(1) .icon {
-  fill: #7F0DF2;
+  color: var(--primary-color);
 }
 .comment-reaction-option:nth-child(1):hover .icon {
   filter: drop-shadow(0 2px 4px rgba(127, 13, 242, 0.5));
 }
 
 .comment-reaction-option:nth-child(2) .icon {
-  fill: #ef4444;
+  color: #ef4444;
 }
 .comment-reaction-option:nth-child(2):hover .icon {
   filter: drop-shadow(0 2px 4px rgba(239, 68, 68, 0.5));
 }
 
 .comment-reaction-option:nth-child(3) .icon {
-  fill: #f59e0b;
+  color: #f59e0b;
 }
 .comment-reaction-option:nth-child(3):hover .icon {
   filter: drop-shadow(0 2px 4px rgba(245, 158, 11, 0.5));
