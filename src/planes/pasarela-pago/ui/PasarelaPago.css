@@ -905,7 +905,7 @@
   display: flex;
   gap: 8px;
   align-items: flex-start;
-  background: #ffffff;
+  background: var(--surface-color)fff;
   border-radius: 8px;
   padding: 8px 10px;
 }

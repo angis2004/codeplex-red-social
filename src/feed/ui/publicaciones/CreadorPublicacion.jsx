@@ -8,13 +8,35 @@ const POST_TABS = [
   { id: "encuesta", icon: "encuesta", label: "Encuesta" },
 ];
 
-function CreadorPublicacion() {
-  const { modoExploracion, comenzarAutenticacion } = useSesion();
+function CreadorPublicacion({ onPublicar }) {
+  const { modoExploracion, comenzarAutenticacion, usuario } = useSesion();
   const [activeTab, setActiveTab] = useState("post");
+  const [texto, setTexto] = useState("");
+  const [publicando, setPublicando] = useState(false);
 
   const demoBlock = modoExploracion
     ? { onClick: comenzarAutenticacion, title: "Inicia sesión para usar esta función", style: { cursor: "not-allowed", opacity: 0.6 } }
     : {};
+
+  const handlePublicar = () => {
+    if (!texto.trim() || publicando) return;
+
+    setPublicando(true);
+
+    // Simula un pequeño delay como si fuera una llamada al backend
+    setTimeout(() => {
+      onPublicar(texto, usuario?.nombre, 12, activeTab);
+      setTexto("");
+      setPublicando(false);
+    }, 400);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handlePublicar();
+    }
+  };
 
   return (
     <div className={`post-creator${modoExploracion ? " post-creator--demo" : ""}`}>
@@ -27,15 +49,18 @@ function CreadorPublicacion() {
           </div>
         ) : (
           <img
-            src="https://i.pravatar.cc/150?img=12"
-            alt="Gabriel"
+            src={usuario?.avatar || "https://i.pravatar.cc/150?img=12"}
+            alt={usuario?.nombre || "Usuario"}
             className="post-creator-avatar"
           />
         )}
         <input
           type="text"
-          placeholder={modoExploracion ? "Inicia sesión para publicar..." : "¿Qué estas pensando, Gabriel ?"}
+          placeholder={modoExploracion ? "Inicia sesión para publicar..." : `¿Qué estas pensando, ${usuario?.nombre?.split(" ")[0] || ""}?`}
           className="post-input"
+          value={modoExploracion ? "" : texto}
+          onChange={(e) => setTexto(e.target.value)}
+          onKeyDown={!modoExploracion ? handleKeyDown : undefined}
           readOnly={modoExploracion}
           {...(modoExploracion ? { onClick: comenzarAutenticacion, style: { cursor: "not-allowed" } } : {})}
         />
@@ -57,9 +82,11 @@ function CreadorPublicacion() {
         </div>
         <button
           className="btn-publicar"
+          onClick={modoExploracion ? comenzarAutenticacion : handlePublicar}
+          disabled={!modoExploracion && (!texto.trim() || publicando)}
           {...(modoExploracion ? demoBlock : {})}
         >
-          Publicar
+          {publicando ? "Publicando..." : "Publicar"}
         </button>
       </div>
     </div>

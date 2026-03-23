@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import PestanasFeed from "./PestanasFeed";
 import Publicacion from "./Publicacion";
-import { MOCK_POST } from "./publicaciones.data";
 
 function EmptyState({ icon, title, description }) {
   return (
@@ -9,20 +8,26 @@ function EmptyState({ icon, title, description }) {
       <div className="empty-state" style={{ textAlign: "center", padding: "60px 20px" }}>
         <div style={{ fontSize: "64px", marginBottom: "16px" }}>{icon}</div>
         <h3 style={{ color: "var(--text-dark)", marginBottom: "8px" }}>{title}</h3>
-        <p style={{ color: "var(--sidebar-text)", fontSize: "14px" }}>{description}</p>
+        <p style={{ color: "var(--text-muted)", fontSize: "14px" }}>{description}</p>
       </div>
     </div>
   );
 }
 
-function PublicacionesFeed() {
+function PublicacionesFeed({ publicaciones, obtenerPorTipo }) {
   const [activeTab, setActiveTab] = useState("post");
+
+  const postsFiltrados = obtenerPorTipo(activeTab);
 
   return (
     <>
       <PestanasFeed activeTab={activeTab} onTabChange={setActiveTab} />
 
-      {activeTab === "post" && <Publicacion post={MOCK_POST} />}
+      {activeTab === "post" && (
+        postsFiltrados.length > 0
+          ? postsFiltrados.map((post) => <Publicacion key={post.id} post={post} />)
+          : <EmptyState icon="📝" title="No hay publicaciones aún" description="¡Sé el primero en publicar algo!" />
+      )}
 
       {activeTab === "videos" && (
         <EmptyState

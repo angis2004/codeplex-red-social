@@ -47,7 +47,7 @@
 
 .profile-role {
   font-size: 14px;
-  color: var(--sidebar-text);
+  color: var(--text-muted);
 }
 
 /* ── Sidebar perfil modo invitado ── */
@@ -88,7 +88,7 @@
   align-items: center;
   gap: 15px;
   padding: 12px 30px;
-  color: var(--sidebar-text);
+  color: var(--text-muted);
   text-decoration: none;
   font-size: 14px;
   transition: all 0.3s ease;
@@ -121,7 +121,7 @@
 /* Colores de iconos SVG 
 .menu-icon .icon {
   display: block;
-  stroke: var(--sidebar-text);
+  stroke: var(--text-muted);
   fill: none;
   transition: stroke 0.3s ease;
 }

@@ -5,16 +5,19 @@ import PublicacionesFeed from "../publicaciones/PublicacionesFeed";
 import TarjetaMonedero from "../../../planes/monedero/ui/TarjetaMonedero";
 import RankingUsuarios from "./RankingUsuarios";
 import MensajesFlotante from "../buzon/MensajesFlotante";
+import usePublicaciones from "../../aplicacion/usePublicaciones";
 import "./Red-social.css";
 
-// RedSocial es solo un ORQUESTADOR — no tiene lógica propia
+// RedSocial es el ORQUESTADOR — conecta creador ↔ feed via usePublicaciones
 function RedSocial({ alNavegar }) {
+  const { publicaciones, crearPublicacion, obtenerPorTipo } = usePublicaciones();
+
   return (
     <div className="dashboard">
       <div className="dashboard-left">
         <TarjetasEstadisticas />
-        <CreadorPublicacion />
-        <PublicacionesFeed />
+        <CreadorPublicacion onPublicar={crearPublicacion} />
+        <PublicacionesFeed publicaciones={publicaciones} obtenerPorTipo={obtenerPorTipo} />
       </div>
 
       <div className="dashboard-right">

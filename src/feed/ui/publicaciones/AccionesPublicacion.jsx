@@ -28,7 +28,7 @@ function AccionesPublicacion({ initialLikeCount = 124, onToggleComments, comment
               <Icon
                 name={activeReaction.icon}
                 size={20}
-                style={{ fill: activeReaction.color }}
+                color={activeReaction.color}
               />
               <span className="reaction-count-text" style={{ color: activeReaction.color, fontWeight: 600 }}>
                 {likeCount} reacciones

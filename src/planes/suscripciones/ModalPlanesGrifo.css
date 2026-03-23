@@ -146,7 +146,7 @@
   font-size: 12px;
   font-weight: 500;
   color: #B91C1C;
-  background: #fff;
+  background: var(--surface-color);
 }
 
 /* ── Toggle ── */
@@ -200,7 +200,7 @@
 
 /* ── Tarjeta base ── */
 .mgg-plan {
-  background: #fff;
+  background: var(--surface-color);
   border: 1.5px solid #E5E7EB;
   border-radius: 16px;
   padding: 22px 18px 20px;
@@ -391,7 +391,7 @@
 }
 
 .mgg-popover {
-  background: #fff;
+  background: var(--surface-color);
   border-radius: 18px;
   padding: 24px 22px 22px;
   width: 300px;
@@ -475,7 +475,7 @@
   z-index: 10;
   display: flex;
   flex-direction: column;
-  background: #fff;
+  background: var(--surface-color);
   border-radius: 18px;
   box-shadow: 0 8px 40px rgba(0,0,0,0.18);
   animation: mgg-chat-in 0.28s cubic-bezier(0.34,1.3,0.64,1);
@@ -554,7 +554,7 @@
 .mgg-msg--bot .mgg-msg-content     { align-items: flex-start; }
 .mgg-msg--usuario .mgg-msg-content { align-items: flex-end; }
 .mgg-msg-texto        { margin: 0; padding: 9px 12px; border-radius: 14px; font-size: 12.5px; line-height: 1.5; white-space: pre-line; }
-.mgg-msg--bot .mgg-msg-texto      { background: #fff; color: #1C1917; border-radius: 4px 14px 14px 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.07); }
+.mgg-msg--bot .mgg-msg-texto      { background: var(--surface-color); color: #1C1917; border-radius: 4px 14px 14px 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.07); }
 .mgg-msg--usuario .mgg-msg-texto  { background: #B91C1C; color: #fff; border-radius: 14px 4px 14px 14px; }
 .mgg-msg-hora         { font-size: 10px; color: #9CA3AF; }
 
@@ -562,7 +562,7 @@
   display: flex; flex-wrap: wrap; gap: 6px;
   padding: 8px 12px;
   border-top: 1px solid #F3F4F6;
-  background: #fff; flex-shrink: 0;
+  background: var(--surface-color); flex-shrink: 0;
 }
 .mgg-quick-btn {
   font-size: 11px; font-weight: 500;
@@ -576,7 +576,7 @@
   display: flex; align-items: center; gap: 6px;
   padding: 10px 12px;
   border-top: 1px solid #F3F4F6;
-  background: #fff; flex-shrink: 0;
+  background: var(--surface-color); flex-shrink: 0;
 }
 .mgg-chat-attach {
   background: none; border: none; cursor: pointer;

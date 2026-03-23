@@ -132,7 +132,7 @@
 }
 
 .vcat-btn-cerrar:hover {
-  background: #fff;
+  background: var(--surface-color);
   transform: scale(1.02);
 }
 

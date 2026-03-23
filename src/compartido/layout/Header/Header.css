@@ -80,19 +80,19 @@
   display: flex;
   align-items: center;
   gap: 7px;
-  background: none;
-  border: none;
+  background-color: transparent;
+  border: 1px solid var(--border-color);
   cursor: pointer;
-  padding: 7px 12px;
+  padding: 8px 16px;
   border-radius: 8px;
   font-size: 14px;
   font-weight: 500;
   color: var(--text-dark);
   font-family: inherit;
-  transition: background 0.2s;
+  transition: all 0.2s;
   white-space: nowrap;
 }
-.btn-mis-apps:hover { background-color: var(--background-color); }
+.btn-mis-apps:hover { background-color: var(--hover-color); border-color: var(--primary-color); }
 
 .mis-apps-icon-wrap {
   display: flex;
@@ -634,7 +634,7 @@
 
 .slider-user-name  { font-size: 17px; font-weight: 700; color: var(--text-dark); margin-bottom: 4px; }
 .slider-user-role  { font-size: 14px; color: var(--primary-color); margin-bottom: 4px; font-weight: 500; }
-.slider-user-email { font-size: 13px; color: var(--sidebar-text); margin-bottom: 16px; }
+.slider-user-email { font-size: 13px; color: var(--text-muted); margin-bottom: 16px; }
 
 .btn-ir-ficha {
   background-color: transparent;
@@ -770,7 +770,7 @@
   content: "";
   height: 22px; width: 22px;
   left: 3px; bottom: 3px;
-  background-color: white;
+  background-color: var(--surface-color);
   transition: 0.3s;
   border-radius: 50%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -865,7 +865,7 @@
   margin: 0 0 12px;
 }
 .slider-demo-card-btn {
-  background: #fff;
+  background: var(--surface-color);
   color: #7F0DF2;
   border: none;
   padding: 8px 20px;
