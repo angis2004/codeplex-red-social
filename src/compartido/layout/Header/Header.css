@@ -8,6 +8,7 @@
   right: 0;
   z-index: 500;
   background-color: var(--white-color);
+  overflow-x: hidden;
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -544,6 +545,30 @@
   .user-name  { display: none; }
 }
 
+/* Login icon — oculto en desktop, visible en mobile */
+.login-icon-mobile { display: none; }
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE — MOBILE (≤768px)
+   "Mis Apps": solo icono grid + badge (sin texto ni chevron)
+   "Iniciar sesión": solo icono persona (sin texto)
+═══════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  /* Mis Apps: ocultar texto largo, mostrar texto corto + chevron */
+  .mis-apps-text-long  { display: none; }
+  .mis-apps-text-short { display: inline; }
+  .mis-apps-chevron    { display: inline; }
+
+  .btn-mis-apps {
+    padding: 8px 10px;
+    gap: 5px;
+  }
+
+  /* Iniciar sesion: ocultar texto, mostrar icono persona */
+  .login-text { display: none; }
+  .login-icon-mobile { display: inline-block; }
+}
+
 /* ═══════════════════════════════════════════════════════════
    RESPONSIVE — MOBILE (≤600px)
    Igual que tablet pero sin el texto "Codeplex"
@@ -835,6 +860,25 @@
   transition: opacity 0.15s;
 }
 .btn-login-header:hover { opacity: 0.88; }
+
+/* Mobile: icono circular sin sesión (override después de la regla base) */
+@media (max-width: 768px) {
+  .btn-login-header {
+    padding: 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    background: transparent;
+    border: 2px solid #7F0DF2;
+    color: #7F0DF2;
+    letter-spacing: 0;
+    font-size: 0;
+  }
+  .btn-login-header:hover { background: rgba(127, 13, 242, 0.1); opacity: 1; }
+}
 
 /* ═══════════════════════════════════════════════════════════
    PROFILE SLIDER — MODO DEMO

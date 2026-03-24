@@ -143,16 +143,24 @@ html {
   /* Reserva siempre el hueco del scrollbar para evitar saltos de ancho
      al cambiar entre vistas con distinta altura de contenido */
   scrollbar-gutter: stable;
+  overflow-x: hidden;
+}
+
+@media (max-width: 768px) {
+  html { scrollbar-gutter: auto; }
+  ::-webkit-scrollbar { width: 0; }
 }
 
 body {
   margin: 0;
+  display: block; /* anula el display:flex del default de Vite */
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--background-color);
   color: var(--text-primary);
+  overflow-x: hidden;
 }
  
 /* ── Scrollbar ── */

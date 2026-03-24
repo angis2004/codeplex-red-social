@@ -19,7 +19,10 @@
       "Bash(ls \"C:/proyectos/codeplex-red-social/.claude/worktrees/brave-snyder/src/main.\"*)",
       "Bash(ls \"C:/proyectos/codeplex-red-social/.claude/worktrees/brave-snyder/src/feed/ui/publicaciones/AccionesPublicacion.\"*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(del \"C:\\\\proyectos\\\\codeplex-red-social\\\\src\\\\App.css\")",
+      "Bash(del \"C:\\\\proyectos\\\\codeplex-red-social\\\\src\\\\index.css\")"
     ]
   }
 }

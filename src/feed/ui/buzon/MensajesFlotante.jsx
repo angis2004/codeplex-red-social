@@ -25,10 +25,12 @@ const TABS = [
 function BotonFlotante({ totalSinLeer, onClick }) {
   return (
     <button className="mensajes-fab" onClick={onClick}>
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-      </svg>
-      <span>Mensajes</span>
+      <span className="mensajes-fab-left">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </svg>
+        <span>Mensajes</span>
+      </span>
       {totalSinLeer > 0 && (
         <span className="mensajes-fab-badge">{totalSinLeer}</span>
       )}
@@ -101,9 +103,6 @@ function PopupLista({ onCerrar, onAbrirChat, onMinimizar, onExpandir }) {
           <span>Mensajes</span>
         </div>
         <div className="mensajes-popup-acciones">
-          <button className="mensajes-popup-btn" title="Minimizar" onClick={onMinimizar}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="5" y1="12" x2="19" y2="12" /></svg>
-          </button>
           <button className="mensajes-popup-btn" title="Expandir" onClick={onExpandir}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <polyline points="15 3 21 3 21 9" /><polyline points="9 21 3 21 3 15" />
@@ -204,9 +203,6 @@ function VistaChat({ conversacion, onVolver, onCerrar, onMinimizar }) {
           </div>
         </div>
         <div className="mensajes-popup-acciones">
-          <button className="mensajes-popup-btn" title="Minimizar" onClick={onMinimizar}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="5" y1="12" x2="19" y2="12" /></svg>
-          </button>
           <button className="mensajes-popup-btn" title="Cerrar" onClick={onCerrar}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
           </button>
@@ -266,6 +262,13 @@ function MensajesFlotante({ alNavegar }) {
   const { modoExploracion, comenzarAutenticacion } = useSesion();
   const [estado, setEstado] = useState("cerrado"); // cerrado | lista | chat
   const [chatActivo, setChatActivo] = useState(null);
+  const [esMobile, setEsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => setEsMobile(window.innerWidth <= 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const totalSinLeer = CONVERSACIONES_MOCK.reduce((sum, c) => sum + c.sinLeer, 0);
 
@@ -290,8 +293,8 @@ function MensajesFlotante({ alNavegar }) {
 
   return (
     <div className="mensajes-flotante-container">
-      {/* Popup lista o chat */}
-      {estado === "lista" && (
+      {/* Popup lista o chat (solo desktop) */}
+      {!esMobile && estado === "lista" && (
         <PopupLista
           onCerrar={cerrarTodo}
           onAbrirChat={abrirChat}
@@ -300,7 +303,7 @@ function MensajesFlotante({ alNavegar }) {
         />
       )}
 
-      {estado === "chat" && chatActivo && (
+      {!esMobile && estado === "chat" && chatActivo && (
         <VistaChat
           conversacion={chatActivo}
           onVolver={volverALista}
@@ -312,7 +315,7 @@ function MensajesFlotante({ alNavegar }) {
       {/* Botón flotante siempre visible */}
       <BotonFlotante
         totalSinLeer={totalSinLeer}
-        onClick={modoExploracion ? comenzarAutenticacion : (estado === "cerrado" ? abrirLista : cerrarTodo)}
+        onClick={modoExploracion ? comenzarAutenticacion : (esMobile ? expandir : (estado === "cerrado" ? abrirLista : cerrarTodo))}
       />
     </div>
   );

@@ -6,6 +6,7 @@
 
 .main-content {
   flex: 1;
+  min-width: 0; /* evita que min-width:auto de flexbox desborde el viewport */
   margin-left: 280px;
   padding: 20px;
   padding-top: 80px;

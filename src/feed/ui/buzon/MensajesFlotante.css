@@ -6,7 +6,7 @@
 /* ── Container ── */
 .mensajes-flotante-container {
   position: fixed;
-  bottom: 24px;
+  bottom: 35px;
   right: 24px;
   z-index: 999;
   display: flex;
@@ -19,10 +19,13 @@
    BOTÓN FLOTANTE (FAB)
 ═══════════════════════════════════ */
 .mensajes-fab {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px 20px;
+  justify-content: space-between;
+  width: 251px;
+  height: 56px;
+  padding: 0 20px;
   background: var(--gradient-primary);
   color: white;
   border: none;
@@ -32,6 +35,12 @@
   cursor: pointer;
   box-shadow: var(--shadow-lg);
   transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.mensajes-fab-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .mensajes-fab:hover {
@@ -489,35 +498,40 @@
    RESPONSIVE
 ═══════════════════════════════════ */
 
-/* Tablet */
+/* Tablet & Mobile — botón compacto circular */
 @media (max-width: 768px) {
   .mensajes-flotante-container {
-    bottom: 16px;
+    bottom: 35px;
     right: 16px;
   }
 
+  .mensajes-fab {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .mensajes-fab-left span {
+    display: none;
+  }
+
+  .mensajes-fab-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+  }
+
   .mensajes-popup {
-    width: 340px;
-    height: 460px;
+    display: none;
   }
 }
 
-/* Mobile */
+/* Mobile pequeño */
 @media (max-width: 480px) {
   .mensajes-flotante-container {
-    bottom: 12px;
+    bottom: 35px;
     right: 12px;
-    left: 12px;
-    align-items: stretch;
-  }
-
-  .mensajes-fab {
-    align-self: flex-end;
-  }
-
-  .mensajes-popup {
-    width: 100%;
-    height: 70vh;
-    border-radius: 12px;
   }
 }
