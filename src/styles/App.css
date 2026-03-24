@@ -13,7 +13,7 @@
      + 28px de aire en desktop.
      Fallback 96px ≈ banner(36) + header-row1(60) en desktop con modo exploración.
      El JS lo sobreescribe al primer render, el fallback solo cubre el flash inicial. */
-  padding-top: calc(var(--header-height, 96px) + 28px);
+  padding-top: calc(var(--header-height, 96px) + 30px);
   transition: margin-left 0.3s ease;
   min-height: 100vh;
 }
@@ -38,6 +38,6 @@
 @media (max-width: 768px) {
   .main-content {
     padding: 16px;
-    padding-top: calc(var(--header-height, 120px) + 16px);
+    padding-top: calc(var(--header-height, 120px) + 30px);
   }
 }
