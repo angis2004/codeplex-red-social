@@ -8,7 +8,9 @@
   right: 0;
   z-index: 500;
   background-color: var(--white-color);
-  overflow-x: hidden;
+  /* overflow-x: hidden eliminado — clipea el dropdown hacia abajo (CSS spec:
+     overflow-x:hidden fuerza overflow-y:auto → corta children absolutos).
+     El wrapper ya tiene left/right:0 así que no puede desbordarse horizontalmente. */
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -1035,8 +1037,10 @@
   .btn-carrito { display: none; }
 }
 
-/* ── Dropdown Mis Apps — responsive mobile ── */
-@media (max-width: 640px) {
+/* ── Dropdown Mis Apps — tablet + mobile ── */
+/* En tablet/mobile el header-wrapper tiene overflow-x:hidden que clipa el dropdown
+   absoluto. Con position:fixed el dropdown escapa del stacking context del wrapper. */
+@media (max-width: 1024px) {
   .mis-apps-dropdown {
     position: fixed;
     top: var(--header-height, 83px); /* calculado dinámicamente por JS en Header.jsx */
