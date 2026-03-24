@@ -8,8 +8,12 @@
   flex: 1;
   min-width: 0; /* evita que min-width:auto de flexbox desborde el viewport */
   margin-left: 280px;
-  padding: 20px;
-  padding-top: 80px;
+  padding: 24px;
+  /* padding-top dinámico: altura real del header medida por JS en Header.jsx
+     + 28px de aire en desktop.
+     Fallback 96px ≈ banner(36) + header-row1(60) en desktop con modo exploración.
+     El JS lo sobreescribe al primer render, el fallback solo cubre el flash inicial. */
+  padding-top: calc(var(--header-height, 96px) + 28px);
   transition: margin-left 0.3s ease;
   min-height: 100vh;
 }
@@ -20,32 +24,20 @@
   width: 100%;
 }
 
-/* Demo banner añade ~36px al header fijo */
-.main-content--demo {
-  padding-top: 116px;
-}
-
-/* Tablet (≤1024px): sidebar oculto → más padding lateral para respirar */
+/* Tablet (≤1024px): sidebar oculto, sin margin-left, padding lateral cómodo */
 @media (max-width: 1024px) {
   .main-content {
     margin-left: 0;
-    padding-top: 120px;
-    padding-left: 40px;
-    padding-right: 40px;
-  }
-  .main-content--demo {
-    padding-top: 156px;
+    padding-left: 32px;
+    padding-right: 32px;
+    /* padding-top: NO se toca — sigue usando calc(var(--header-height) + 28px) */
   }
 }
 
-/* Mobile (≤768px) */
+/* Mobile (≤768px): padding lateral reducido, menos aire vertical */
 @media (max-width: 768px) {
   .main-content {
     padding: 16px;
-    padding-top: 120px;
-  }
-  /* banner en mobile ~32px (1 línea, font reducido) + header ~56px + row2 ~44px = ~132px → 155px con aire */
-  .main-content--demo {
-    padding-top: 155px;
+    padding-top: calc(var(--header-height, 120px) + 16px);
   }
 }

@@ -18,16 +18,18 @@ function Header({ alAlternarMenu, alNavegar, vistaActiva,
   const { darkMode, toggleDarkMode } = useTheme();
   const headerWrapperRef = useRef(null);
 
-  /* ── Medir altura real del header y exponerla como CSS var ── */
+  /* ── Medir altura real del header y exponerla como CSS var en :root ──
+     Se pone en document.documentElement (no en el elemento) para que
+     cualquier regla CSS del DOM (main-content, msj-pagina, etc.) pueda
+     leerla con var(--header-height) sin ser descendiente del header.    */
   useEffect(() => {
     const el = headerWrapperRef.current;
     if (!el) return;
-    const observer = new ResizeObserver(() => {
-      el.style.setProperty('--header-height', `${el.offsetHeight}px`);
-    });
+    const setVar = () =>
+      document.documentElement.style.setProperty('--header-height', `${el.offsetHeight}px`);
+    const observer = new ResizeObserver(setVar);
     observer.observe(el);
-    // valor inicial inmediato
-    el.style.setProperty('--header-height', `${el.offsetHeight}px`);
+    setVar(); // valor inicial inmediato
     return () => observer.disconnect();
   }, []);
 

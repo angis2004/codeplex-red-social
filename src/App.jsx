@@ -59,6 +59,11 @@ function AppContent() {
     verificarEnCarrito,
   } = useCarritoSuscripciones();
 
+  /* Scroll al top en cada cambio de vista (SPA: el navegador no lo hace solo) */
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [vistaActiva]);
+
   /* Al confirmar sesión: limpiar apps de exploración */
   useEffect(() => {
     if (estadoSesion === 'autenticado') {
