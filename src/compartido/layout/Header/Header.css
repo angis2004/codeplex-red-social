@@ -836,6 +836,30 @@
 }
 .btn-login-header:hover { opacity: 0.88; }
 
+/* Icono usuario sin sesión — solo mobile */
+.btn-login-icon {
+  display: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 2px solid #7F0DF2;
+  background: transparent;
+  color: #7F0DF2;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s;
+  flex-shrink: 0;
+}
+.btn-login-icon:hover {
+  background: #7F0DF2;
+  color: #fff;
+}
+@media (max-width: 600px) {
+  .btn-login-desktop { display: none !important; }
+  .btn-login-icon    { display: flex; }
+}
+
 /* ═══════════════════════════════════════════════════════════
    PROFILE SLIDER — MODO DEMO
 ═══════════════════════════════════════════════════════════ */
