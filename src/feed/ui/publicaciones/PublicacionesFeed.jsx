@@ -14,7 +14,7 @@ function EmptyState({ icon, title, description }) {
   );
 }
 
-function PublicacionesFeed({ publicaciones, obtenerPorTipo }) {
+function PublicacionesFeed({ publicaciones, obtenerPorTipo, alVerPerfil }) {
   const [activeTab, setActiveTab] = useState("post");
 
   const postsFiltrados = obtenerPorTipo(activeTab);
@@ -25,7 +25,7 @@ function PublicacionesFeed({ publicaciones, obtenerPorTipo }) {
 
       {activeTab === "post" && (
         postsFiltrados.length > 0
-          ? postsFiltrados.map((post) => <Publicacion key={post.id} post={post} />)
+          ? postsFiltrados.map((post) => <Publicacion key={post.id} post={post} alVerPerfil={alVerPerfil} />)
           : <EmptyState icon="📝" title="No hay publicaciones aún" description="¡Sé el primero en publicar algo!" />
       )}
 

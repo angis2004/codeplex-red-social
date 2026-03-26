@@ -9,7 +9,7 @@ import usePublicaciones from "../../aplicacion/usePublicaciones";
 import "./Red-social.css";
 
 // RedSocial es el ORQUESTADOR — conecta creador ↔ feed via usePublicaciones
-function RedSocial({ alNavegar }) {
+function RedSocial({ alNavegar, alVerPerfil }) {
   const { publicaciones, crearPublicacion, obtenerPorTipo } = usePublicaciones();
 
   return (
@@ -17,7 +17,7 @@ function RedSocial({ alNavegar }) {
       <div className="dashboard-left">
         <TarjetasEstadisticas />
         <CreadorPublicacion onPublicar={crearPublicacion} />
-        <PublicacionesFeed publicaciones={publicaciones} obtenerPorTipo={obtenerPorTipo} />
+        <PublicacionesFeed publicaciones={publicaciones} obtenerPorTipo={obtenerPorTipo} alVerPerfil={alVerPerfil} />
       </div>
 
       <div className="dashboard-right">

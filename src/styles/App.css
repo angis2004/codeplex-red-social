@@ -9,11 +9,28 @@
   min-width: 0; /* evita que min-width:auto de flexbox desborde el viewport */
   margin-left: 280px;
   padding: 24px;
-  /* padding-top dinámico: altura real del header medida por JS en Header.jsx
-     + 28px de aire en desktop.
-     Fallback 96px ≈ banner(36) + header-row1(60) en desktop con modo exploración.
-     El JS lo sobreescribe al primer render, el fallback solo cubre el flash inicial. */
+
+  /*
+    padding-top dinámico — por qué existen estos números:
+
+    • --header-height: variable CSS global que Header.jsx actualiza en tiempo real
+      usando offsetHeight (altura real del header medida por el browser).
+      Si el header crece o se achica (ej: aparece/desaparece un banner),
+      esta variable se actualiza sola y el padding se ajusta automáticamente.
+
+    • 96px (fallback): estimación manual para el instante inicial de carga,
+      antes de que el JS haya corrido y llenado --header-height.
+      Cálculo aproximado: banner(36px) + fila del header(60px) = 96px.
+      No necesita ser exacto — solo evita que el contenido quede tapado
+      ese primer flash de medio segundo.
+
+    • 30px: aire fijo entre el borde del header y el contenido.
+      Siempre se suma, no cambia nunca.
+
+    Resultado: padding-top = altura real del header + 30px de respiro.
+  */
   padding-top: calc(var(--header-height, 96px) + 30px);
+
   transition: margin-left 0.3s ease;
   min-height: 100vh;
 }
@@ -30,14 +47,22 @@
     margin-left: 0;
     padding-left: 32px;
     padding-right: 32px;
-    /* padding-top: NO se toca — sigue usando calc(var(--header-height) + 28px) */
+    /* padding-top no se toca — sigue usando calc(var(--header-height, 96px) + 30px) */
   }
 }
 
-/* Mobile (≤768px): padding lateral reducido, menos aire vertical */
+/* Mobile (≤768px): padding lateral reducido */
 @media (max-width: 768px) {
   .main-content {
     padding: 16px;
+
+    /*
+      Fallback cambia a 120px porque en mobile el header tiene una fila extra:
+      banner(36px) + fila principal(50px) + fila de navegación(34px) = 120px.
+      Esa fila extra ("Agregar empresa / Red social / Aplicaciones")
+      no existe en desktop, por eso el fallback es mayor aquí.
+      Los 30px de aire siguen siendo los mismos.
+    */
     padding-top: calc(var(--header-height, 120px) + 30px);
   }
 }

@@ -112,6 +112,7 @@ function Comment({
   onEdit,
   onDelete,
   onReaction,
+  alVerPerfil,
 }) {
   const {
     id,
@@ -223,12 +224,22 @@ function Comment({
         onMouseEnter={() => setHovering(true)}
         onMouseLeave={() => setHovering(false)}
       >
-        <img src={avatarSrc} alt={name} className="comment-avatar" />
+        <img
+          src={avatarSrc}
+          alt={name}
+          className="comment-avatar"
+          onClick={() => alVerPerfil?.({ nombre: name, avatar: avatarSrc })}
+          style={{ cursor: "pointer" }}
+        />
         <div className="comment-content">
           <div className="comment-bubble-row">
             <div className="comment-bubble">
               <div className="comment-bubble-header">
-                <div className="comment-user-name">{name}</div>
+                <div
+                  className="comment-user-name"
+                  onClick={() => alVerPerfil?.({ nombre: name, avatar: avatarSrc })}
+                  style={{ cursor: "pointer" }}
+                >{name}</div>
               </div>
               {isEditing ? (
                 <div className="comment-edit-form">
@@ -354,6 +365,7 @@ function Comment({
               onEdit={onEdit}
               onDelete={onDelete}
               onReaction={onReaction}
+              alVerPerfil={alVerPerfil}
             />
           ))}
         </div>
@@ -516,7 +528,7 @@ function removeCommentById(comments, id) {
     });
 }
 
-function Comentarios({ visible }) {
+function Comentarios({ visible, alVerPerfil }) {
   const { modoExploracion, comenzarAutenticacion, usuario } = useSesion();
 
   // Initialize mock comments with IDs and structure
@@ -637,6 +649,7 @@ function Comentarios({ visible }) {
           onEdit={handleEdit}
           onDelete={handleDelete}
           onReaction={handleReaction}
+          alVerPerfil={alVerPerfil}
         />
       ))}
       <CommentInput

@@ -21,6 +21,7 @@ import { useCarritoSuscripciones } from './planes/aplicaciones/aplicacion/useCar
 import PaginaCarrito from './planes/carrito/ui/PaginaCarrito';
 import CarritoMobile from './planes/carrito/ui/CarritoMobile';
 import VistaPlaceholder from './compartido/placeholders/VistaPlaceholder';
+import PerfilPublico from './feed/ui/perfil/PerfilPublico';
 import './styles/App.css';
 
 /* ── Apps precargadas en modo exploración ──────────────────────────────────
@@ -46,6 +47,12 @@ function AppContent() {
   const [sidebarOpen, setSidebarOpen]           = useState(false);
   const [vistaActiva, setVistaActiva]           = useState("red-social");
   const [pagoData, setPagoData]                 = useState(null);
+  const [perfilUsuario, setPerfilUsuario]       = useState(null);
+
+  const alVerPerfil = (usuario) => {
+    setPerfilUsuario(usuario);
+    setVistaActiva("perfil-usuario");
+  };
   const [misApps, setMisApps]                   = useState(APPS_EXPLORACION);
   const [appsActivas, setAppsActivas]           = useState([]);
   const [pestanaAppsInicial, setPestanaAppsInicial] = useState("mis");
@@ -112,7 +119,8 @@ function AppContent() {
 
   const renderVista = () => {
     switch (vistaActiva) {
-      case "red-social":        return <RedSocial alNavegar={setVistaActiva} />;
+      case "red-social":        return <RedSocial alNavegar={setVistaActiva} alVerPerfil={alVerPerfil} />;
+      case "perfil-usuario":    return <PerfilPublico usuario={perfilUsuario} onVolver={() => setVistaActiva("red-social")} alNavegar={setVistaActiva} />;
       case "datos-personales":  return <DatosPersonales />;
       case "empresas":          return <GestionEmpresas />;
       case "datos-facturacion": return <DatosFacturacion />;

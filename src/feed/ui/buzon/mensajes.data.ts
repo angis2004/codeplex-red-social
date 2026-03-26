@@ -14,6 +14,7 @@ export interface Conversacion {
   id: string;
   nombre: string;
   avatar: string;
+  especialidad: string;
   ultimoMensaje: string;
   hora: string;
   sinLeer: number;
@@ -34,6 +35,7 @@ export const CONVERSACIONES_MOCK: Conversacion[] = [
     id: "conv-1",
     nombre: "María Gonzales",
     avatar: "https://i.pravatar.cc/150?img=5",
+    especialidad: "Especialista en contador en ESTADOS FINANCIEROS",
     ultimoMensaje: "¿Podrías explicarme el proceso...?",
     hora: "09:30",
     sinLeer: 2,
@@ -49,6 +51,7 @@ export const CONVERSACIONES_MOCK: Conversacion[] = [
     id: "conv-2",
     nombre: "Carlos Valverde",
     avatar: "https://i.pravatar.cc/150?img=8",
+    especialidad: "Asesor Tributario y Auditor Externo · CPA",
     ultimoMensaje: "Gracias por la ayuda!",
     hora: "Ayer",
     sinLeer: 0,
@@ -64,6 +67,7 @@ export const CONVERSACIONES_MOCK: Conversacion[] = [
     id: "conv-3",
     nombre: "Ana Torres",
     avatar: "https://i.pravatar.cc/150?img=9",
+    especialidad: "Contadora Pública · Gestión Tributaria",
     ultimoMensaje: "¿Ya revisaste el reporte?",
     hora: "Ayer",
     sinLeer: 0,
@@ -77,6 +81,7 @@ export const CONVERSACIONES_MOCK: Conversacion[] = [
     id: "conv-4",
     nombre: "Juan Pérez",
     avatar: "https://i.pravatar.cc/150?img=11",
+    especialidad: "Auditor Externo Senior · NIIF",
     ultimoMensaje: "Perfecto, lo reviso mañana",
     hora: "Ayer",
     sinLeer: 0,

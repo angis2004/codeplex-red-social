@@ -1136,7 +1136,7 @@ stroke:1px solid green;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--white-color);
+    background: #ffffff;
     border: 2px solid var(--border-color);
     transition: transform 0.15s, background 0.15s;
   }

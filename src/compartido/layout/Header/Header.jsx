@@ -21,17 +21,7 @@ function Header({ alAlternarMenu, alNavegar, vistaActiva,
   /* ── Medir altura real del header y exponerla como CSS var en :root ──
      Se pone en document.documentElement (no en el elemento) para que
      cualquier regla CSS del DOM (main-content, msj-pagina, etc.) pueda
-     leerla con var(--header-height) sin ser descendiente del header.    */
-  useEffect(() => {
-    const el = headerWrapperRef.current;
-    if (!el) return;
-    const setVar = () =>
-      document.documentElement.style.setProperty('--header-height', `${el.offsetHeight}px`);
-    const observer = new ResizeObserver(setVar);
-    observer.observe(el);
-    setVar(); // valor inicial inmediato
-    return () => observer.disconnect();
-  }, []);
+
 
   /* ── Cerrar dropdown al hacer clic fuera ── */
   // Usamos "click" (no mousedown) para que React procese primero el onClick

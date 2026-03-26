@@ -103,10 +103,9 @@ function PopupLista({ onCerrar, onAbrirChat, onMinimizar, onExpandir }) {
           <span>Mensajes</span>
         </div>
         <div className="mensajes-popup-acciones">
-          <button className="mensajes-popup-btn" title="Expandir" onClick={onExpandir}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <polyline points="15 3 21 3 21 9" /><polyline points="9 21 3 21 3 15" />
-              <line x1="21" y1="3" x2="14" y2="10" /><line x1="3" y1="21" x2="10" y2="14" />
+          <button className="mensajes-popup-btn" title="Ir a Mensajes" onClick={onExpandir}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
             </svg>
           </button>
           <button className="mensajes-popup-btn" title="Cerrar" onClick={onCerrar}>
@@ -263,14 +262,13 @@ function MensajesFlotante({ alNavegar }) {
   const [estado, setEstado] = useState("cerrado"); // cerrado | lista | chat
   const [chatActivo, setChatActivo] = useState(null);
   const [esMobile, setEsMobile] = useState(window.innerWidth <= 768);
+  const totalSinLeer = CONVERSACIONES_MOCK.reduce((sum, c) => sum + c.sinLeer, 0);
 
   useEffect(() => {
     const handleResize = () => setEsMobile(window.innerWidth <= 768);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-  const totalSinLeer = CONVERSACIONES_MOCK.reduce((sum, c) => sum + c.sinLeer, 0);
 
   const abrirLista = () => setEstado("lista");
   const cerrarTodo = () => { setEstado("cerrado"); setChatActivo(null); };
@@ -293,7 +291,6 @@ function MensajesFlotante({ alNavegar }) {
 
   return (
     <div className="mensajes-flotante-container">
-      {/* Popup lista o chat (solo desktop) */}
       {!esMobile && estado === "lista" && (
         <PopupLista
           onCerrar={cerrarTodo}

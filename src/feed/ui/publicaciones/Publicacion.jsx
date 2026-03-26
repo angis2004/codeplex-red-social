@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import AccionesPublicacion from "./AccionesPublicacion";
 import Comentarios from "./Comentarios";
 
-function Publicacion({ post }) {
+function Publicacion({ post, alVerPerfil }) {
   const [showComments, setShowComments] = useState(false);
 
   const toggleComments = () => setShowComments((prev) => !prev);
+
+  const avatarSrc = `https://i.pravatar.cc/150?img=${post.avatarImg}`;
+  const handleVerAutor = () => alVerPerfil?.({ nombre: post.author, avatar: avatarSrc });
 
   return (
     <div className="post-card">
@@ -14,12 +17,14 @@ function Publicacion({ post }) {
       <div className="post-header">
         <div className="post-user-info">
           <img
-            src={`https://i.pravatar.cc/150?img=${post.avatarImg}`}
+            src={avatarSrc}
             alt={post.author}
             className="post-avatar"
+            onClick={handleVerAutor}
+            style={{ cursor: "pointer" }}
           />
           <div>
-            <div className="post-user-name">{post.author}</div>
+            <div className="post-user-name" onClick={handleVerAutor} style={{ cursor: "pointer" }}>{post.author}</div>
             <div className="post-time">{post.time}</div>
           </div>
         </div>
@@ -60,7 +65,7 @@ function Publicacion({ post }) {
           onToggleComments={toggleComments}
         />
         <div className="post-divider"></div>
-        <Comentarios visible={showComments} />
+        <Comentarios visible={showComments} alVerPerfil={alVerPerfil} />
       </div>
 
     </div>

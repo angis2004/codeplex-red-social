@@ -7,6 +7,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { CONVERSACIONES_MOCK } from "./mensajes.data";
 import { useSesion } from "../../../identidad/aplicacion/SesionContext";
+import PerfilPublico from "../perfil/PerfilPublico";
 import "./Mensajes.css";
 
 /* ── Tabs ── */
@@ -65,7 +66,7 @@ function PanelVacio({ bloquearDemo }) {
 /* ═══════════════════════════════════════════
    PANEL DE CHAT (conversación seleccionada)
 ═══════════════════════════════════════════ */
-function PanelChat({ conversacion, onVolver }) {
+function PanelChat({ conversacion, onVolver, onVerPerfil }) {
   const [mensaje, setMensaje] = useState("");
   const [mensajes, setMensajes] = useState(conversacion.mensajes);
   const [escribiendo, setEscribiendo] = useState(true);
@@ -119,16 +120,16 @@ function PanelChat({ conversacion, onVolver }) {
         </div>
       </div>
 
-      {/* Perfil resumido */}
-      <div className="msj-chat-perfil">
-        <img src={conversacion.avatar} alt={conversacion.nombre} className="msj-chat-perfil-avatar" />
-        <h3 className="msj-chat-perfil-nombre">{conversacion.nombre}</h3>
-        <span className="msj-chat-perfil-estado">{conversacion.ultimaActividad}</span>
-        <button className="msj-btn-ver-perfil">Ver Perfil</button>
-      </div>
-
-      {/* Mensajes */}
+      {/* Mensajes + perfil resumido como primer elemento scrolleable */}
       <div className="msj-chat-body" ref={chatRef}>
+        {/* Perfil resumido — scrollea con los mensajes, se oculta al bajar */}
+        <div className="msj-chat-perfil">
+          <img src={conversacion.avatar} alt={conversacion.nombre} className="msj-chat-perfil-avatar" />
+          <h3 className="msj-chat-perfil-nombre">{conversacion.nombre}</h3>
+          <span className="msj-chat-perfil-estado">{conversacion.especialidad}</span>
+          <button className="msj-btn-ver-perfil" onClick={onVerPerfil}>Ver Perfil</button>
+        </div>
+
         {mensajes.map((msg) => (
           <div
             key={msg.id}
@@ -183,6 +184,7 @@ function Mensajes() {
   const [tabActivo, setTabActivo] = useState("todos");
   const [busqueda, setBusqueda] = useState("");
   const [chatActivo, setChatActivo] = useState(null);
+  const [perfilContacto, setPerfilContacto] = useState(null);
 
   const bloquearDemo = modoExploracion
     ? { onClick: comenzarAutenticacion, title: "Inicia sesión para usar esta función", style: { cursor: "not-allowed", opacity: 0.6 } }
@@ -191,6 +193,21 @@ function Mensajes() {
   const conversacionesFiltradas = CONVERSACIONES_MOCK.filter((c) =>
     c.nombre.toLowerCase().includes(busqueda.toLowerCase())
   );
+
+  /* ── Vista completa del perfil (reemplaza toda la página) ── */
+  if (perfilContacto) {
+    return (
+      <PerfilPublico
+        usuario={perfilContacto}
+        onVolver={() => setPerfilContacto(null)}
+        onEnviarMensaje={() => {
+          setChatActivo(perfilContacto);
+          setPerfilContacto(null);
+        }}
+        textoAmistad="Amigos"
+      />
+    );
+  }
 
   return (
     <div className={`msj-pagina ${chatActivo ? "chat-abierto" : ""}`}>
@@ -257,7 +274,11 @@ function Mensajes() {
       {/* ── Panel derecho: chat o vacío ── */}
       <div className="msj-contenido">
         {chatActivo ? (
-          <PanelChat conversacion={chatActivo} onVolver={() => setChatActivo(null)} />
+          <PanelChat
+            conversacion={chatActivo}
+            onVolver={() => setChatActivo(null)}
+            onVerPerfil={() => setPerfilContacto(chatActivo)}
+          />
         ) : (
           <PanelVacio bloquearDemo={bloquearDemo} />
         )}
