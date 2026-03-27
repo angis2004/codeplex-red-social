@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import "./ModalPlanesGrifo.css";
 import VisorCatalogoPDF from "../../compartido/visor-catalogo/VisorCatalogoPDF";
 import {
   PRECIOS_GRIFO,
@@ -60,15 +59,15 @@ function PopoverDetalleFeature({ nombreFeature, onCerrar }) {
   if (!info) return null;
 
   return (
-    <div className="mgg-popover-overlay" onClick={onCerrar}>
-      <div className="mgg-popover" onClick={(e) => e.stopPropagation()}>
-        <button className="mgg-popover-close" onClick={onCerrar}>
+    <div className="absolute inset-0 z-50 bg-black/[0.28] backdrop-blur-[3px] flex items-center justify-center rounded-[22px] [animation:modal-fade_0.18s_ease]" onClick={onCerrar}>
+      <div className="bg-[var(--surface-color)] rounded-[18px] p-[24px_22px_22px] w-[300px] max-w-[88%] relative shadow-[0_12px_40px_rgba(0,0,0,0.16)] [animation:modal-pop-in_0.2s_cubic-bezier(0.34,1.56,0.64,1)]" onClick={(e) => e.stopPropagation()}>
+        <button className="absolute top-3 right-3 w-6 h-6 rounded-full bg-[#F3F4F6] border-0 cursor-pointer flex items-center justify-center transition-colors hover:bg-[#E5E7EB]" onClick={onCerrar}>
           <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
             <path d="M2 2L8 8M8 2L2 8" stroke="#6B7280" strokeWidth="1.8" strokeLinecap="round" />
           </svg>
         </button>
-        <h4 className="mgg-popover-titulo">{info.titulo}</h4>
-        <p className="mgg-popover-desc">{info.desc}</p>
+        <h4 className="text-[15px] font-bold text-[#111827] m-0 mb-2.5 pr-5 leading-[1.3]">{info.titulo}</h4>
+        <p className="text-[13px] text-[#4B5563] leading-[1.6] m-0">{info.desc}</p>
       </div>
     </div>
   );
@@ -148,22 +147,22 @@ function SelectorPlanGrifo({ estaAbierto, alCerrar, alProcederPago }) {
 
 
   return (
-    <div className="mgg-overlay" onClick={handleClickOverlay}>
-      <div className="mgg-modal">
+    <div className="fixed inset-0 z-[9999] bg-[rgba(40,8,8,0.55)] backdrop-blur-[6px] flex items-center justify-center p-4 [animation:modal-fade_0.22s_ease]" onClick={handleClickOverlay}>
+      <div className="bg-[#FFF1F2] rounded-[22px] w-full max-w-[820px] max-h-[90vh] overflow-hidden relative flex flex-col [animation:modal-slide_0.28s_cubic-bezier(0.34,1.56,0.64,1)] shadow-[0_24px_80px_rgba(0,0,0,0.22)]">
 
         {/* Cerrar */}
-        <button className="mgg-close" onClick={handleClose}>
+        <button className="absolute top-3.5 right-3.5 z-10 w-[30px] h-[30px] rounded-full border-0 cursor-pointer flex items-center justify-center transition-all hover:scale-110 outline-none bg-[#B91C1C] hover:bg-[#7F1D1D]" onClick={handleClose}>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <path d="M2 2L12 12M12 2L2 12" stroke="white" strokeWidth="2.2" strokeLinecap="round" />
           </svg>
         </button>
 
         {/* Body */}
-        <div className="mgg-body">
-          <div className={`mgg-planes-wrap${chatVisible ? " mgg-planes-wrap--dimmed" : ""}`}>
+        <div className="relative flex-1 min-h-0 overflow-hidden flex flex-col">
+          <div className="flex-1 min-h-0 overflow-y-auto px-7 pt-5 pb-20 box-border relative z-[1] [&::-webkit-scrollbar]:w-[5px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#FECACA] max-[700px]:px-3.5 max-[700px]:pt-4 max-[700px]:pb-24">
 
             {/* Volver */}
-            <button className="mgg-volver" onClick={handleClose}>
+            <button className="inline-flex items-center gap-1.5 bg-transparent border-0 text-[13px] font-semibold text-[#374151] cursor-pointer px-2 py-1 rounded-lg mb-1.5 transition-colors hover:bg-black/[0.06] outline-none" onClick={handleClose}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                 <path d="M19 12H5M12 19l-7-7 7-7" />
               </svg>
@@ -171,27 +170,27 @@ function SelectorPlanGrifo({ estaAbierto, alCerrar, alProcederPago }) {
             </button>
 
             {/* Header */}
-            <div className="mgg-header">
+            <div className="flex flex-col items-center text-center gap-1.5 mb-5">
               <IconoGrifo size={48} />
-              <h2 className="mgg-titulo">Gestión-Plex Grifo</h2>
-              <p className="mgg-subtitulo">
+              <h2 className="text-[22px] font-extrabold text-[#1C1917] m-0 max-[700px]:text-[19px]">Gestión-Plex Grifo</h2>
+              <p className="text-[13.5px] text-[#6B7280] m-0">
                 Software especializado para grifos ,elige el plan perfecto para ti&nbsp; con comprobantes ilimitados
               </p>
 
-              <div className="mgg-badges">
-                <span className="mgg-badge-pill">1 mes gratis</span>
-                <span className="mgg-badge-pill">IGV incluido</span>
-                <span className="mgg-badge-pill">Actualizaciones</span>
-                <span className="mgg-badge-pill">S/3,000 implementación</span>
+              <div className="flex gap-2 flex-wrap justify-center mt-0.5">
+                <span className="border-[1.5px] border-[#FECACA] rounded-full px-3.5 py-1 text-xs font-medium bg-[var(--surface-color)] text-[#B91C1C]">1 mes gratis</span>
+                <span className="border-[1.5px] border-[#FECACA] rounded-full px-3.5 py-1 text-xs font-medium bg-[var(--surface-color)] text-[#B91C1C]">IGV incluido</span>
+                <span className="border-[1.5px] border-[#FECACA] rounded-full px-3.5 py-1 text-xs font-medium bg-[var(--surface-color)] text-[#B91C1C]">Actualizaciones</span>
+                <span className="border-[1.5px] border-[#FECACA] rounded-full px-3.5 py-1 text-xs font-medium bg-[var(--surface-color)] text-[#B91C1C]">S/3,000 implementación</span>
               </div>
 
-              <div className="mgg-toggle">
+              <div className="inline-flex bg-[#F3F4F6] rounded-[10px] p-1 gap-1 mt-1">
                 <button
-                  className={`mgg-toggle-btn${periodoFacturacion === "mensual" ? " mgg-toggle-btn--active" : ""}`}
+                  className={`px-6 py-2 rounded-lg border-0 text-[13.5px] font-semibold cursor-pointer transition-all outline-none${periodoFacturacion === "mensual" ? " bg-[#7F1D1D] text-white shadow-[0_2px_8px_rgba(127,29,29,0.35)]" : " bg-transparent text-[#6B7280]"}`}
                   onClick={() => setPeriodoFacturacion("mensual")}
                 >Mensual</button>
                 <button
-                  className={`mgg-toggle-btn${periodoFacturacion === "anual" ? " mgg-toggle-btn--active" : ""}`}
+                  className={`px-6 py-2 rounded-lg border-0 text-[13.5px] font-semibold cursor-pointer transition-all outline-none${periodoFacturacion === "anual" ? " bg-[#7F1D1D] text-white shadow-[0_2px_8px_rgba(127,29,29,0.35)]" : " bg-transparent text-[#6B7280]"}`}
                   onClick={() => setPeriodoFacturacion("anual")}
                 >Anual</button>
               </div>
@@ -199,7 +198,7 @@ function SelectorPlanGrifo({ estaAbierto, alCerrar, alProcederPago }) {
 
             {/* Scroll horizontal de planes */}
             <div
-              className="mgg-planes"
+              className="flex overflow-x-auto gap-3.5 pb-2.5 cursor-grab active:cursor-grabbing [&::-webkit-scrollbar]:h-[5px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#FECACA] md:justify-center"
               ref={refPlanesScroll}
               onMouseDown={handlePlanesMouseDown}
               onMouseMove={handlePlanesMouseMove}
@@ -208,23 +207,23 @@ function SelectorPlanGrifo({ estaAbierto, alCerrar, alProcederPago }) {
             >
 
               {/* ── Plan Gratis ── */}
-              <div className={`mgg-plan mgg-plan--compact${planSeleccionado === "gratis" ? " mgg-plan--selected" : ""}`}>
-                <h3 className="mgg-plan-nombre">Gratis</h3>
+              <div className={`bg-[var(--surface-color)] border-[1.5px] border-[#E5E7EB] rounded-2xl px-4 pt-5 pb-[18px] flex flex-col gap-3 transition-[box-shadow,border-color] duration-[180ms] relative flex-[0_0_210px] min-w-[210px] hover:shadow-[0_4px_20px_rgba(0,0,0,0.08)]${planSeleccionado === "gratis" ? " border-2 border-[#B91C1C] shadow-[0_4px_20px_rgba(185,28,28,0.18)]" : ""}`}>
+                <h3 className="text-[17px] font-bold m-0 text-[#B91C1C]">Gratis</h3>
 
-                <div className="mgg-precio">
-                  <span className="mgg-precio-moneda">s/</span>
-                  <span className="mgg-precio-num">0</span>
-                  <span className="mgg-precio-per">{labelPeriodo}</span>
+                <div className="flex items-baseline gap-0.5 text-[#1C1917]">
+                  <span className="text-[18px] font-bold">s/</span>
+                  <span className="text-[34px] font-extrabold leading-none max-[700px]:text-[28px]">0</span>
+                  <span className="text-xs font-medium opacity-70">{labelPeriodo}</span>
                 </div>
 
-                <div className="mgg-plan-tags">
-                  <span className="mgg-tag mgg-tag--outline">1 Empresa</span>
-                  <span className="mgg-tag mgg-tag--outline">Ilimitados</span>
+                <div className="flex flex-wrap gap-1.5">
+                  <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full border-[1.5px] border-[#FECACA] text-[#B91C1C] bg-transparent">1 Empresa</span>
+                  <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full border-[1.5px] border-[#FECACA] text-[#B91C1C] bg-transparent">Ilimitados</span>
                 </div>
 
-                <ul className="mgg-features">
+                <ul className="list-none p-0 m-0 flex flex-col gap-[7px] flex-1">
                   {FEATURES_LISTA_GRIFO.map((f) => (
-                    <li key={f} className="mgg-feature-clickable" onClick={() => setFeatureAbierta(f)}>
+                    <li key={f} className="flex items-start gap-1.5 text-xs text-[#374151] leading-[1.4] cursor-pointer rounded-md px-1 py-0.5 -mx-1 transition-colors hover:bg-[rgba(185,28,28,0.08)]" onClick={() => setFeatureAbierta(f)}>
                       <IconoCheck />
                       <span>{f}</span>
                     </li>
@@ -232,7 +231,7 @@ function SelectorPlanGrifo({ estaAbierto, alCerrar, alProcederPago }) {
                 </ul>
 
                 <button
-                  className={`mgg-btn-plan mgg-btn-plan--outline${planSeleccionado === "gratis" ? " mgg-btn-plan--sel" : ""}`}
+                  className={`outline-none w-full py-[10px] rounded-[10px] text-[13.5px] font-bold cursor-pointer transition-all mt-auto${planSeleccionado === "gratis" ? " bg-[#B91C1C] text-white border-0" : " bg-transparent border-2 border-[#B91C1C] text-[#B91C1C] hover:bg-[#B91C1C] hover:text-white"}`}
                   onClick={() => setPlanSeleccionado("gratis")}
                 >
                   {planSeleccionado === "gratis" ? "Seleccionado" : "Elegir Plan"}
@@ -240,25 +239,25 @@ function SelectorPlanGrifo({ estaAbierto, alCerrar, alProcederPago }) {
               </div>
 
               {/* ── Plan Grifo (dark) ── */}
-              <div className={`mgg-plan mgg-plan--compact mgg-plan--dark${planSeleccionado === "grifo" ? " mgg-plan--dark-sel" : ""}`}>
-                <div className="mgg-popular-badge">TODO INCLUIDO</div>
+              <div className={`bg-[#7F1D1D] border-[#7F1D1D] rounded-2xl px-4 pt-[42px] pb-[18px] flex flex-col gap-3 transition-[box-shadow,border-color] duration-[180ms] relative flex-[0_0_210px] min-w-[210px] hover:shadow-[0_4px_20px_rgba(0,0,0,0.08)]${planSeleccionado === "grifo" ? " border-2 border-white/60 shadow-[0_4px_20px_rgba(0,0,0,0.25)]" : " border-[1.5px]"}`}>
+                <div className="absolute -top-px left-1/2 -translate-x-1/2 bg-[#B91C1C] text-white text-[10px] font-bold tracking-[1px] px-[18px] py-[6px] rounded-[0_0_12px_12px] whitespace-nowrap">TODO INCLUIDO</div>
 
-                <h3 className="mgg-plan-nombre mgg-plan-nombre--white">Plan Grifo</h3>
+                <h3 className="text-[17px] font-bold m-0 text-white">Plan Grifo</h3>
 
-                <div className="mgg-precio mgg-precio--white">
-                  <span className="mgg-precio-moneda">s/</span>
-                  <span className="mgg-precio-num">{precioGrifo}</span>
-                  <span className="mgg-precio-per">{labelPeriodo}</span>
+                <div className="flex items-baseline gap-0.5 text-white">
+                  <span className="text-[18px] font-bold">s/</span>
+                  <span className="text-[34px] font-extrabold leading-none max-[700px]:text-[28px]">{precioGrifo}</span>
+                  <span className="text-xs font-medium opacity-70">{labelPeriodo}</span>
                 </div>
 
-                <div className="mgg-plan-tags">
-                  <span className="mgg-tag mgg-tag--white">1 Empresa</span>
-                  <span className="mgg-tag mgg-tag--white">Ilimitados</span>
+                <div className="flex flex-wrap gap-1.5">
+                  <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full border-[1.5px] border-white/55 text-white bg-transparent">1 Empresa</span>
+                  <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full border-[1.5px] border-white/55 text-white bg-transparent">Ilimitados</span>
                 </div>
 
-                <ul className="mgg-features mgg-features--white">
+                <ul className="list-none p-0 m-0 flex flex-col gap-[7px] flex-1">
                   {FEATURES_LISTA_GRIFO.map((f) => (
-                    <li key={f} className="mgg-feature-clickable" onClick={() => setFeatureAbierta(f)}>
+                    <li key={f} className="flex items-start gap-1.5 text-xs text-white leading-[1.4] cursor-pointer rounded-md px-1 py-0.5 -mx-1 transition-colors hover:bg-white/15" onClick={() => setFeatureAbierta(f)}>
                       <IconoCheck dark />
                       <span><u>{f}</u></span>
                     </li>
@@ -266,17 +265,17 @@ function SelectorPlanGrifo({ estaAbierto, alCerrar, alProcederPago }) {
                 </ul>
 
                 <button
-                  className={`mgg-btn-plan mgg-btn-plan--dark-outline${planSeleccionado === "grifo" ? " mgg-btn-plan--dark-sel" : ""}`}
+                  className={`outline-none w-full py-[10px] rounded-[10px] text-[13.5px] font-bold cursor-pointer transition-all mt-auto${planSeleccionado === "grifo" ? " bg-white/15 border-0 text-white" : " bg-transparent border-2 border-white/70 text-white hover:bg-white/15 hover:border-white"}`}
                   onClick={() => setPlanSeleccionado("grifo")}
                 >
                   {planSeleccionado === "grifo" ? "Seleccionado" : "Elegir Plan"}
                 </button>
               </div>
 
-            </div>{/* /mgg-planes */}
+            </div>{/* /planes scroll */}
 
             {/* Hint chat */}
-            <div className="mgg-footer-hint" onClick={() => setChatVisible(true)}>
+            <div className="flex items-center justify-end gap-1.5 mt-3.5 text-[13px] text-[#6B7280] cursor-pointer hover:text-[#B91C1C]" onClick={() => setChatVisible(true)}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B91C1C" strokeWidth="2" strokeLinecap="round">
                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
               </svg>
@@ -284,7 +283,7 @@ function SelectorPlanGrifo({ estaAbierto, alCerrar, alProcederPago }) {
             </div>
 
             {planSeleccionado && (
-              <button className="mgg-btn-continuar" onClick={handleConfirmarPlan}>
+              <button className="flex items-center justify-center gap-2 text-white border-0 rounded-[10px] py-[13px] px-6 text-sm font-bold cursor-pointer w-full mt-2.5 transition-[background,transform] duration-200 hover:-translate-y-px [animation:modal-fade_0.2s_ease] bg-[#B91C1C] hover:bg-[#7F1D1D]" onClick={handleConfirmarPlan}>
                 Continuar con {nombrePlanDisplay}
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                   <path d="M5 12h14M12 5l7 7-7 7" />
@@ -292,31 +291,34 @@ function SelectorPlanGrifo({ estaAbierto, alCerrar, alProcederPago }) {
               </button>
             )}
 
-          </div>{/* /mgg-planes-wrap */}
+            {/* dimmed overlay */}
+            {chatVisible && <div className="absolute inset-0 bg-black/[0.22] z-[2] rounded-[22px] pointer-events-auto" />}
+
+          </div>{/* /planes-wrap */}
 
           {chatVisible && (
-            <div className="mgg-chat-backdrop" onClick={() => setChatVisible(false)} />
+            <div className="hidden max-[700px]:block fixed inset-0 z-[10000] bg-black/45 [animation:modal-fade_0.22s_ease]" onClick={() => setChatVisible(false)} />
           )}
 
           {/* Panel chat */}
           {chatVisible && (
-            <div className="mgg-chat">
-              <div className="mgg-chat-header">
-                <div className="mgg-chat-header-left">
-                  <div className="mgg-chat-avatar">
+            <div className="absolute top-1/2 -translate-y-1/2 right-4 w-[360px] h-[88%] max-h-[560px] z-10 flex flex-col bg-[var(--surface-color)] rounded-[18px] shadow-[0_8px_40px_rgba(0,0,0,0.18)] overflow-hidden [animation:modal-chat-in_0.28s_cubic-bezier(0.34,1.3,0.64,1)] max-[700px]:fixed max-[700px]:top-auto max-[700px]:bottom-4 max-[700px]:left-2 max-[700px]:right-2 max-[700px]:w-[calc(100%-16px)] max-[700px]:h-auto max-[700px]:max-h-[80vh] max-[700px]:translate-y-0 max-[700px]:z-[10001] max-[700px]:rounded-[20px] max-[700px]:[animation:modal-chat-mobile-in_0.3s_cubic-bezier(0.34,1.2,0.64,1)]">
+              <div className="bg-[#7F1D1D] px-4 py-3.5 flex items-center justify-between gap-2.5 shrink-0">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-[38px] h-[38px] rounded-full bg-white/20 flex items-center justify-center shrink-0">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round">
                       <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
                     </svg>
                   </div>
                   <div>
-                    <div className="mgg-chat-nombre">Asistente Grifo</div>
-                    <div className="mgg-chat-estado">
-                      <span className="mgg-online-dot" />
+                    <div className="text-[13.5px] font-bold text-white">Asistente Grifo</div>
+                    <div className="flex items-center gap-[5px] text-[11px] text-white/85 mt-px">
+                      <span className="w-[7px] h-[7px] rounded-full bg-[#4ADE80] shrink-0" />
                       En línea · Catálogo cargado
                     </div>
                   </div>
                 </div>
-                <button className="mgg-chat-close" onClick={() => setChatVisible(false)}>
+                <button className="w-[26px] h-[26px] rounded-full bg-white/20 border-0 cursor-pointer flex items-center justify-center shrink-0 transition-colors hover:bg-white/35" onClick={() => setChatVisible(false)}>
                   <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                     <path d="M2 2L10 10M10 2L2 10" stroke="white" strokeWidth="2" strokeLinecap="round" />
                   </svg>
@@ -324,8 +326,7 @@ function SelectorPlanGrifo({ estaAbierto, alCerrar, alProcederPago }) {
               </div>
 
               <div
-                className="mgg-chat-pdf"
-                style={{ cursor: "pointer" }}
+                className="flex items-center gap-2.5 px-3.5 py-2.5 border-b border-[#F3F4F6] shrink-0 cursor-pointer bg-[#FFF1F2]"
                 onClick={() => setVisorPdf({
                   url: "/catalogos/gestionplex-grifo-2025.pdf",
                   nombre: "Catálogo GestiónPlex Grifo 2025.pdf",
@@ -333,12 +334,12 @@ function SelectorPlanGrifo({ estaAbierto, alCerrar, alProcederPago }) {
                 })}
               >
                 <IconoPdf />
-                <div className="mgg-chat-pdf-info">
-                  <span className="mgg-chat-pdf-name">Catálogo GestiónPlex Grifo 2025.pdf</span>
-                  <span className="mgg-chat-pdf-hint">Toca para ver el catálogo completo de planes</span>
+                <div className="flex-1 min-w-0 flex flex-col">
+                  <span className="text-xs font-semibold whitespace-nowrap overflow-hidden text-ellipsis text-[#B91C1C]">Catálogo GestiónPlex Grifo 2025.pdf</span>
+                  <span className="text-[11px] text-[#9CA3AF]">Toca para ver el catálogo completo de planes</span>
                 </div>
                 <button
-                  className="mgg-chat-pdf-ver"
+                  className="flex items-center gap-0.5 bg-transparent border-0 text-xs font-semibold cursor-pointer whitespace-nowrap px-1.5 py-1 rounded-md transition-colors text-[#B91C1C] hover:bg-[#FEE2E2]"
                   onClick={(e) => { e.stopPropagation(); setVisorPdf({
                     url: "/catalogos/gestionplex-grifo-2025.pdf",
                     nombre: "Catálogo GestiónPlex Grifo 2025.pdf",
@@ -352,42 +353,42 @@ function SelectorPlanGrifo({ estaAbierto, alCerrar, alProcederPago }) {
                 </button>
               </div>
 
-              <div className="mgg-chat-messages">
+              <div className="flex-1 overflow-y-auto px-3 py-3.5 flex flex-col gap-2.5 bg-[#FAFAFA] [&::-webkit-scrollbar]:w-[4px] [&::-webkit-scrollbar-thumb]:bg-[#E5E7EB] [&::-webkit-scrollbar-thumb]:rounded-full">
                 {mensajesChat.map((msg, i) => (
-                  <div key={i} className={`mgg-msg mgg-msg--${msg.tipo}`}>
+                  <div key={i} className={`flex gap-2 items-end${msg.tipo === "usuario" ? " flex-row-reverse" : " flex-row"}`}>
                     {msg.tipo === "bot" && (
-                      <div className="mgg-msg-avatar-bot">
+                      <div className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 bg-[#FEE2E2]">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B91C1C" strokeWidth="2" strokeLinecap="round">
                           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
                         </svg>
                       </div>
                     )}
-                    <div className="mgg-msg-content">
-                      <p className="mgg-msg-texto">{msg.texto}</p>
-                      <span className="mgg-msg-hora">{msg.hora}</span>
+                    <div className={`max-w-[75%] flex flex-col gap-[3px]${msg.tipo === "bot" ? " items-start" : " items-end"}`}>
+                      <p className={`m-0 px-3 py-[9px] text-[12.5px] leading-[1.5] whitespace-pre-line${msg.tipo === "bot" ? " bg-[var(--surface-color)] text-[#1C1917] rounded-[4px_14px_14px_14px] shadow-[0_1px_3px_rgba(0,0,0,0.07)]" : " bg-[#B91C1C] text-white rounded-[14px_4px_14px_14px]"}`}>{msg.texto}</p>
+                      <span className="text-[10px] text-[#9CA3AF]">{msg.hora}</span>
                     </div>
                   </div>
                 ))}
                 <div ref={refFinChat} />
               </div>
 
-              <div className="mgg-quick-replies">
+              <div className="flex flex-wrap gap-1.5 px-3 py-2 border-t border-[#F3F4F6] bg-[var(--surface-color)] shrink-0">
                 {CHATBOT_PREGUNTAS_GRIFO.map((q) => (
-                  <button key={q} className="mgg-quick-btn" onClick={() => handleEnviarChat(q)}>
+                  <button key={q} className="text-[11px] font-medium px-[11px] py-[5px] rounded-full border-[1.5px] cursor-pointer transition-all whitespace-nowrap border-[#FECACA] bg-[#FFF1F2] text-[#B91C1C] hover:bg-[#B91C1C] hover:border-[#B91C1C] hover:text-white" onClick={() => handleEnviarChat(q)}>
                     {q}
                   </button>
                 ))}
               </div>
 
-              <div className="mgg-chat-input-row">
+              <div className="flex items-center gap-1.5 px-3 py-2.5 border-t border-[#F3F4F6] bg-[var(--surface-color)] shrink-0">
                 <input
-                  className="mgg-chat-input"
+                  className="flex-1 border-[1.5px] border-[#E5E7EB] rounded-full px-3.5 py-2 text-[12.5px] outline-none bg-[#FAFAFA] text-[#1C1917] transition-colors placeholder:text-[#9CA3AF] focus:border-[#B91C1C]"
                   placeholder="Escribe tu pregunta..."
                   value={inputChat}
                   onChange={(e) => setInputChat(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && handleEnviarChat(inputChat)}
                 />
-                <button className="mgg-chat-send" onClick={() => handleEnviarChat(inputChat)}>
+                <button className="w-9 h-9 rounded-full border-0 cursor-pointer flex items-center justify-center shrink-0 transition-[background,transform] duration-[180ms] hover:scale-[1.08] bg-[#B91C1C] hover:bg-[#7F1D1D]" onClick={() => handleEnviarChat(inputChat)}>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                     <path d="M22 2L11 13" stroke="white" strokeWidth="2.2" strokeLinecap="round" />
                     <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="white" strokeWidth="2.2" strokeLinejoin="round" />
@@ -395,9 +396,9 @@ function SelectorPlanGrifo({ estaAbierto, alCerrar, alProcederPago }) {
                 </button>
               </div>
             </div>
-          )}{/* /mgg-chat */}
+          )}{/* /chat */}
 
-        </div>{/* /mgg-body */}
+        </div>{/* /body */}
 
         {/* Popover feature */}
         {featureAbierta && (
@@ -409,7 +410,7 @@ function SelectorPlanGrifo({ estaAbierto, alCerrar, alProcederPago }) {
 
         {/* FAB chat */}
         <button
-          className={`mgg-fab-chat${chatVisible ? " mgg-fab-chat--active" : ""}`}
+          className={`absolute bottom-[18px] right-[18px] z-30 w-12 h-12 rounded-full border-0 cursor-pointer flex items-center justify-center transition-[background,transform] duration-[180ms] hover:scale-[1.08] shadow-[0_4px_16px_rgba(185,28,28,0.45)]${chatVisible ? " bg-[#9CA3AF] hover:bg-[#6B7280]" : " bg-[#B91C1C] hover:bg-[#7F1D1D]"}`}
           onClick={() => setChatVisible(!chatVisible)}
         >
           {chatVisible ? (
@@ -423,7 +424,7 @@ function SelectorPlanGrifo({ estaAbierto, alCerrar, alProcederPago }) {
           )}
         </button>
 
-      </div>{/* /mgg-modal */}
+      </div>{/* /modal */}
 
       <VisorCatalogoPDF
         estaAbierto={!!visorPdf}

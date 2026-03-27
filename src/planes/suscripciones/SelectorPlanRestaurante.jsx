@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import "./ModalPlanesRestaurante.css";
 import VisorCatalogoPDF from "../../compartido/visor-catalogo/VisorCatalogoPDF";
 import {
   PRECIOS_RESTAURANTE,
@@ -10,17 +9,17 @@ import {
   CHATBOT_RESPUESTAS_RESTAURANTE,
   CHATBOT_BIENVENIDA_RESTAURANTE,
 } from "./restaurante.data";
- 
 
 
- 
- 
+
+
+
 /* ═══════════════════════════════════════════
    ÍCONOS — SVG inline
    Separados en componentes para reutilización
    y legibilidad del árbol JSX principal.
 ═══════════════════════════════════════════ */
- 
+
 /* Ícono del producto: restaurante (tenedor + cuchillo) */
 function IconoProductoRestaurante({ size = 48 }) {
   return (
@@ -32,7 +31,7 @@ function IconoProductoRestaurante({ size = 48 }) {
     </svg>
   );
 }
- 
+
 /* Check verde para features incluidas */
 function IconoCheckFeature({ sobreDorado = false }) {
   const colorCirculo = sobreDorado ? "rgba(255,255,255,0.2)" : "#FEF3C7";
@@ -44,7 +43,7 @@ function IconoCheckFeature({ sobreDorado = false }) {
     </svg>
   );
 }
- 
+
 /* X roja para features no incluidas / limitadas */
 function IconoXFeatureNoDisponible({ sobreDorado = false }) {
   return (
@@ -54,7 +53,7 @@ function IconoXFeatureNoDisponible({ sobreDorado = false }) {
     </svg>
   );
 }
- 
+
 /* Ícono PDF para el adjunto del chatbot */
 function IconoPdfAdjunto() {
   return (
@@ -66,8 +65,8 @@ function IconoPdfAdjunto() {
     </svg>
   );
 }
- 
- 
+
+
 /* ═══════════════════════════════════════════
    POPOVER DE DETALLE DE FEATURE
    Se abre al hacer click en cualquier feature
@@ -77,28 +76,28 @@ function IconoPdfAdjunto() {
 function PopoverDetalleFeature({ nombreFeature, onCerrar }) {
   const info = FEATURES_RESTAURANTE[nombreFeature];
   if (!info) return null;
- 
+
   return (
-    <div className="mpr-popover-overlay" onClick={onCerrar}>
-      <div className="mpr-popover" onClick={(e) => e.stopPropagation()}>
-        <button className="mpr-popover-close" onClick={onCerrar}>
+    <div className="absolute inset-0 z-50 bg-black/[0.28] backdrop-blur-[3px] flex items-center justify-center rounded-[22px] [animation:modal-fade_0.18s_ease]" onClick={onCerrar}>
+      <div className="bg-[var(--surface-color)] rounded-[18px] p-[24px_22px_22px] w-[300px] max-w-[88%] relative shadow-[0_12px_40px_rgba(0,0,0,0.16)] [animation:modal-pop-in_0.2s_cubic-bezier(0.34,1.56,0.64,1)]" onClick={(e) => e.stopPropagation()}>
+        <button className="absolute top-3 right-3 w-6 h-6 rounded-full bg-[#F3F4F6] border-0 cursor-pointer flex items-center justify-center transition-colors hover:bg-[#E5E7EB]" onClick={onCerrar}>
           <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
             <path d="M2 2L8 8M8 2L2 8" stroke="#6B7280" strokeWidth="1.8" strokeLinecap="round" />
           </svg>
         </button>
-        <h4 className="mpr-popover-titulo">{info.titulo}</h4>
-        <p className="mpr-popover-desc">{info.desc}</p>
+        <h4 className="text-[15px] font-bold text-[#111827] m-0 mb-2.5 pr-5 leading-[1.3]">{info.titulo}</h4>
+        <p className="text-[13px] text-[#4B5563] leading-[1.6] m-0">{info.desc}</p>
       </div>
     </div>
   );
 }
- 
- 
+
+
 /* ═══════════════════════════════════════════
    COMPONENTE PRINCIPAL
 ═══════════════════════════════════════════ */
 function SelectorPlanRestaurante({ estaAbierto, alCerrar, alProcederPago }) {
- 
+
   /* ── Estado del modal ── */
   const [periodoFacturacion, setPeriodoFacturacion] = useState("mensual"); // "mensual" | "anual"
   const [planSeleccionado,   setPlanSeleccionado]   = useState("");         // "" | "gratis" | "basico" | "gold"
@@ -125,12 +124,12 @@ function SelectorPlanRestaurante({ estaAbierto, alCerrar, alProcederPago }) {
   const [mensajesChat, setMensajesChat] = useState([CHATBOT_BIENVENIDA_RESTAURANTE]);
   const [inputChat,    setInputChat]    = useState("");
   const refFinChat = useRef(null);
- 
+
   /* Scroll automático al último mensaje del chat */
   useEffect(() => {
     if (chatVisible) refFinChat.current?.scrollIntoView({ behavior: "smooth" });
   }, [mensajesChat, chatVisible]);
- 
+
   /* No renderizar si el modal está cerrado */
   if (!estaAbierto) return null;
 
@@ -138,23 +137,23 @@ function SelectorPlanRestaurante({ estaAbierto, alCerrar, alProcederPago }) {
   const handleClickOverlay = (e) => {
     if (e.target === e.currentTarget) alCerrar();
   };
- 
+
   /* ── Precios calculados según periodo ── */
   const precioBasico = PRECIOS_RESTAURANTE.basico[periodoFacturacion];
   const precioGold   = PRECIOS_RESTAURANTE.gold[periodoFacturacion];
   const labelPeriodo = periodoFacturacion === "mensual" ? "/mes" : "/año";
- 
+
   /* Nombre legible del plan seleccionado para el botón "Continuar" */
   const NOMBRES_PLANES = { gratis: "Gratis", basico: "Básico", gold: "Gold" };
   const nombrePlanDisplay = NOMBRES_PLANES[planSeleccionado] || "";
- 
+
   /* ── Confirmar selección de plan → sube al padre ── */
   const handleConfirmarPlan = () => {
     const precio =
       planSeleccionado === "gratis" ? "0"
       : planSeleccionado === "basico" ? precioBasico.replace(",", "")
       : precioGold.replace(",", "");
- 
+
     /* TODO (backend): conectar con POST /api/suscripciones */
     alProcederPago?.({
       planNombre: planSeleccionado,
@@ -162,15 +161,15 @@ function SelectorPlanRestaurante({ estaAbierto, alCerrar, alProcederPago }) {
       billing: periodoFacturacion,
     });
   };
- 
+
   /* ── Chatbot: enviar mensaje y generar respuesta automática ── */
   const handleEnviarMensajeChat = (texto) => {
     if (!texto.trim()) return;
     const hora = new Date().toLocaleTimeString("es-PE", { hour: "2-digit", minute: "2-digit" });
- 
+
     setMensajesChat((prev) => [...prev, { tipo: "usuario", texto, hora }]);
     setInputChat("");
- 
+
     /* TODO (backend): reemplazar setTimeout con POST /api/chat */
     setTimeout(() => {
       const respuesta =
@@ -179,86 +178,86 @@ function SelectorPlanRestaurante({ estaAbierto, alCerrar, alProcederPago }) {
       setMensajesChat((prev) => [...prev, { tipo: "bot", texto: respuesta, hora }]);
     }, 800);
   };
- 
- 
+
+
   /* ═══════════════════════════════════════
      RENDER
   ═══════════════════════════════════════ */
   return (
-    <div className="mpr-overlay" onClick={handleClickOverlay}>
-      <div className="mpr-modal">
- 
+    <div className="fixed inset-0 z-[9999] bg-[rgba(15,10,30,0.55)] backdrop-blur-[6px] flex items-center justify-center p-4 [animation:modal-fade_0.22s_ease]" onClick={handleClickOverlay}>
+      <div className="bg-[#FFF8F3] rounded-[22px] w-full max-w-[740px] max-h-[90vh] overflow-hidden relative flex flex-col [animation:modal-slide_0.28s_cubic-bezier(0.34,1.56,0.64,1)] shadow-[0_24px_80px_rgba(0,0,0,0.22)]">
+
         {/* ── Botón cerrar modal ── */}
-        <button className="mpr-close" onClick={alCerrar}>
+        <button className="absolute top-3.5 right-3.5 z-10 w-[30px] h-[30px] rounded-full border-0 cursor-pointer flex items-center justify-center transition-all hover:scale-110 outline-none bg-[#F97316] hover:bg-[#EA580C]" onClick={alCerrar}>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <path d="M2 2L12 12M12 2L2 12" stroke="white" strokeWidth="2.2" strokeLinecap="round" />
           </svg>
         </button>
- 
+
         {/* ── Body: columna planes + panel chat ── */}
-        <div className="mpr-body">
- 
+        <div className="relative flex-1 min-h-0 overflow-hidden flex flex-col">
+
           {/* ══════════════════════════════════════
               COLUMNA IZQUIERDA — Planes de suscripción
           ══════════════════════════════════════ */}
-          <div className={`mpr-planes-wrap${chatVisible ? " mpr-planes-wrap--dimmed" : ""}`}>
- 
+          <div className="flex-1 min-h-0 overflow-y-auto px-8 pt-9 pb-20 box-border relative z-[1] [&::-webkit-scrollbar]:w-[5px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#FCD9C0] max-[700px]:px-3.5 max-[700px]:pt-5 max-[700px]:pb-24">
+
             {/* ── Header del producto ── */}
-            <div className="mpr-header">
+            <div className="flex flex-col items-center text-center gap-2 mb-6">
               <IconoProductoRestaurante size={52} />
-              <h2 className="mpr-titulo">Gestión-Plex Restaurantes</h2>
-              <p className="mpr-subtitulo">Elige el plan perfecto para ti con comprobantes ilimitados</p>
-              <div className="mpr-badges">
-                <span className="mpr-badge-pill">1 mes gratis</span>
-                <span className="mpr-badge-pill">IGV incluido</span>
+              <h2 className="text-[22px] font-extrabold text-[#1C1917] m-0 max-[700px]:text-[18px]">Gestión-Plex Restaurantes</h2>
+              <p className="text-[13.5px] text-[#6B7280] m-0">Elige el plan perfecto para ti con comprobantes ilimitados</p>
+              <div className="flex gap-2 flex-wrap justify-center mt-0.5">
+                <span className="border-[1.5px] border-[#D1D5DB] rounded-full px-3.5 py-1 text-xs font-medium bg-[var(--surface-color)] text-[#374151]">1 mes gratis</span>
+                <span className="border-[1.5px] border-[#D1D5DB] rounded-full px-3.5 py-1 text-xs font-medium bg-[var(--surface-color)] text-[#374151]">IGV incluido</span>
               </div>
- 
+
               {/* Toggle periodo de facturación */}
-              <div className="mpr-toggle">
+              <div className="inline-flex bg-[#F3F4F6] rounded-[10px] p-1 gap-1 mt-1">
                 <button
-                  className={`mpr-toggle-btn${periodoFacturacion === "mensual" ? " mpr-toggle-btn--active" : ""}`}
+                  className={`px-6 py-2 rounded-lg border-0 text-[13.5px] font-semibold cursor-pointer transition-all outline-none${periodoFacturacion === "mensual" ? " bg-[#F97316] text-white shadow-[0_2px_8px_rgba(249,115,22,0.4)]" : " bg-transparent text-[#6B7280]"}`}
                   onClick={() => setPeriodoFacturacion("mensual")}
                 >
                   Mensual
                 </button>
                 <button
-                  className={`mpr-toggle-btn${periodoFacturacion === "anual" ? " mpr-toggle-btn--active" : ""}`}
+                  className={`px-6 py-2 rounded-lg border-0 text-[13.5px] font-semibold cursor-pointer transition-all outline-none${periodoFacturacion === "anual" ? " bg-[#F97316] text-white shadow-[0_2px_8px_rgba(249,115,22,0.4)]" : " bg-transparent text-[#6B7280]"}`}
                   onClick={() => setPeriodoFacturacion("anual")}
                 >
                   Anual
                 </button>
               </div>
             </div>
- 
+
             {/* ── Scroll horizontal de planes ── */}
             <div
-              className="mpr-planes"
+              className="flex overflow-x-auto gap-3.5 pb-2.5 cursor-grab active:cursor-grabbing [&::-webkit-scrollbar]:h-[5px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#FCD9C0]"
               ref={refPlanesScroll}
               onMouseDown={handlePlanesMouseDown}
               onMouseMove={handlePlanesMouseMove}
               onMouseUp={handlePlanesMouseUp}
               onMouseLeave={handlePlanesMouseUp}
             >
- 
+
               {/* ── Plan Gratis ── */}
-              <div className={`mpr-plan mpr-plan--compact mpr-plan--gratis${planSeleccionado === "gratis" ? " mpr-plan--selected" : ""}`}>
-                <h3 className="mpr-plan-titulo mpr-plan-titulo--naranja">Gratis</h3>
- 
-                <div className="mpr-precio">
-                  <span className="mpr-precio-moneda">s/</span>
-                  <span className="mpr-precio-num">0</span>
-                  <span className="mpr-precio-per">{labelPeriodo}</span>
+              <div className={`bg-[var(--surface-color)] border-[1.5px] border-[#E5E7EB] rounded-2xl px-4 pt-5 pb-[18px] flex flex-col gap-3 transition-[box-shadow,border-color] duration-[180ms] relative flex-[0_0_210px] min-w-[210px] hover:shadow-[0_4px_20px_rgba(0,0,0,0.08)]${planSeleccionado === "gratis" ? " border-2 border-[#F97316] shadow-[0_4px_20px_rgba(249,115,22,0.18)]" : ""}`}>
+                <h3 className="text-[17px] font-bold m-0 text-[#F97316]">Gratis</h3>
+
+                <div className="flex items-baseline gap-0.5 text-[#1C1917]">
+                  <span className="text-[18px] font-bold">s/</span>
+                  <span className="text-[34px] font-extrabold leading-none max-[700px]:text-[28px]">0</span>
+                  <span className="text-xs font-medium opacity-70">{labelPeriodo}</span>
                 </div>
- 
-                <div className="mpr-plan-tags">
-                  <span className="mpr-tag mpr-tag--outline">1 Empresa</span>
+
+                <div className="flex flex-wrap gap-1.5">
+                  <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full border-[1.5px] border-[#F97316] text-[#F97316] bg-transparent">1 Empresa</span>
                 </div>
- 
-                <ul className="mpr-features">
+
+                <ul className="list-none p-0 m-0 flex flex-col gap-[7px] flex-1">
                   {FEATURES_COMUNES_RESTAURANTE.map((feature) => (
                     <li
                       key={feature}
-                      className="mpr-feature-clickable"
+                      className="flex items-start gap-1.5 text-xs text-[#374151] leading-[1.4] cursor-pointer rounded-md px-1 py-0.5 -mx-1 transition-colors hover:bg-[rgba(249,115,22,0.08)]"
                       onClick={() => setFeatureAbierta(feature)}
                     >
                       <IconoCheckFeature />
@@ -266,42 +265,42 @@ function SelectorPlanRestaurante({ estaAbierto, alCerrar, alProcederPago }) {
                     </li>
                   ))}
                   <li
-                    className="mpr-feature-disabled mpr-feature-clickable"
+                    className="flex items-start gap-1.5 text-xs text-[#374151] leading-[1.4] cursor-pointer rounded-md px-1 py-0.5 -mx-1 transition-colors hover:bg-[rgba(249,115,22,0.08)]"
                     onClick={() => setFeatureAbierta("3-sucursales(SOLO 2)")}
                   >
                     <IconoXFeatureNoDisponible />
-                    <span>3-sucursales(SOLO 2)</span>
+                    <span className="line-through text-[#9CA3AF] text-[11.5px]">3-sucursales(SOLO 2)</span>
                   </li>
                 </ul>
- 
+
                 <button
-                  className={`mpr-btn-plan mpr-btn-plan--outline${planSeleccionado === "gratis" ? " mpr-btn-plan--seleccionado" : ""}`}
+                  className={`outline-none w-full py-[10px] rounded-[10px] text-[13.5px] font-bold cursor-pointer transition-all mt-auto${planSeleccionado === "gratis" ? " bg-[#F97316] text-white border-0" : " bg-transparent border-2 border-[#F97316] text-[#F97316] hover:bg-[#F97316] hover:text-white"}`}
                   onClick={() => setPlanSeleccionado("gratis")}
                 >
                   {planSeleccionado === "gratis" ? "Seleccionado" : "Elegir Plan"}
                 </button>
               </div>
- 
+
               {/* ── Plan Básico ── */}
-              <div className={`mpr-plan mpr-plan--compact mpr-plan--basico${planSeleccionado === "basico" ? " mpr-plan--selected" : ""}`}>
-                <h3 className="mpr-plan-titulo mpr-plan-titulo--naranja">Básico</h3>
- 
-                <div className="mpr-precio">
-                  <span className="mpr-precio-moneda">s/</span>
-                  <span className="mpr-precio-num">{precioBasico}</span>
-                  <span className="mpr-precio-per">{labelPeriodo}</span>
+              <div className={`bg-[var(--surface-color)] border-[1.5px] border-[#E5E7EB] rounded-2xl px-4 pt-5 pb-[18px] flex flex-col gap-3 transition-[box-shadow,border-color] duration-[180ms] relative flex-[0_0_210px] min-w-[210px] hover:shadow-[0_4px_20px_rgba(0,0,0,0.08)]${planSeleccionado === "basico" ? " border-2 border-[#F97316] shadow-[0_4px_20px_rgba(249,115,22,0.18)]" : ""}`}>
+                <h3 className="text-[17px] font-bold m-0 text-[#F97316]">Básico</h3>
+
+                <div className="flex items-baseline gap-0.5 text-[#1C1917]">
+                  <span className="text-[18px] font-bold">s/</span>
+                  <span className="text-[34px] font-extrabold leading-none max-[700px]:text-[28px]">{precioBasico}</span>
+                  <span className="text-xs font-medium opacity-70">{labelPeriodo}</span>
                 </div>
- 
-                <div className="mpr-plan-tags">
-                  <span className="mpr-tag mpr-tag--filled">2 Empresas</span>
-                  <span className="mpr-tag mpr-tag--filled">1 mes gratis</span>
+
+                <div className="flex flex-wrap gap-1.5">
+                  <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-[#F97316] text-white border-0">2 Empresas</span>
+                  <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-[#F97316] text-white border-0">1 mes gratis</span>
                 </div>
- 
-                <ul className="mpr-features">
+
+                <ul className="list-none p-0 m-0 flex flex-col gap-[7px] flex-1">
                   {FEATURES_COMUNES_RESTAURANTE.map((feature) => (
                     <li
                       key={feature}
-                      className="mpr-feature-clickable"
+                      className="flex items-start gap-1.5 text-xs text-[#374151] leading-[1.4] cursor-pointer rounded-md px-1 py-0.5 -mx-1 transition-colors hover:bg-[rgba(249,115,22,0.08)]"
                       onClick={() => setFeatureAbierta(feature)}
                     >
                       <IconoCheckFeature />
@@ -309,54 +308,54 @@ function SelectorPlanRestaurante({ estaAbierto, alCerrar, alProcederPago }) {
                     </li>
                   ))}
                   <li
-                    className="mpr-feature-disabled mpr-feature-clickable"
+                    className="flex items-start gap-1.5 text-xs text-[#374151] leading-[1.4] cursor-pointer rounded-md px-1 py-0.5 -mx-1 transition-colors hover:bg-[rgba(249,115,22,0.08)]"
                     onClick={() => setFeatureAbierta("3-sucursales(SOLO 2)")}
                   >
                     <IconoXFeatureNoDisponible />
-                    <span>3-sucursales(SOLO 2)</span>
+                    <span className="line-through text-[#9CA3AF] text-[11.5px]">3-sucursales(SOLO 2)</span>
                   </li>
                 </ul>
- 
+
                 <button
-                  className={`mpr-btn-plan mpr-btn-plan--outline${planSeleccionado === "basico" ? " mpr-btn-plan--seleccionado" : ""}`}
+                  className={`outline-none w-full py-[10px] rounded-[10px] text-[13.5px] font-bold cursor-pointer transition-all mt-auto${planSeleccionado === "basico" ? " bg-[#F97316] text-white border-0" : " bg-transparent border-2 border-[#F97316] text-[#F97316] hover:bg-[#F97316] hover:text-white"}`}
                   onClick={() => setPlanSeleccionado("basico")}
                 >
                   {planSeleccionado === "basico" ? "Seleccionado" : "Elegir Plan"}
                 </button>
               </div>
- 
+
               {/* ── Plan Gold (destacado) ── */}
-              <div className={`mpr-plan mpr-plan--compact mpr-plan--gold${planSeleccionado === "gold" ? " mpr-plan--selected" : ""}`}>
-                <div className="mpr-popular-badge">MAS POPULAR</div>
- 
-                <h3 className="mpr-plan-titulo mpr-plan-titulo--white">Gold</h3>
- 
-                <div className="mpr-precio mpr-precio--white">
-                  <span className="mpr-precio-moneda">s/</span>
-                  <span className="mpr-precio-num">{precioGold}</span>
-                  <span className="mpr-precio-per">{labelPeriodo}</span>
+              <div className={`bg-[#F97316] border-[#F97316] rounded-2xl px-4 pt-[44px] pb-[18px] flex flex-col gap-3 transition-[box-shadow,border-color] duration-[180ms] relative flex-[0_0_210px] min-w-[210px] hover:shadow-[0_4px_20px_rgba(0,0,0,0.08)]${planSeleccionado === "gold" ? " border-2 border-white/70 shadow-[0_4px_20px_rgba(0,0,0,0.2)]" : " border-[1.5px]"}`}>
+                <div className="absolute -top-px left-1/2 -translate-x-1/2 bg-[#431407] text-[#FED7AA] text-[10px] font-bold tracking-[1px] px-[20px] py-[6px] rounded-[0_0_12px_12px] whitespace-nowrap">MAS POPULAR</div>
+
+                <h3 className="text-[17px] font-bold m-0 text-white">Gold</h3>
+
+                <div className="flex items-baseline gap-0.5 text-white">
+                  <span className="text-[18px] font-bold">s/</span>
+                  <span className="text-[34px] font-extrabold leading-none max-[700px]:text-[28px]">{precioGold}</span>
+                  <span className="text-xs font-medium opacity-70">{labelPeriodo}</span>
                 </div>
- 
-                <div className="mpr-plan-tags">
-                  <span className="mpr-tag mpr-tag--white-outline">3 Empresas</span>
-                  <span className="mpr-tag mpr-tag--white-outline">1 mes gratis</span>
+
+                <div className="flex flex-wrap gap-1.5">
+                  <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full border-[1.5px] border-white/60 text-white bg-transparent">3 Empresas</span>
+                  <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full border-[1.5px] border-white/60 text-white bg-transparent">1 mes gratis</span>
                 </div>
- 
-                <ul className="mpr-features mpr-features--white">
+
+                <ul className="list-none p-0 m-0 flex flex-col gap-[7px] flex-1">
                   {/* Primer item: enlace al plan básico */}
                   <li
-                    className="mpr-feature-gold-title mpr-feature-clickable"
+                    className="flex items-start gap-1.5 text-xs text-white leading-[1.4] cursor-pointer rounded-md px-1 py-0.5 -mx-1 transition-colors hover:bg-white/15 mb-0.5"
                     onClick={() => setFeatureAbierta("Todo lo del Básico +")}
                   >
                     <IconoCheckFeature sobreDorado />
                     <span><strong><u>Todo lo del Básico +</u></strong></span>
                   </li>
- 
+
                   {/* Features exclusivos del Gold */}
                   {FEATURES_GOLD_RESTAURANTE.map((feature) => (
                     <li
                       key={feature}
-                      className="mpr-feature-clickable"
+                      className="flex items-start gap-1.5 text-xs text-white leading-[1.4] cursor-pointer rounded-md px-1 py-0.5 -mx-1 transition-colors hover:bg-white/15"
                       onClick={() => setFeatureAbierta(feature)}
                     >
                       <IconoCheckFeature sobreDorado />
@@ -364,78 +363,80 @@ function SelectorPlanRestaurante({ estaAbierto, alCerrar, alProcederPago }) {
                     </li>
                   ))}
                 </ul>
- 
+
                 <button
-                  className={`mpr-btn-plan mpr-btn-plan--white${planSeleccionado === "gold" ? " mpr-btn-plan--seleccionado-white" : ""}`}
+                  className={`outline-none w-full py-[10px] rounded-[10px] text-[13.5px] font-bold cursor-pointer transition-all mt-auto border-2 border-white text-[#F97316]${planSeleccionado === "gold" ? " bg-white/85" : " bg-[var(--surface-color)] hover:bg-white/85"}`}
                   onClick={() => setPlanSeleccionado("gold")}
                 >
                   {planSeleccionado === "gold" ? "Seleccionado" : "Elegir Plan"}
                 </button>
               </div>
- 
-            </div>{/* /mpr-planes */}
- 
+
+            </div>{/* /planes */}
+
             {/* ── Hint: abrir chatbot ── */}
-            <div className="mpr-footer-hint">
+            <div className="flex items-center justify-end gap-1.5 mt-3.5 text-[13px] text-[#6B7280] cursor-pointer hover:text-[#F97316]">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F97316" strokeWidth="2" strokeLinecap="round">
                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
               </svg>
               <span>¿Tienes dudas sobre los planes?</span>
             </div>
- 
+
             {/* Botón confirmar — visible solo cuando hay plan seleccionado */}
             {planSeleccionado && (
-              <button className="mpr-btn-continuar" onClick={handleConfirmarPlan}>
+              <button className="flex items-center justify-center gap-2 text-white border-0 rounded-[10px] py-[13px] px-6 text-sm font-bold cursor-pointer w-full mt-2.5 transition-[background,transform] duration-200 hover:-translate-y-px [animation:modal-fade_0.2s_ease] bg-[#F97316] hover:bg-[#EA580C]" onClick={handleConfirmarPlan}>
                 Continuar con Plan {nombrePlanDisplay}
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                   <path d="M5 12h14M12 5l7 7-7 7" />
                 </svg>
               </button>
             )}
- 
-          </div>{/* /mpr-planes-wrap */}
- 
+
+            {/* dimmed overlay */}
+            {chatVisible && <div className="absolute inset-0 bg-black/[0.22] z-[2] rounded-[22px] pointer-events-auto" />}
+
+          </div>{/* /planes-wrap */}
+
           {/* Backdrop oscuro para cerrar chat en mobile */}
           {chatVisible && (
-            <div className="mpr-chat-backdrop" onClick={() => setChatVisible(false)} />
+            <div className="hidden max-[700px]:block fixed inset-0 z-[10000] bg-black/45 [animation:modal-fade_0.22s_ease]" onClick={() => setChatVisible(false)} />
           )}
- 
+
           {/* ══════════════════════════════════════
               PANEL CHAT — Asistente virtual
               TODO (backend): conectar con endpoint AI
           ══════════════════════════════════════ */}
           {chatVisible && (
-            <div className="mpr-chat">
- 
+            <div className="absolute top-1/2 -translate-y-1/2 right-4 w-[360px] h-[86%] max-h-[520px] z-10 flex flex-col bg-[var(--surface-color)] rounded-[18px] shadow-[0_8px_40px_rgba(0,0,0,0.18)] overflow-hidden [animation:modal-chat-in_0.28s_cubic-bezier(0.34,1.3,0.64,1)] max-[700px]:fixed max-[700px]:top-auto max-[700px]:bottom-4 max-[700px]:left-2 max-[700px]:right-2 max-[700px]:w-[calc(100%-16px)] max-[700px]:h-auto max-[700px]:max-h-[80vh] max-[700px]:translate-y-0 max-[700px]:z-[10001] max-[700px]:rounded-[20px] max-[700px]:[animation:modal-chat-mobile-in_0.3s_cubic-bezier(0.34,1.2,0.64,1)]">
+
               {/* Header del chat */}
-              <div className="mpr-chat-header">
-                <div className="mpr-chat-header-left">
-                  <div className="mpr-chat-avatar">
+              <div className="bg-[#F97316] px-4 py-3.5 flex items-center justify-between gap-2.5 shrink-0">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-[38px] h-[38px] rounded-full bg-white/20 flex items-center justify-center shrink-0">
                     <svg width="22" height="22" viewBox="0 0 48 48" fill="none">
                       <rect width="48" height="48" rx="12" fill="white" opacity="0.2" />
                       <path d="M16 18h-4v14l4-4h16V18H16z" stroke="white" strokeWidth="2.5" strokeLinejoin="round" />
                     </svg>
                   </div>
                   <div>
-                    <div className="mpr-chat-nombre">Asistente Codeplex</div>
-                    <div className="mpr-chat-estado">
-                      <span className="mpr-online-dot" />
+                    <div className="text-[13.5px] font-bold text-white">Asistente Codeplex</div>
+                    <div className="flex items-center gap-[5px] text-[11px] text-white/85 mt-px">
+                      <span className="w-[7px] h-[7px] rounded-full bg-[#4ADE80] shrink-0" />
                       En línea · Catálogo cargado
                     </div>
                   </div>
                 </div>
-                <button className="mpr-chat-close" onClick={() => setChatVisible(false)}>
+                <button className="w-[26px] h-[26px] rounded-full bg-white/20 border-0 cursor-pointer flex items-center justify-center shrink-0 transition-colors hover:bg-white/35" onClick={() => setChatVisible(false)}>
                   <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                     <path d="M2 2L10 10M10 2L2 10" stroke="white" strokeWidth="2" strokeLinecap="round" />
                   </svg>
                 </button>
               </div>
- 
+
               {/* Adjunto: catálogo PDF del producto */}
               {/* TODO (backend): reemplazar href="#" con URL real del PDF */}
               <div
-                className="mpr-chat-pdf"
-                style={{ cursor: "pointer" }}
+                className="flex items-center gap-2.5 px-3.5 py-2.5 border-b border-[#F3F4F6] shrink-0 cursor-pointer bg-[#FFFBF8]"
                 onClick={() => setVisorPdf({
                   url: "/catalogos/gestionplex-restaurante-2025.pdf",
                   nombre: "Catálogo GestiónPlex Restaurantes 2025.pdf",
@@ -443,12 +444,12 @@ function SelectorPlanRestaurante({ estaAbierto, alCerrar, alProcederPago }) {
                 })}
               >
                 <IconoPdfAdjunto />
-                <div className="mpr-chat-pdf-info">
-                  <span className="mpr-chat-pdf-name">Catálogo GestiónPlex Restaurantes 2025.pdf</span>
-                  <span className="mpr-chat-pdf-hint">Toca para ver el catálogo completo de planes</span>
+                <div className="flex-1 min-w-0 flex flex-col">
+                  <span className="text-xs font-semibold whitespace-nowrap overflow-hidden text-ellipsis text-[#F97316]">Catálogo GestiónPlex Restaurantes 2025.pdf</span>
+                  <span className="text-[11px] text-[#9CA3AF]">Toca para ver el catálogo completo de planes</span>
                 </div>
                 <button
-                  className="mpr-chat-pdf-ver"
+                  className="flex items-center gap-0.5 bg-transparent border-0 text-xs font-semibold cursor-pointer whitespace-nowrap px-1.5 py-1 rounded-md transition-colors text-[#F97316] hover:bg-[#FEF3C7]"
                   onClick={(e) => { e.stopPropagation(); setVisorPdf({
                     url: "/catalogos/gestionplex-restaurante-2025.pdf",
                     nombre: "Catálogo GestiónPlex Restaurantes 2025.pdf",
@@ -461,62 +462,62 @@ function SelectorPlanRestaurante({ estaAbierto, alCerrar, alProcederPago }) {
                   </svg>
                 </button>
               </div>
- 
+
               {/* Historial de mensajes */}
-              <div className="mpr-chat-messages">
+              <div className="flex-1 overflow-y-auto px-3 py-3.5 flex flex-col gap-2.5 bg-[#FAFAFA] [&::-webkit-scrollbar]:w-[4px] [&::-webkit-scrollbar-thumb]:bg-[#E5E7EB] [&::-webkit-scrollbar-thumb]:rounded-full">
                 {mensajesChat.map((mensaje, index) => (
-                  <div key={index} className={`mpr-msg mpr-msg--${mensaje.tipo}`}>
+                  <div key={index} className={`flex gap-2 items-end${mensaje.tipo === "usuario" ? " flex-row-reverse" : " flex-row"}`}>
                     {mensaje.tipo === "bot" && (
-                      <div className="mpr-msg-avatar-bot">
+                      <div className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 bg-[#FEF3C7]">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F97316" strokeWidth="2" strokeLinecap="round">
                           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
                         </svg>
                       </div>
                     )}
-                    <div className="mpr-msg-content">
-                      <p className="mpr-msg-texto">{mensaje.texto}</p>
-                      <span className="mpr-msg-hora">{mensaje.hora}</span>
+                    <div className={`max-w-[75%] flex flex-col gap-[3px]${mensaje.tipo === "bot" ? " items-start" : " items-end"}`}>
+                      <p className={`m-0 px-3 py-[9px] text-[12.5px] leading-[1.5] whitespace-pre-line${mensaje.tipo === "bot" ? " bg-[var(--surface-color)] text-[#1C1917] rounded-[4px_14px_14px_14px] shadow-[0_1px_3px_rgba(0,0,0,0.07)]" : " bg-[#F97316] text-white rounded-[14px_4px_14px_14px]"}`}>{mensaje.texto}</p>
+                      <span className="text-[10px] text-[#9CA3AF]">{mensaje.hora}</span>
                     </div>
                   </div>
                 ))}
                 <div ref={refFinChat} />
               </div>
- 
+
               {/* Respuestas rápidas predefinidas */}
-              <div className="mpr-quick-replies">
+              <div className="flex flex-wrap gap-1.5 px-3 py-2 border-t border-[#F3F4F6] bg-[var(--surface-color)] shrink-0">
                 {CHATBOT_PREGUNTAS_RESTAURANTE.map((pregunta) => (
                   <button
                     key={pregunta}
-                    className="mpr-quick-btn"
+                    className="text-[11px] font-medium px-[11px] py-[5px] rounded-full border-[1.5px] cursor-pointer transition-all whitespace-nowrap border-[#FCD9C0] bg-[#FFF8F3] text-[#EA580C] hover:bg-[#F97316] hover:border-[#F97316] hover:text-white"
                     onClick={() => handleEnviarMensajeChat(pregunta)}
                   >
                     {pregunta}
                   </button>
                 ))}
               </div>
- 
+
               {/* Input libre del usuario */}
-              <div className="mpr-chat-input-row">
+              <div className="flex items-center gap-1.5 px-3 py-2.5 border-t border-[#F3F4F6] bg-[var(--surface-color)] shrink-0">
                 <input
-                  className="mpr-chat-input"
+                  className="flex-1 border-[1.5px] border-[#E5E7EB] rounded-full px-3.5 py-2 text-[12.5px] outline-none bg-[#FAFAFA] text-[#1C1917] transition-colors placeholder:text-[#9CA3AF] focus:border-[#F97316]"
                   placeholder="Escribe tu pregunta..."
                   value={inputChat}
                   onChange={(e) => setInputChat(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && handleEnviarMensajeChat(inputChat)}
                 />
-                <button className="mpr-chat-send" onClick={() => handleEnviarMensajeChat(inputChat)}>
+                <button className="w-9 h-9 rounded-full border-0 cursor-pointer flex items-center justify-center shrink-0 transition-[background,transform] duration-[180ms] hover:scale-[1.08] bg-[#F97316] hover:bg-[#EA580C]" onClick={() => handleEnviarMensajeChat(inputChat)}>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                     <path d="M22 2L11 13" stroke="white" strokeWidth="2.2" strokeLinecap="round" />
                     <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="white" strokeWidth="2.2" strokeLinejoin="round" />
                   </svg>
                 </button>
               </div>
- 
+
             </div>
-          )}{/* /mpr-chat */}
- 
-        </div>{/* /mpr-body */}
- 
+          )}{/* /chat */}
+
+        </div>{/* /body */}
+
         {/* ── Popover detalle de feature (sobre todo el modal) ── */}
         {featureAbierta && (
           <PopoverDetalleFeature
@@ -524,10 +525,10 @@ function SelectorPlanRestaurante({ estaAbierto, alCerrar, alProcederPago }) {
             onCerrar={() => setFeatureAbierta(null)}
           />
         )}
- 
+
         {/* ── FAB flotante para abrir/cerrar chatbot ── */}
         <button
-          className={`mpr-fab-chat${chatVisible ? " mpr-fab-chat--active" : ""}`}
+          className={`absolute bottom-[18px] right-[18px] z-30 w-12 h-12 rounded-full border-0 cursor-pointer flex items-center justify-center transition-[background,transform] duration-[180ms] hover:scale-[1.08] shadow-[0_4px_16px_rgba(249,115,22,0.45)]${chatVisible ? " bg-[#9CA3AF] hover:bg-[#6B7280]" : " bg-[#F97316] hover:bg-[#EA580C]"}`}
           onClick={() => setChatVisible(!chatVisible)}
           title="Asistente virtual"
         >
@@ -541,8 +542,8 @@ function SelectorPlanRestaurante({ estaAbierto, alCerrar, alProcederPago }) {
             </svg>
           )}
         </button>
- 
-      </div>{/* /mpr-modal */}
+
+      </div>{/* /modal */}
 
       <VisorCatalogoPDF
         estaAbierto={!!visorPdf}

@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import "./ModalPlanesTransporte.css";
 import VisorCatalogoPDF from "../../compartido/visor-catalogo/VisorCatalogoPDF";
 import {
   PRECIOS_TRANSPORTE,
@@ -60,15 +59,15 @@ function PopoverDetalleFeature({ nombreFeature, onCerrar }) {
   if (!info) return null;
 
   return (
-    <div className="mgt-popover-overlay" onClick={onCerrar}>
-      <div className="mgt-popover" onClick={(e) => e.stopPropagation()}>
-        <button className="mgt-popover-close" onClick={onCerrar}>
+    <div className="absolute inset-0 z-50 bg-black/[0.28] backdrop-blur-[3px] flex items-center justify-center rounded-[22px] [animation:modal-fade_0.18s_ease]" onClick={onCerrar}>
+      <div className="bg-[var(--surface-color)] rounded-[18px] p-[24px_22px_22px] w-[300px] max-w-[88%] relative shadow-[0_12px_40px_rgba(0,0,0,0.16)] [animation:modal-pop-in_0.2s_cubic-bezier(0.34,1.56,0.64,1)]" onClick={(e) => e.stopPropagation()}>
+        <button className="absolute top-3 right-3 w-6 h-6 rounded-full bg-[#F3F4F6] border-0 cursor-pointer flex items-center justify-center transition-colors hover:bg-[#E5E7EB]" onClick={onCerrar}>
           <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
             <path d="M2 2L8 8M8 2L2 8" stroke="#6B7280" strokeWidth="1.8" strokeLinecap="round" />
           </svg>
         </button>
-        <h4 className="mgt-popover-titulo">{info.titulo}</h4>
-        <p className="mgt-popover-desc">{info.desc}</p>
+        <h4 className="text-[15px] font-bold text-[#111827] m-0 mb-2.5 pr-5 leading-[1.3]">{info.titulo}</h4>
+        <p className="text-[13px] text-[#4B5563] leading-[1.6] m-0">{info.desc}</p>
       </div>
     </div>
   );
@@ -151,22 +150,22 @@ function SelectorPlanTransporte({ estaAbierto, alCerrar, alProcederPago }) {
      RENDER
   ═══════════════════════════════════════ */
   return (
-    <div className="mgt-overlay" onClick={handleClickOverlay}>
-      <div className="mgt-modal">
+    <div className="fixed inset-0 z-[9999] bg-[rgba(10,20,55,0.55)] backdrop-blur-[6px] flex items-center justify-center p-4 [animation:modal-fade_0.22s_ease]" onClick={handleClickOverlay}>
+      <div className="bg-[#EFF6FF] rounded-[22px] w-full max-w-[760px] max-h-[90vh] overflow-hidden relative flex flex-col [animation:modal-slide_0.28s_cubic-bezier(0.34,1.56,0.64,1)] shadow-[0_24px_80px_rgba(0,0,0,0.22)]">
 
         {/* Cerrar */}
-        <button className="mgt-close" onClick={handleClose}>
+        <button className="absolute top-3.5 right-3.5 z-10 w-[30px] h-[30px] rounded-full border-0 cursor-pointer flex items-center justify-center transition-all hover:scale-110 outline-none bg-[#1D4ED8] hover:bg-[#1E3A8A]" onClick={handleClose}>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <path d="M2 2L12 12M12 2L2 12" stroke="white" strokeWidth="2.2" strokeLinecap="round" />
           </svg>
         </button>
 
         {/* Body */}
-        <div className="mgt-body">
-          <div className={`mgt-planes-wrap${chatVisible ? " mgt-planes-wrap--dimmed" : ""}`}>
+        <div className="relative flex-1 min-h-0 overflow-hidden flex flex-col">
+          <div className="flex-1 min-h-0 overflow-y-auto px-7 pt-5 pb-20 box-border relative z-[1] [&::-webkit-scrollbar]:w-[5px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#BFDBFE] max-[700px]:px-3.5 max-[700px]:pt-4 max-[700px]:pb-24">
 
             {/* Volver */}
-            <button className="mgt-volver" onClick={handleClose}>
+            <button className="inline-flex items-center gap-1.5 bg-transparent border-0 text-[13px] font-semibold text-[#374151] cursor-pointer px-2 py-1 rounded-lg mb-1.5 transition-colors hover:bg-black/[0.06] outline-none" onClick={handleClose}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                 <path d="M19 12H5M12 19l-7-7 7-7" />
               </svg>
@@ -174,27 +173,27 @@ function SelectorPlanTransporte({ estaAbierto, alCerrar, alProcederPago }) {
             </button>
 
             {/* Header */}
-            <div className="mgt-header">
+            <div className="flex flex-col items-center text-center gap-1.5 mb-5">
               <IconoTransporte size={48} />
-              <h2 className="mgt-titulo">Gestión-Plex Transporte</h2>
-              <p className="mgt-subtitulo">
+              <h2 className="text-[22px] font-extrabold text-[#1C1917] m-0 max-[700px]:text-[19px]">Gestión-Plex Transporte</h2>
+              <p className="text-[13.5px] text-[#6B7280] m-0">
                 Software especializado para empresas de transporte ,elige el plan perfecto para ti&nbsp; con comprobantes ilimitados
               </p>
 
-              <div className="mgt-badges">
-                <span className="mgt-badge-pill">1 mes gratis</span>
-                <span className="mgt-badge-pill">IGV incluido</span>
-                <span className="mgt-badge-pill">Actualizaciones</span>
-                <span className="mgt-badge-pill">Usuarios ilimitados</span>
+              <div className="flex gap-2 flex-wrap justify-center mt-0.5">
+                <span className="border-[1.5px] border-[#BFDBFE] rounded-full px-3.5 py-1 text-xs font-medium bg-[var(--surface-color)] text-[#1D4ED8]">1 mes gratis</span>
+                <span className="border-[1.5px] border-[#BFDBFE] rounded-full px-3.5 py-1 text-xs font-medium bg-[var(--surface-color)] text-[#1D4ED8]">IGV incluido</span>
+                <span className="border-[1.5px] border-[#BFDBFE] rounded-full px-3.5 py-1 text-xs font-medium bg-[var(--surface-color)] text-[#1D4ED8]">Actualizaciones</span>
+                <span className="border-[1.5px] border-[#BFDBFE] rounded-full px-3.5 py-1 text-xs font-medium bg-[var(--surface-color)] text-[#1D4ED8]">Usuarios ilimitados</span>
               </div>
 
-              <div className="mgt-toggle">
+              <div className="inline-flex bg-[#F3F4F6] rounded-[10px] p-1 gap-1 mt-1">
                 <button
-                  className={`mgt-toggle-btn${periodoFacturacion === "mensual" ? " mgt-toggle-btn--active" : ""}`}
+                  className={`px-6 py-2 rounded-lg border-0 text-[13.5px] font-semibold cursor-pointer transition-all outline-none${periodoFacturacion === "mensual" ? " bg-[#1E3A8A] text-white shadow-[0_2px_8px_rgba(30,58,138,0.35)]" : " bg-transparent text-[#6B7280]"}`}
                   onClick={() => setPeriodoFacturacion("mensual")}
                 >Mensual</button>
                 <button
-                  className={`mgt-toggle-btn${periodoFacturacion === "anual" ? " mgt-toggle-btn--active" : ""}`}
+                  className={`px-6 py-2 rounded-lg border-0 text-[13.5px] font-semibold cursor-pointer transition-all outline-none${periodoFacturacion === "anual" ? " bg-[#1E3A8A] text-white shadow-[0_2px_8px_rgba(30,58,138,0.35)]" : " bg-transparent text-[#6B7280]"}`}
                   onClick={() => setPeriodoFacturacion("anual")}
                 >Anual</button>
               </div>
@@ -202,7 +201,7 @@ function SelectorPlanTransporte({ estaAbierto, alCerrar, alProcederPago }) {
 
             {/* Scroll horizontal de planes */}
             <div
-              className="mgt-planes"
+              className="flex overflow-x-auto gap-3.5 pb-2.5 cursor-grab active:cursor-grabbing [&::-webkit-scrollbar]:h-[5px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#BFDBFE] md:justify-center"
               ref={refPlanesScroll}
               onMouseDown={handlePlanesMouseDown}
               onMouseMove={handlePlanesMouseMove}
@@ -211,23 +210,23 @@ function SelectorPlanTransporte({ estaAbierto, alCerrar, alProcederPago }) {
             >
 
               {/* ── Plan Gratis ── */}
-              <div className={`mgt-plan mgt-plan--compact${planSeleccionado === "gratis" ? " mgt-plan--selected" : ""}`}>
-                <h3 className="mgt-plan-nombre">Gratis</h3>
+              <div className={`bg-[var(--surface-color)] border-[1.5px] border-[#E5E7EB] rounded-2xl px-4 pt-5 pb-[18px] flex flex-col gap-3 transition-[box-shadow,border-color] duration-[180ms] relative flex-[0_0_210px] min-w-[210px] hover:shadow-[0_4px_20px_rgba(0,0,0,0.08)]${planSeleccionado === "gratis" ? " border-2 border-[#1D4ED8] shadow-[0_4px_20px_rgba(29,78,216,0.18)]" : ""}`}>
+                <h3 className="text-[17px] font-bold m-0 text-[#1D4ED8]">Gratis</h3>
 
-                <div className="mgt-precio">
-                  <span className="mgt-precio-moneda">s/</span>
-                  <span className="mgt-precio-num">0</span>
-                  <span className="mgt-precio-per">{labelPeriodo}</span>
+                <div className="flex items-baseline gap-0.5 text-[#1C1917]">
+                  <span className="text-[18px] font-bold">s/</span>
+                  <span className="text-[34px] font-extrabold leading-none max-[700px]:text-[28px]">0</span>
+                  <span className="text-xs font-medium opacity-70">{labelPeriodo}</span>
                 </div>
 
-                <div className="mgt-plan-tags">
-                  <span className="mgt-tag mgt-tag--outline">1 Empresa</span>
-                  <span className="mgt-tag mgt-tag--outline">1 sedes/transp.</span>
+                <div className="flex flex-wrap gap-1.5">
+                  <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full border-[1.5px] border-[#BFDBFE] text-[#1D4ED8] bg-transparent">1 Empresa</span>
+                  <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full border-[1.5px] border-[#BFDBFE] text-[#1D4ED8] bg-transparent">1 sedes/transp.</span>
                 </div>
 
-                <ul className="mgt-features">
+                <ul className="list-none p-0 m-0 flex flex-col gap-[7px] flex-1">
                   {FEATURES_LISTA_TRANSPORTE.map((f) => (
-                    <li key={f} className="mgt-feature-clickable" onClick={() => setFeatureAbierta(f)}>
+                    <li key={f} className="flex items-start gap-1.5 text-xs text-[#374151] leading-[1.4] cursor-pointer rounded-md px-1 py-0.5 -mx-1 transition-colors hover:bg-[rgba(29,78,216,0.08)]" onClick={() => setFeatureAbierta(f)}>
                       <IconoCheck />
                       <span>{f}</span>
                     </li>
@@ -235,7 +234,7 @@ function SelectorPlanTransporte({ estaAbierto, alCerrar, alProcederPago }) {
                 </ul>
 
                 <button
-                  className={`mgt-btn-plan mgt-btn-plan--outline${planSeleccionado === "gratis" ? " mgt-btn-plan--sel" : ""}`}
+                  className={`outline-none w-full py-[10px] rounded-[10px] text-[13.5px] font-bold cursor-pointer transition-all mt-auto${planSeleccionado === "gratis" ? " bg-[#1D4ED8] text-white border-0" : " bg-transparent border-2 border-[#1D4ED8] text-[#1D4ED8] hover:bg-[#1D4ED8] hover:text-white"}`}
                   onClick={() => setPlanSeleccionado("gratis")}
                 >
                   {planSeleccionado === "gratis" ? "Seleccionado" : "Elegir Plan"}
@@ -243,25 +242,25 @@ function SelectorPlanTransporte({ estaAbierto, alCerrar, alProcederPago }) {
               </div>
 
               {/* ── Plan Transporte (dark) ── */}
-              <div className={`mgt-plan mgt-plan--compact mgt-plan--dark${planSeleccionado === "transporte" ? " mgt-plan--dark-sel" : ""}`}>
-                <div className="mgt-popular-badge">TODO INCLUIDO</div>
+              <div className={`bg-[#1E3A8A] border-[#1E3A8A] rounded-2xl px-4 pt-[42px] pb-[18px] flex flex-col gap-3 transition-[box-shadow,border-color] duration-[180ms] relative flex-[0_0_210px] min-w-[210px] hover:shadow-[0_4px_20px_rgba(0,0,0,0.08)]${planSeleccionado === "transporte" ? " border-2 border-white/60 shadow-[0_4px_20px_rgba(0,0,0,0.25)]" : " border-[1.5px]"}`}>
+                <div className="absolute -top-px left-1/2 -translate-x-1/2 bg-[#1D4ED8] text-white text-[10px] font-bold tracking-[1px] px-[18px] py-[6px] rounded-[0_0_12px_12px] whitespace-nowrap">TODO INCLUIDO</div>
 
-                <h3 className="mgt-plan-nombre mgt-plan-nombre--white">Plan Transporte</h3>
+                <h3 className="text-[17px] font-bold m-0 text-white">Plan Transporte</h3>
 
-                <div className="mgt-precio mgt-precio--white">
-                  <span className="mgt-precio-moneda">s/</span>
-                  <span className="mgt-precio-num">{precioTransporte}</span>
-                  <span className="mgt-precio-per">{labelPeriodo}</span>
+                <div className="flex items-baseline gap-0.5 text-white">
+                  <span className="text-[18px] font-bold">s/</span>
+                  <span className="text-[34px] font-extrabold leading-none max-[700px]:text-[28px]">{precioTransporte}</span>
+                  <span className="text-xs font-medium opacity-70">{labelPeriodo}</span>
                 </div>
 
-                <div className="mgt-plan-tags">
-                  <span className="mgt-tag mgt-tag--white">1 Empresa</span>
-                  <span className="mgt-tag mgt-tag--white">3 sedes/transp.</span>
+                <div className="flex flex-wrap gap-1.5">
+                  <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full border-[1.5px] border-white/55 text-white bg-transparent">1 Empresa</span>
+                  <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full border-[1.5px] border-white/55 text-white bg-transparent">3 sedes/transp.</span>
                 </div>
 
-                <ul className="mgt-features mgt-features--white">
+                <ul className="list-none p-0 m-0 flex flex-col gap-[7px] flex-1">
                   {FEATURES_LISTA_TRANSPORTE.map((f) => (
-                    <li key={f} className="mgt-feature-clickable" onClick={() => setFeatureAbierta(f)}>
+                    <li key={f} className="flex items-start gap-1.5 text-xs text-white leading-[1.4] cursor-pointer rounded-md px-1 py-0.5 -mx-1 transition-colors hover:bg-white/15" onClick={() => setFeatureAbierta(f)}>
                       <IconoCheck dark />
                       <span><u>{f}</u></span>
                     </li>
@@ -269,17 +268,17 @@ function SelectorPlanTransporte({ estaAbierto, alCerrar, alProcederPago }) {
                 </ul>
 
                 <button
-                  className={`mgt-btn-plan mgt-btn-plan--dark-outline${planSeleccionado === "transporte" ? " mgt-btn-plan--dark-sel" : ""}`}
+                  className={`outline-none w-full py-[10px] rounded-[10px] text-[13.5px] font-bold cursor-pointer transition-all mt-auto${planSeleccionado === "transporte" ? " bg-white/15 border-0 text-white" : " bg-transparent border-2 border-white/70 text-white hover:bg-white/15 hover:border-white"}`}
                   onClick={() => setPlanSeleccionado("transporte")}
                 >
                   {planSeleccionado === "transporte" ? "Seleccionado" : "Elegir Plan"}
                 </button>
               </div>
 
-            </div>{/* /mgt-planes */}
+            </div>{/* /planes */}
 
             {/* Hint chat */}
-            <div className="mgt-footer-hint" onClick={() => setChatVisible(true)}>
+            <div className="flex items-center justify-end gap-1.5 mt-3.5 text-[13px] text-[#6B7280] cursor-pointer hover:text-[#1D4ED8]" onClick={() => setChatVisible(true)}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1D4ED8" strokeWidth="2" strokeLinecap="round">
                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
               </svg>
@@ -287,7 +286,7 @@ function SelectorPlanTransporte({ estaAbierto, alCerrar, alProcederPago }) {
             </div>
 
             {planSeleccionado && (
-              <button className="mgt-btn-continuar" onClick={handleConfirmarPlan}>
+              <button className="flex items-center justify-center gap-2 text-white border-0 rounded-[10px] py-[13px] px-6 text-sm font-bold cursor-pointer w-full mt-2.5 transition-[background,transform] duration-200 hover:-translate-y-px [animation:modal-fade_0.2s_ease] bg-[#1D4ED8] hover:bg-[#1E3A8A]" onClick={handleConfirmarPlan}>
                 Continuar con {nombrePlanDisplay}
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                   <path d="M5 12h14M12 5l7 7-7 7" />
@@ -295,31 +294,34 @@ function SelectorPlanTransporte({ estaAbierto, alCerrar, alProcederPago }) {
               </button>
             )}
 
-          </div>{/* /mgt-planes-wrap */}
+            {/* dimmed overlay */}
+            {chatVisible && <div className="absolute inset-0 bg-black/[0.22] z-[2] rounded-[22px] pointer-events-auto" />}
+
+          </div>{/* /planes-wrap */}
 
           {chatVisible && (
-            <div className="mgt-chat-backdrop" onClick={() => setChatVisible(false)} />
+            <div className="hidden max-[700px]:block fixed inset-0 z-[10000] bg-black/45 [animation:modal-fade_0.22s_ease]" onClick={() => setChatVisible(false)} />
           )}
 
           {/* Panel chat */}
           {chatVisible && (
-            <div className="mgt-chat">
-              <div className="mgt-chat-header">
-                <div className="mgt-chat-header-left">
-                  <div className="mgt-chat-avatar">
+            <div className="absolute top-1/2 -translate-y-1/2 right-4 w-[360px] h-[88%] max-h-[540px] z-10 flex flex-col bg-[var(--surface-color)] rounded-[18px] shadow-[0_8px_40px_rgba(0,0,0,0.18)] overflow-hidden [animation:modal-chat-in_0.28s_cubic-bezier(0.34,1.3,0.64,1)] max-[700px]:fixed max-[700px]:top-auto max-[700px]:bottom-4 max-[700px]:left-2 max-[700px]:right-2 max-[700px]:w-[calc(100%-16px)] max-[700px]:h-auto max-[700px]:max-h-[80vh] max-[700px]:translate-y-0 max-[700px]:z-[10001] max-[700px]:rounded-[20px] max-[700px]:[animation:modal-chat-mobile-in_0.3s_cubic-bezier(0.34,1.2,0.64,1)]">
+              <div className="bg-[#1E3A8A] px-4 py-3.5 flex items-center justify-between gap-2.5 shrink-0">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-[38px] h-[38px] rounded-full bg-white/20 flex items-center justify-center shrink-0">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round">
                       <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
                     </svg>
                   </div>
                   <div>
-                    <div className="mgt-chat-nombre">Asistente Transporte</div>
-                    <div className="mgt-chat-estado">
-                      <span className="mgt-online-dot" />
+                    <div className="text-[13.5px] font-bold text-white">Asistente Transporte</div>
+                    <div className="flex items-center gap-[5px] text-[11px] text-white/85 mt-px">
+                      <span className="w-[7px] h-[7px] rounded-full bg-[#4ADE80] shrink-0" />
                       En línea · Catálogo cargado
                     </div>
                   </div>
                 </div>
-                <button className="mgt-chat-close" onClick={() => setChatVisible(false)}>
+                <button className="w-[26px] h-[26px] rounded-full bg-white/20 border-0 cursor-pointer flex items-center justify-center shrink-0 transition-colors hover:bg-white/35" onClick={() => setChatVisible(false)}>
                   <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                     <path d="M2 2L10 10M10 2L2 10" stroke="white" strokeWidth="2" strokeLinecap="round" />
                   </svg>
@@ -327,8 +329,7 @@ function SelectorPlanTransporte({ estaAbierto, alCerrar, alProcederPago }) {
               </div>
 
               <div
-                className="mgt-chat-pdf"
-                style={{ cursor: "pointer" }}
+                className="flex items-center gap-2.5 px-3.5 py-2.5 border-b border-[#F3F4F6] shrink-0 cursor-pointer bg-[#EFF6FF]"
                 onClick={() => setVisorPdf({
                   url: "/catalogos/gestionplex-transporte-2025.pdf",
                   nombre: "Catálogo GestiónPlex Transporte 2025.pdf",
@@ -336,12 +337,12 @@ function SelectorPlanTransporte({ estaAbierto, alCerrar, alProcederPago }) {
                 })}
               >
                 <IconoPdf />
-                <div className="mgt-chat-pdf-info">
-                  <span className="mgt-chat-pdf-name">Catálogo GestiónPlex Transporte 2025.pdf</span>
-                  <span className="mgt-chat-pdf-hint">Toca para ver el catálogo completo de planes</span>
+                <div className="flex-1 min-w-0 flex flex-col">
+                  <span className="text-xs font-semibold whitespace-nowrap overflow-hidden text-ellipsis text-[#1D4ED8]">Catálogo GestiónPlex Transporte 2025.pdf</span>
+                  <span className="text-[11px] text-[#9CA3AF]">Toca para ver el catálogo completo de planes</span>
                 </div>
                 <button
-                  className="mgt-chat-pdf-ver"
+                  className="flex items-center gap-0.5 bg-transparent border-0 text-xs font-semibold cursor-pointer whitespace-nowrap px-1.5 py-1 rounded-md transition-colors text-[#1D4ED8] hover:bg-[#DBEAFE]"
                   onClick={(e) => { e.stopPropagation(); setVisorPdf({
                     url: "/catalogos/gestionplex-transporte-2025.pdf",
                     nombre: "Catálogo GestiónPlex Transporte 2025.pdf",
@@ -355,42 +356,42 @@ function SelectorPlanTransporte({ estaAbierto, alCerrar, alProcederPago }) {
                 </button>
               </div>
 
-              <div className="mgt-chat-messages">
+              <div className="flex-1 overflow-y-auto px-3 py-3.5 flex flex-col gap-2.5 bg-[#FAFAFA] [&::-webkit-scrollbar]:w-[4px] [&::-webkit-scrollbar-thumb]:bg-[#E5E7EB] [&::-webkit-scrollbar-thumb]:rounded-full">
                 {mensajesChat.map((msg, i) => (
-                  <div key={i} className={`mgt-msg mgt-msg--${msg.tipo}`}>
+                  <div key={i} className={`flex gap-2 items-end${msg.tipo === "usuario" ? " flex-row-reverse" : " flex-row"}`}>
                     {msg.tipo === "bot" && (
-                      <div className="mgt-msg-avatar-bot">
+                      <div className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 bg-[#DBEAFE]">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1D4ED8" strokeWidth="2" strokeLinecap="round">
                           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
                         </svg>
                       </div>
                     )}
-                    <div className="mgt-msg-content">
-                      <p className="mgt-msg-texto">{msg.texto}</p>
-                      <span className="mgt-msg-hora">{msg.hora}</span>
+                    <div className={`max-w-[75%] flex flex-col gap-[3px]${msg.tipo === "bot" ? " items-start" : " items-end"}`}>
+                      <p className={`m-0 px-3 py-[9px] text-[12.5px] leading-[1.5] whitespace-pre-line${msg.tipo === "bot" ? " bg-[var(--surface-color)] text-[#1C1917] rounded-[4px_14px_14px_14px] shadow-[0_1px_3px_rgba(0,0,0,0.07)]" : " bg-[#1D4ED8] text-white rounded-[14px_4px_14px_14px]"}`}>{msg.texto}</p>
+                      <span className="text-[10px] text-[#9CA3AF]">{msg.hora}</span>
                     </div>
                   </div>
                 ))}
                 <div ref={refFinChat} />
               </div>
 
-              <div className="mgt-quick-replies">
+              <div className="flex flex-wrap gap-1.5 px-3 py-2 border-t border-[#F3F4F6] bg-[var(--surface-color)] shrink-0">
                 {CHATBOT_PREGUNTAS_TRANSPORTE.map((q) => (
-                  <button key={q} className="mgt-quick-btn" onClick={() => handleEnviarChat(q)}>
+                  <button key={q} className="text-[11px] font-medium px-[11px] py-[5px] rounded-full border-[1.5px] cursor-pointer transition-all whitespace-nowrap border-[#BFDBFE] bg-[#EFF6FF] text-[#1D4ED8] hover:bg-[#1D4ED8] hover:border-[#1D4ED8] hover:text-white" onClick={() => handleEnviarChat(q)}>
                     {q}
                   </button>
                 ))}
               </div>
 
-              <div className="mgt-chat-input-row">
+              <div className="flex items-center gap-1.5 px-3 py-2.5 border-t border-[#F3F4F6] bg-[var(--surface-color)] shrink-0">
                 <input
-                  className="mgt-chat-input"
+                  className="flex-1 border-[1.5px] border-[#E5E7EB] rounded-full px-3.5 py-2 text-[12.5px] outline-none bg-[#FAFAFA] text-[#1C1917] transition-colors placeholder:text-[#9CA3AF] focus:border-[#1D4ED8]"
                   placeholder="Escribe tu pregunta..."
                   value={inputChat}
                   onChange={(e) => setInputChat(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && handleEnviarChat(inputChat)}
                 />
-                <button className="mgt-chat-send" onClick={() => handleEnviarChat(inputChat)}>
+                <button className="w-9 h-9 rounded-full border-0 cursor-pointer flex items-center justify-center shrink-0 transition-[background,transform] duration-[180ms] hover:scale-[1.08] bg-[#1D4ED8] hover:bg-[#1E3A8A]" onClick={() => handleEnviarChat(inputChat)}>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                     <path d="M22 2L11 13" stroke="white" strokeWidth="2.2" strokeLinecap="round" />
                     <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="white" strokeWidth="2.2" strokeLinejoin="round" />
@@ -398,9 +399,9 @@ function SelectorPlanTransporte({ estaAbierto, alCerrar, alProcederPago }) {
                 </button>
               </div>
             </div>
-          )}{/* /mgt-chat */}
+          )}{/* /chat */}
 
-        </div>{/* /mgt-body */}
+        </div>{/* /body */}
 
         {/* Popover feature */}
         {featureAbierta && (
@@ -412,7 +413,7 @@ function SelectorPlanTransporte({ estaAbierto, alCerrar, alProcederPago }) {
 
         {/* FAB chat */}
         <button
-          className={`mgt-fab-chat${chatVisible ? " mgt-fab-chat--active" : ""}`}
+          className={`absolute bottom-[18px] right-[18px] z-30 w-12 h-12 rounded-full border-0 cursor-pointer flex items-center justify-center transition-[background,transform] duration-[180ms] hover:scale-[1.08] shadow-[0_4px_16px_rgba(29,78,216,0.45)]${chatVisible ? " bg-[#9CA3AF] hover:bg-[#6B7280]" : " bg-[#1D4ED8] hover:bg-[#1E3A8A]"}`}
           onClick={() => setChatVisible(!chatVisible)}
         >
           {chatVisible ? (
@@ -426,7 +427,7 @@ function SelectorPlanTransporte({ estaAbierto, alCerrar, alProcederPago }) {
           )}
         </button>
 
-      </div>{/* /mgt-modal */}
+      </div>{/* /modal */}
 
       <VisorCatalogoPDF
         estaAbierto={!!visorPdf}

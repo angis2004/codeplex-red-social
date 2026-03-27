@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./PasarelaPago.css";
 
 /* ─── Mapa de colores por colorTema ─── */
 const COLORES_TEMA = {
@@ -50,13 +49,17 @@ const PREFIJOS = { Peru: "+51", Colombia: "+57", Ecuador: "+593", Bolivia: "+591
 
 /* ─── Número de paso ─── */
 function StepNumber({ n }) {
-  return <div className="pp-step-num">{n}</div>;
+  return (
+    <div className="w-7 h-7 rounded-full bg-violet-700 text-white text-[13px] font-bold flex items-center justify-center shrink-0">
+      {n}
+    </div>
+  );
 }
 
 /* ─── Info icon ─── */
 function InfoIcon() {
   return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B7280" strokeWidth="2" strokeLinecap="round" style={{ flexShrink: 0, marginTop: 1 }}>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B7280" strokeWidth="2" strokeLinecap="round" className="shrink-0 mt-[1px]">
       <circle cx="12" cy="12" r="10" />
       <path d="M12 16v-4M12 8h.01" />
     </svg>
@@ -86,59 +89,64 @@ const VIP_BENEFICIOS = [
 /* ─── Pantalla de Éxito ─── */
 function PantallaExito({ data, onIrMisApps }) {
   return (
-    <div className="pp-exito-wrap">
-      <div className="pp-exito-card">
-        <div className="pp-exito-check-circle">
+    <div className="flex items-center justify-center min-h-[60vh] p-[40px_20px]">
+      <div className="bg-white border-[1.5px] border-gray-200 rounded-[18px] p-[40px_36px_36px] max-w-[480px] w-full text-center shadow-[0_4px_24px_rgba(0,0,0,0.07)] [animation:pp-exito-in_0.35s_cubic-bezier(0.34,1.4,0.64,1)]">
+        <div className="w-[72px] h-[72px] rounded-full bg-green-50 border-2 border-green-300 flex items-center justify-center mx-auto mb-5">
           <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
             <path d="M8 19L15 26L30 11" stroke="#22C55E" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </div>
-        <h2 className="pp-exito-titulo">¡Suscripción Activada!</h2>
-        <p className="pp-exito-sub">Tu{data.apps.length > 1 ? "s" : ""} aplicación{data.apps.length > 1 ? "es han" : " ha"} sido activada{data.apps.length > 1 ? "s" : ""} correctamente</p>
+        <h2 className="text-[22px] font-extrabold text-gray-900 m-0 mb-1.5">¡Suscripción Activada!</h2>
+        <p className="text-sm text-gray-500 m-0 mb-6">
+          Tu{data.apps.length > 1 ? "s" : ""} aplicación{data.apps.length > 1 ? "es han" : " ha"} sido activada{data.apps.length > 1 ? "s" : ""} correctamente
+        </p>
 
-        <div className="pp-exito-apps-list">
+        <div className="flex flex-col gap-2 mb-5">
           {data.apps.map((app, i) => (
-            <div key={i} className="pp-exito-app-row">
+            <div key={i} className="flex items-center gap-2.5 bg-gray-50 border border-gray-200 rounded-xl p-[10px_12px] text-left">
               <CartItemIcon icono={app.icono} colorTema={app.colorTema} size={32} />
               <div>
-                <div className="pp-exito-app-nombre">{app.appNombre} · {app.appPublisher}</div>
-                <div className="pp-exito-app-plan">Plan {app.planNombreDisplay} — S/{app.precio}/mes</div>
+                <div className="text-[13px] font-semibold text-gray-900">{app.appNombre} · {app.appPublisher}</div>
+                <div className="text-xs text-gray-500 mt-0.5">Plan {app.planNombreDisplay} — S/{app.precio}/mes</div>
               </div>
             </div>
           ))}
           {data.vipIncluido && (
-            <div className="pp-exito-app-row pp-exito-app-row--vip">
-              <div className="pp-exito-vip-icon">⭐</div>
+            <div className="flex items-center gap-2.5 bg-gradient-to-br from-sky-500 to-teal-600 rounded-xl p-[10px_12px] text-left text-white">
+              <div className="text-[22px] w-8 h-8 flex items-center justify-center shrink-0">⭐</div>
               <div>
-                <div className="pp-exito-app-nombre">Super VIP</div>
-                <div className="pp-exito-app-plan">Servicio adicional — S/{VIP_PRECIO}/mes</div>
+                <div className="text-[13px] font-semibold">Super VIP</div>
+                <div className="text-xs mt-0.5">Servicio adicional — S/{VIP_PRECIO}/mes</div>
               </div>
             </div>
           )}
         </div>
 
-        <div className="pp-exito-tabla">
-          <div className="pp-exito-fila">
-            <span className="pp-exito-key">Cobro Hoy</span>
-            <span className="pp-exito-val">S/0.00</span>
+        <div className="bg-gray-50 border border-gray-200 rounded-xl overflow-hidden mb-6 text-left">
+          <div className="flex justify-between items-center py-[11px] px-4 border-b border-gray-200 text-[13px]">
+            <span className="text-gray-500 font-medium">Cobro Hoy</span>
+            <span className="font-semibold text-gray-700">S/0.00</span>
           </div>
-          <div className="pp-exito-fila">
-            <span className="pp-exito-key">Primer Cobro</span>
-            <span className="pp-exito-val">S/{data.totalMensual} el {data.fechaCobroStr}</span>
+          <div className="flex justify-between items-center py-[11px] px-4 border-b border-gray-200 text-[13px]">
+            <span className="text-gray-500 font-medium">Primer Cobro</span>
+            <span className="font-semibold text-gray-700">S/{data.totalMensual} el {data.fechaCobroStr}</span>
           </div>
-          <div className="pp-exito-fila">
-            <span className="pp-exito-key">Renovación</span>
-            <span className="pp-exito-val">Automática mensual</span>
+          <div className="flex justify-between items-center py-[11px] px-4 border-b border-gray-200 text-[13px]">
+            <span className="text-gray-500 font-medium">Renovación</span>
+            <span className="font-semibold text-gray-700">Automática mensual</span>
           </div>
           {data.ultimos4 && (
-            <div className="pp-exito-fila">
-              <span className="pp-exito-key">Tarjeta</span>
-              <span className="pp-exito-val">{data.marcaTarjeta} ••••{data.ultimos4}</span>
+            <div className="flex justify-between items-center py-[11px] px-4 text-[13px]">
+              <span className="text-gray-500 font-medium">Tarjeta</span>
+              <span className="font-semibold text-gray-700">{data.marcaTarjeta} ••••{data.ultimos4}</span>
             </div>
           )}
         </div>
 
-        <button className="pp-exito-btn" onClick={onIrMisApps}>
+        <button
+          className="w-full flex items-center justify-center gap-2 bg-violet-700 text-white border-0 rounded-xl py-3.5 text-[15px] font-semibold cursor-pointer transition-all hover:bg-violet-800 hover:-translate-y-px"
+          onClick={onIrMisApps}
+        >
           Ir a Mis Aplicaciones
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
             <path d="M5 12h14M12 5l7 7-7 7" />
@@ -151,22 +159,22 @@ function PantallaExito({ data, onIrMisApps }) {
 
 /* ═══════════════════════════════════════════ */
 function PasarelaPago({ itemsCarrito = [], alQuitarDelCarrito, alVolver, alActivar }) {
-  const [tarjeta, setTarjeta]         = useState("");
-  const [vencimiento, setVencimiento] = useState("");
-  const [cvv, setCvv]                 = useState("");
-  const [propietario, setPropietario] = useState("");
-  const [ruc, setRuc]                 = useState("");
-  const [razonSocial, setRazonSocial] = useState("");
-  const [pais, setPais]               = useState("Peru");
-  const [direccion, setDireccion]     = useState("");
-  const [correo, setCorreo]           = useState("");
-  const [celular, setCelular]         = useState("");
+  const [tarjeta, setTarjeta]             = useState("");
+  const [vencimiento, setVencimiento]     = useState("");
+  const [cvv, setCvv]                     = useState("");
+  const [propietario, setPropietario]     = useState("");
+  const [ruc, setRuc]                     = useState("");
+  const [razonSocial, setRazonSocial]     = useState("");
+  const [pais, setPais]                   = useState("Peru");
+  const [direccion, setDireccion]         = useState("");
+  const [correo, setCorreo]               = useState("");
+  const [celular, setCelular]             = useState("");
   const [notifWhatsapp, setNotifWhatsapp] = useState(false);
-  const [notifSms, setNotifSms]       = useState(false);
+  const [notifSms, setNotifSms]           = useState(false);
   const [vipSeleccionado, setVipSeleccionado] = useState(false);
   const [terminosAceptados, setTerminosAceptados] = useState(false);
-  const [showExito, setShowExito]     = useState(false);
-  const [exitoData, setExitoData]     = useState(null);
+  const [showExito, setShowExito]         = useState(false);
+  const [exitoData, setExitoData]         = useState(null);
 
   /* Fechas */
   const hoy         = new Date();
@@ -178,13 +186,11 @@ function PasarelaPago({ itemsCarrito = [], alQuitarDelCarrito, alVolver, alActiv
   const subtotalApps = itemsCarrito.reduce((sum, i) => sum + parseFloat(i.precio || 0), 0);
   const totalMensual = subtotalApps + (vipSeleccionado ? VIP_PRECIO : 0);
 
-  /* Nombre de plan legible */
   const planNombreDisplay = (plan) => ({ gratis: "Gratis", basico: "Básico", gold: "Gold" }[plan] || plan);
 
-  /* Activar */
   const handleActivar = () => {
     const digits = tarjeta.replace(/\s/g, "");
-    const data = {
+    setExitoData({
       apps: itemsCarrito.map((item) => ({ ...item, planNombreDisplay: planNombreDisplay(item.planNombre) })),
       vipIncluido: vipSeleccionado,
       totalMensual,
@@ -192,36 +198,34 @@ function PasarelaPago({ itemsCarrito = [], alQuitarDelCarrito, alVolver, alActiv
       correo,
       ultimos4: digits.length >= 4 ? digits.slice(-4) : "",
       marcaTarjeta: getMarcaTarjeta(tarjeta),
-    };
-    setExitoData(data);
+    });
     setShowExito(true);
   };
 
   const handleIrMisApps = () => {
-    alActivar?.(
-      exitoData.apps.map((app) => ({
-        ...app,
-        planNombreDisplay: planNombreDisplay(app.planNombre),
-      }))
-    );
+    alActivar?.(exitoData.apps.map((app) => ({ ...app, planNombreDisplay: planNombreDisplay(app.planNombre) })));
   };
 
-  /* Carrito vacío */
+  /* ── Clases reutilizables ── */
+  const inputCls = "border-[1.5px] border-gray-200 rounded-lg py-[10px] px-[13px] text-sm text-gray-900 bg-white outline-none transition-colors w-full box-border focus:border-violet-700 placeholder:text-gray-400 dark:bg-[var(--background-color)] dark:border-gray-600 dark:text-[var(--text-primary)]";
+  const cardCls  = "bg-white border-[1.5px] border-gray-200 rounded-[14px] px-6 py-[22px] dark:bg-[var(--background-color)] dark:border-gray-700";
+
+  /* ── Carrito vacío ── */
   if (itemsCarrito.length === 0 && !showExito) {
     return (
-      <div className="pp-container">
-        <div className="pp-header">
-          <button className="pp-volver-btn" onClick={alVolver}>
+      <div className="max-w-[980px] mx-auto pb-12">
+        <div className="flex items-center gap-3.5 mb-7">
+          <button className="flex items-center gap-1.5 bg-transparent border-0 text-gray-500 text-sm font-medium cursor-pointer py-[7px] px-3 rounded-lg transition-colors whitespace-nowrap shrink-0 hover:bg-gray-100 hover:text-gray-900" onClick={alVolver}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
             Volver
           </button>
-          <h1 className="pp-titulo">Información de Pago</h1>
+          <h1 className="text-[22px] font-bold text-gray-900 m-0">Información de Pago</h1>
         </div>
-        <div className="pp-carrito-vacio">
-          <div className="pp-carrito-vacio-icon">🛒</div>
-          <h3>Tu carrito está vacío</h3>
-          <p>Agrega aplicaciones desde el catálogo para continuar.</p>
-          <button className="pp-volver-catalogo-btn" onClick={alVolver}>Ver catálogo</button>
+        <div className="text-center py-20 px-5">
+          <div className="text-[60px] mb-4">🛒</div>
+          <h3 className="text-xl font-bold text-gray-900 m-0 mb-2">Tu carrito está vacío</h3>
+          <p className="text-sm text-gray-500 m-0 mb-6">Agrega aplicaciones desde el catálogo para continuar.</p>
+          <button className="bg-violet-700 text-white border-0 rounded-xl py-3 px-7 text-sm font-semibold cursor-pointer transition-colors hover:bg-violet-800" onClick={alVolver}>Ver catálogo</button>
         </div>
       </div>
     );
@@ -232,56 +236,56 @@ function PasarelaPago({ itemsCarrito = [], alQuitarDelCarrito, alVolver, alActiv
   }
 
   return (
-    <div className="pp-container">
+    <div className="max-w-[980px] mx-auto pb-12">
 
       {/* ── Header ── */}
-      <div className="pp-header">
-        <button className="pp-volver-btn" onClick={alVolver}>
+      <div className="flex items-center gap-3.5 mb-7">
+        <button className="flex items-center gap-1.5 bg-transparent border-0 text-gray-500 text-sm font-medium cursor-pointer py-[7px] px-3 rounded-lg transition-colors whitespace-nowrap shrink-0 hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-700" onClick={alVolver}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
             <path d="M19 12H5M12 19l-7-7 7-7" />
           </svg>
           Volver
         </button>
-        <h1 className="pp-titulo">Información de Pago</h1>
+        <h1 className="text-[22px] font-bold text-gray-900 m-0">Información de Pago</h1>
       </div>
 
       {/* ── Body ── */}
-      <div className="pp-body">
+      <div className="grid grid-cols-[1fr_300px] gap-6 items-start max-[860px]:grid-cols-1">
 
         {/* ══ COLUMNA IZQUIERDA ══ */}
-        <div className="pp-form-col">
+        <div className="flex flex-col gap-3.5 max-[860px]:order-1">
 
           {/* STEP 1 — Datos de la Tarjeta */}
-          <div className="pp-section">
-            <div className="pp-section-header">
+          <div className={cardCls}>
+            <div className="flex items-start gap-3.5 mb-5">
               <StepNumber n={1} />
               <div>
-                <h2 className="pp-section-titulo">Datos de la Tarjeta</h2>
-                <p className="pp-section-sub">Tu Tarjeta se guarda de forma segura. El cobro es recurrente mensual por adelantado</p>
+                <h2 className="text-[15px] font-bold text-gray-900 m-0 mb-[3px] leading-[1.3]">Datos de la Tarjeta</h2>
+                <p className="text-xs text-gray-500 m-0 leading-[1.4]">Tu Tarjeta se guarda de forma segura. El cobro es recurrente mensual por adelantado</p>
               </div>
             </div>
-            <div className="pp-field">
-              <label>Numero de la Tarjeta</label>
-              <input type="text" placeholder="1234 5678 9012 3456" value={tarjeta} onChange={(e) => setTarjeta(formatTarjeta(e.target.value))} maxLength={19} />
+            <div className="flex flex-col gap-1.5 mb-3.5">
+              <label className="text-[13px] font-medium text-gray-700">Numero de la Tarjeta</label>
+              <input className={inputCls} type="text" placeholder="1234 5678 9012 3456" value={tarjeta} onChange={(e) => setTarjeta(formatTarjeta(e.target.value))} maxLength={19} />
             </div>
-            <div className="pp-field-row">
-              <div className="pp-field">
-                <label>Fecha de Vencimiento</label>
-                <input type="text" placeholder="MM/AA" value={vencimiento} onChange={(e) => setVencimiento(formatVenc(e.target.value))} maxLength={5} />
+            <div className="grid grid-cols-2 gap-3.5 mb-3.5 max-md:grid-cols-1">
+              <div className="flex flex-col gap-1.5">
+                <label className="text-[13px] font-medium text-gray-700">Fecha de Vencimiento</label>
+                <input className={inputCls} type="text" placeholder="MM/AA" value={vencimiento} onChange={(e) => setVencimiento(formatVenc(e.target.value))} maxLength={5} />
               </div>
-              <div className="pp-field">
-                <label>CVV</label>
-                <input type="text" placeholder="123" value={cvv} onChange={(e) => setCvv(e.target.value.replace(/\D/g, "").slice(0, 4))} maxLength={4} />
+              <div className="flex flex-col gap-1.5">
+                <label className="text-[13px] font-medium text-gray-700">CVV</label>
+                <input className={inputCls} type="text" placeholder="123" value={cvv} onChange={(e) => setCvv(e.target.value.replace(/\D/g, "").slice(0, 4))} maxLength={4} />
               </div>
             </div>
-            <div className="pp-field" style={{ marginBottom: 0 }}>
-              <label>Nombre del Propietario</label>
-              <input type="text" placeholder="Como aparece en tu tarjeta" value={propietario} onChange={(e) => setPropietario(e.target.value)} />
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[13px] font-medium text-gray-700">Nombre del Propietario</label>
+              <input className={inputCls} type="text" placeholder="Como aparece en tu tarjeta" value={propietario} onChange={(e) => setPropietario(e.target.value)} />
             </div>
           </div>
 
           {/* Aviso renovación */}
-          <div className="pp-renovacion-aviso">
+          <div className="flex items-start gap-2.5 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-[13px] text-gray-500 leading-[1.55] dark:bg-gray-800 dark:border-gray-700">
             <InfoIcon />
             <span>
               Tu suscripción se renovará automáticamente el {fechaCobroStr}. Se te cobrará S/{totalMensual.toLocaleString()}/mes + impuestos.
@@ -289,156 +293,160 @@ function PasarelaPago({ itemsCarrito = [], alQuitarDelCarrito, alVolver, alActiv
           </div>
 
           {/* STEP 2 — Datos de Facturación */}
-          <div className="pp-section">
-            <div className="pp-section-header">
+          <div className={cardCls}>
+            <div className="flex items-start gap-3.5 mb-5">
               <StepNumber n={2} />
               <div>
-                <h2 className="pp-section-titulo">Datos de Facturación</h2>
-                <p className="pp-section-sub">Se usarán para emitir tu comprobante electrónico</p>
+                <h2 className="text-[15px] font-bold text-gray-900 m-0 mb-[3px] leading-[1.3]">Datos de Facturación</h2>
+                <p className="text-xs text-gray-500 m-0 leading-[1.4]">Se usarán para emitir tu comprobante electrónico</p>
               </div>
             </div>
-            <div className="pp-field">
-              <label>RUC / DNI</label>
-              <input type="text" placeholder="Ej: 20123456789" value={ruc} onChange={(e) => setRuc(e.target.value.replace(/\D/g, "").slice(0, 11))} />
+            <div className="flex flex-col gap-1.5 mb-3.5">
+              <label className="text-[13px] font-medium text-gray-700">RUC / DNI</label>
+              <input className={inputCls} type="text" placeholder="Ej: 20123456789" value={ruc} onChange={(e) => setRuc(e.target.value.replace(/\D/g, "").slice(0, 11))} />
             </div>
-            <div className="pp-field">
-              <label>Razón Social / Nombre Completo</label>
-              <input type="text" placeholder="Ej: Inversiones Digitales S.A.C" value={razonSocial} onChange={(e) => setRazonSocial(e.target.value)} />
+            <div className="flex flex-col gap-1.5 mb-3.5">
+              <label className="text-[13px] font-medium text-gray-700">Razón Social / Nombre Completo</label>
+              <input className={inputCls} type="text" placeholder="Ej: Inversiones Digitales S.A.C" value={razonSocial} onChange={(e) => setRazonSocial(e.target.value)} />
             </div>
-            <div className="pp-field">
-              <label>País o Región</label>
-              <div className="pp-select-wrap">
-                <select value={pais} onChange={(e) => setPais(e.target.value)}>
+            <div className="flex flex-col gap-1.5 mb-3.5">
+              <label className="text-[13px] font-medium text-gray-700">País o Región</label>
+              <div className="relative">
+                <select className="border-[1.5px] border-gray-200 rounded-lg py-[10px] pr-9 pl-[13px] text-sm text-gray-900 bg-white outline-none transition-colors w-full box-border appearance-none cursor-pointer focus:border-violet-700 dark:bg-[var(--background-color)] dark:border-gray-600" value={pais} onChange={(e) => setPais(e.target.value)}>
                   <option>Peru</option><option>Colombia</option><option>Ecuador</option>
                   <option>Bolivia</option><option>Chile</option><option>Argentina</option>
                 </select>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6B7280" strokeWidth="2.5" strokeLinecap="round"><polyline points="6 9 12 15 18 9" /></svg>
+                <svg className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6B7280" strokeWidth="2.5" strokeLinecap="round"><polyline points="6 9 12 15 18 9" /></svg>
               </div>
             </div>
-            <div className="pp-field">
-              <label>Dirección Fiscal</label>
-              <input type="text" placeholder="Ej: Av. La Marina 2000, San Miguel, Lima" value={direccion} onChange={(e) => setDireccion(e.target.value)} />
+            <div className="flex flex-col gap-1.5 mb-3.5">
+              <label className="text-[13px] font-medium text-gray-700">Dirección Fiscal</label>
+              <input className={inputCls} type="text" placeholder="Ej: Av. La Marina 2000, San Miguel, Lima" value={direccion} onChange={(e) => setDireccion(e.target.value)} />
             </div>
-            <div className="pp-field">
-              <label>Correo Electrónico <span className="pp-required">*</span></label>
-              <input type="email" placeholder="correo@tuempresa.com" value={correo} onChange={(e) => setCorreo(e.target.value)} />
+            <div className="flex flex-col gap-1.5 mb-3.5">
+              <label className="text-[13px] font-medium text-gray-700">Correo Electrónico <span className="text-red-500">*</span></label>
+              <input className={inputCls} type="email" placeholder="correo@tuempresa.com" value={correo} onChange={(e) => setCorreo(e.target.value)} />
             </div>
-            <div className="pp-field" style={{ marginBottom: 0 }}>
-              <label>Número de Celular</label>
-              <div className="pp-celular-row">
-                <div className="pp-prefijo">{PREFIJOS[pais] || "+51"}</div>
-                <input type="text" placeholder="987 654 321" value={celular} onChange={(e) => setCelular(e.target.value.replace(/\D/g, "").slice(0, 9))} />
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[13px] font-medium text-gray-700">Número de Celular</label>
+              <div className="flex">
+                <div className="bg-gray-100 border-[1.5px] border-r-0 border-gray-200 rounded-l-lg py-[10px] px-3 text-sm font-medium text-gray-700 whitespace-nowrap shrink-0 leading-[1.25] dark:bg-gray-700 dark:border-gray-600 dark:text-[var(--text-primary)]">
+                  {PREFIJOS[pais] || "+51"}
+                </div>
+                <input className="border-[1.5px] border-gray-200 rounded-r-lg py-[10px] px-[13px] text-sm text-gray-900 bg-white outline-none transition-colors w-full box-border focus:border-violet-700 placeholder:text-gray-400" type="text" placeholder="987 654 321" value={celular} onChange={(e) => setCelular(e.target.value.replace(/\D/g, "").slice(0, 9))} />
               </div>
             </div>
-            <div className="pp-canales" style={{ marginTop: 16 }}>
-              <h4 className="pp-canales-titulo">Canales Adicionales de Notificación</h4>
-              <label className="pp-canal-item">
-                <input type="checkbox" checked={notifWhatsapp} onChange={(e) => setNotifWhatsapp(e.target.checked)} />
-                <div><span className="pp-canal-nombre">WhatsApp</span><span className="pp-canal-desc">Recibe tus comprobantes por WhatsApp</span></div>
+            <div className="bg-gray-50 border border-gray-200 rounded-xl p-[14px_16px] mt-4 dark:bg-gray-800 dark:border-gray-700">
+              <h4 className="text-[13px] font-semibold text-gray-700 m-0 mb-2.5">Canales Adicionales de Notificación</h4>
+              <label className="flex items-start gap-2.5 py-[9px] cursor-pointer border-b border-gray-200 dark:border-gray-700">
+                <input className="mt-0.5 w-4 h-4 shrink-0 accent-violet-700 cursor-pointer" type="checkbox" checked={notifWhatsapp} onChange={(e) => setNotifWhatsapp(e.target.checked)} />
+                <div>
+                  <span className="block text-[13px] font-semibold text-gray-700">WhatsApp</span>
+                  <span className="block text-xs text-gray-500 mt-px">Recibe tus comprobantes por WhatsApp</span>
+                </div>
               </label>
-              <label className="pp-canal-item">
-                <input type="checkbox" checked={notifSms} onChange={(e) => setNotifSms(e.target.checked)} />
-                <div><span className="pp-canal-nombre">SMS / Teléfono</span><span className="pp-canal-desc">Avisos de cobro y renovación por mensaje</span></div>
+              <label className="flex items-start gap-2.5 py-[9px] cursor-pointer">
+                <input className="mt-0.5 w-4 h-4 shrink-0 accent-violet-700 cursor-pointer" type="checkbox" checked={notifSms} onChange={(e) => setNotifSms(e.target.checked)} />
+                <div>
+                  <span className="block text-[13px] font-semibold text-gray-700">SMS / Teléfono</span>
+                  <span className="block text-xs text-gray-500 mt-px">Avisos de cobro y renovación por mensaje</span>
+                </div>
               </label>
             </div>
           </div>
 
           {/* SUPER VIP — Upsell */}
-          <div className={`pp-vip-card${vipSeleccionado ? " pp-vip-card--selected" : ""}`}>
-            <div className="pp-vip-header">
-              <div className="pp-vip-badge">SERVICIO ADICIONAL</div>
-              <div className="pp-vip-titulo-wrap">
-                <span className="pp-vip-estrella">⭐</span>
-                <h2 className="pp-vip-titulo">Super VIP</h2>
-                <span className="pp-vip-sub-tag">+ Almacenamiento</span>
+          <div className={`bg-[#0f172a] border-2 rounded-[14px] p-[22px] text-white transition-all ${vipSeleccionado ? "border-violet-700 shadow-[0_0_0_1px_#7C3AED,0_4px_24px_rgba(124,58,237,0.25)] -translate-y-px" : "border-[#1e293b]"}`}>
+            <div className="mb-[18px]">
+              <div className="inline-block bg-white/20 text-white text-[10px] font-bold tracking-[1px] py-[3px] px-2.5 rounded-full mb-2.5">SERVICIO ADICIONAL</div>
+              <div className="flex items-center gap-2 mb-1.5">
+                <span className="text-[22px]">⭐</span>
+                <h2 className="text-[28px] font-black text-white m-0 tracking-[-0.5px]">Super VIP</h2>
+                <span className="text-[11px] text-slate-400 bg-[#1e293b] border border-[#334155] rounded-full py-0.5 px-2.5 font-medium whitespace-nowrap">+ Almacenamiento</span>
               </div>
-              <p className="pp-vip-desc">Soporte Preferencial · Infraestructura dedicada</p>
+              <p className="text-[13px] text-white/85 m-0">Soporte Preferencial · Infraestructura dedicada</p>
             </div>
 
-            <div className="pp-vip-beneficios">
+            <div className="grid grid-cols-2 gap-2 mb-[18px] max-[600px]:grid-cols-1">
               {VIP_BENEFICIOS.map((b) => (
-                <div key={b.n} className="pp-vip-item">
-                  <span className="pp-vip-num">{b.n}</span>
+                <div key={b.n} className="flex gap-2 items-start rounded-lg p-[8px_10px]">
+                  <span className="text-[11px] font-extrabold text-slate-400 shrink-0 pt-px">{b.n}</span>
                   <div>
-                    <span className="pp-vip-item-titulo">{b.titulo}:</span>
-                    <span className="pp-vip-item-desc"> {b.desc}</span>
+                    <span className="text-xs font-bold text-gray-900">{b.titulo}:</span>
+                    <span className="text-[11px] text-cyan-500"> {b.desc}</span>
                   </div>
                 </div>
               ))}
-              <div className="pp-vip-extra">
+              <div className="col-span-2 text-center text-xs font-semibold text-slate-400 bg-[#1e293b] border border-[#334155] rounded-lg p-[8px_12px] max-[600px]:col-span-1">
                 Actualizaciones: SUNAT y SIRE · Tráfico independiente de información
               </div>
             </div>
 
-            <label className={`pp-vip-checkbox-row${vipSeleccionado ? " pp-vip-checkbox-row--checked" : ""}`}>
-              <input
-                type="checkbox"
-                checked={vipSeleccionado}
-                onChange={(e) => setVipSeleccionado(e.target.checked)}
-              />
-              <div className="pp-vip-checkbox-info">
-                <div className="pp-vip-checkbox-titulo">Agregar Super VIP a mi plan</div>
-                <div className="pp-vip-precio-wrap">
-                  <span className="pp-vip-precio-antes">Antes S/{VIP_PRECIO_ANTES.toLocaleString()}</span>
-                  <span className="pp-vip-precio-ahora">S/{VIP_PRECIO}/mes</span>
-                  <span className="pp-vip-descuento-pill pp-vip-descuento-pill--yellow">50% OFF</span>
-                  <span className="pp-vip-descuento-pill pp-vip-descuento-pill--red">Cupos limitados</span>
+            <label className={`flex items-start gap-3 border-2 rounded-xl p-[14px] cursor-pointer transition-all ${vipSeleccionado ? "bg-violet-700/[0.12] border-violet-700" : "bg-[#1e293b] border-[#334155] hover:bg-[#243347] hover:border-violet-700"}`}>
+              <input className="w-[18px] h-[18px] shrink-0 mt-0.5 accent-violet-700 cursor-pointer" type="checkbox" checked={vipSeleccionado} onChange={(e) => setVipSeleccionado(e.target.checked)} />
+              <div>
+                <div className="text-sm font-bold text-white mb-1">Agregar Super VIP a mi plan</div>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-xs text-white/60 line-through">Antes S/{VIP_PRECIO_ANTES.toLocaleString()}</span>
+                  <span className="text-lg font-extrabold text-white">S/{VIP_PRECIO}/mes</span>
+                  <span className="text-[11px] font-bold py-0.5 px-[9px] rounded-full whitespace-nowrap bg-[#FDE047] text-[#713f12]">50% OFF</span>
+                  <span className="text-[11px] font-bold py-0.5 px-[9px] rounded-full whitespace-nowrap bg-red-500 text-white">Cupos limitados</span>
                 </div>
               </div>
             </label>
           </div>
 
           {/* STEP 3 — Cuando se emiten tus Facturas */}
-          <div className="pp-section">
-            <div className="pp-section-header">
+          <div className={cardCls}>
+            <div className="flex items-start gap-3.5 mb-5">
               <StepNumber n={3} />
               <div>
-                <h2 className="pp-section-titulo">Cuando se emiten tus Facturas?</h2>
-                <p className="pp-section-sub">Conoce exactamente tu calendario - todo pago es por adelantado</p>
+                <h2 className="text-[15px] font-bold text-gray-900 m-0 mb-[3px] leading-[1.3]">Cuando se emiten tus Facturas?</h2>
+                <p className="text-xs text-gray-500 m-0 leading-[1.4]">Conoce exactamente tu calendario - todo pago es por adelantado</p>
               </div>
             </div>
-            <div className="pp-timeline">
-              <div className="pp-timeline-item">
-                <div className="pp-timeline-dot pp-timeline-dot--active" />
-                <div className="pp-timeline-content">
-                  <span className="pp-timeline-label">Hoy-Activación</span>
-                  <span className="pp-timeline-desc">Se registra tu tarjeta y empieza el periodo de prueba</span>
+            <div className="flex flex-col">
+              <div className="flex items-start gap-3.5">
+                <div className="w-2.5 h-2.5 rounded-full bg-violet-700 shrink-0 mt-1" />
+                <div className="flex-1 pb-1">
+                  <span className="block text-[13px] font-semibold text-gray-700">Hoy-Activación</span>
+                  <span className="block text-xs text-gray-500 mt-0.5">Se registra tu tarjeta y empieza el periodo de prueba</span>
                 </div>
-                <span className="pp-timeline-valor">S/0.00 sin Cobro</span>
+                <span className="text-[13px] font-semibold text-gray-700 whitespace-nowrap pt-0.5">S/0.00 sin Cobro</span>
               </div>
-              <div className="pp-timeline-connector" />
-              <div className="pp-timeline-item">
-                <div className="pp-timeline-dot" />
-                <div className="pp-timeline-content">
-                  <span className="pp-timeline-label">{fechaCobroStr} — Primer cobro real</span>
-                  <span className="pp-timeline-desc">Primer cobro mensual al vencer el trial de 30 días</span>
+              <div className="w-2.5 min-h-5 border-l-2 border-dashed border-gray-200 ml-1 dark:border-gray-700" />
+              <div className="flex items-start gap-3.5">
+                <div className="w-2.5 h-2.5 rounded-full bg-gray-300 shrink-0 mt-1 dark:bg-gray-600" />
+                <div className="flex-1 pb-1">
+                  <span className="block text-[13px] font-semibold text-gray-700">{fechaCobroStr} — Primer cobro real</span>
+                  <span className="block text-xs text-gray-500 mt-0.5">Primer cobro mensual al vencer el trial de 30 días</span>
                 </div>
-                <span className="pp-timeline-valor">S/{totalMensual.toLocaleString()}</span>
+                <span className="text-[13px] font-semibold text-gray-700 whitespace-nowrap pt-0.5">S/{totalMensual.toLocaleString()}</span>
               </div>
-              <div className="pp-timeline-connector" />
-              <div className="pp-timeline-item">
-                <div className="pp-timeline-dot" />
-                <div className="pp-timeline-content">
-                  <span className="pp-timeline-label">Meses siguientes</span>
-                  <span className="pp-timeline-desc">Mismo día cada mes. Cobro anticipado + aviso 3 días antes</span>
+              <div className="w-2.5 min-h-5 border-l-2 border-dashed border-gray-200 ml-1 dark:border-gray-700" />
+              <div className="flex items-start gap-3.5">
+                <div className="w-2.5 h-2.5 rounded-full bg-gray-300 shrink-0 mt-1 dark:bg-gray-600" />
+                <div className="flex-1 pb-1">
+                  <span className="block text-[13px] font-semibold text-gray-700">Meses siguientes</span>
+                  <span className="block text-xs text-gray-500 mt-0.5">Mismo día cada mes. Cobro anticipado + aviso 3 días antes</span>
                 </div>
-                <span className="pp-timeline-valor">Recurrente</span>
+                <span className="text-[13px] font-semibold text-gray-700 whitespace-nowrap pt-0.5">Recurrente</span>
               </div>
             </div>
           </div>
 
           {/* STEP 4 — Autorización y Políticas */}
-          <div className="pp-section">
-            <div className="pp-section-header">
+          <div className={cardCls}>
+            <div className="flex items-start gap-3.5 mb-5">
               <StepNumber n={4} />
               <div>
-                <h2 className="pp-section-titulo">Autorización y Políticas</h2>
-                <p className="pp-section-sub">Confirmaciones de tu suscripción</p>
+                <h2 className="text-[15px] font-bold text-gray-900 m-0 mb-[3px] leading-[1.3]">Autorización y Políticas</h2>
+                <p className="text-xs text-gray-500 m-0 leading-[1.4]">Confirmaciones de tu suscripción</p>
               </div>
             </div>
-            <label className="pp-terminos-label">
-              <input type="checkbox" checked={terminosAceptados} onChange={(e) => setTerminosAceptados(e.target.checked)} />
-              <span>
+            <label className="flex items-start gap-2.5 cursor-pointer">
+              <input className="w-4 h-4 shrink-0 mt-0.5 accent-violet-700 cursor-pointer" type="checkbox" checked={terminosAceptados} onChange={(e) => setTerminosAceptados(e.target.checked)} />
+              <span className="text-[13px] text-gray-500 leading-[1.6]">
                 Acepto que Codeplex cobrará en mi tarjeta el importe indicado de forma recurrente mensualmente hasta que cancele el acuerdo con los términos. Puedo cancelar en cualquier momento desde Datos de Facturación.
               </span>
             </label>
@@ -447,35 +455,31 @@ function PasarelaPago({ itemsCarrito = [], alQuitarDelCarrito, alVolver, alActiv
         </div>
 
         {/* ══ COLUMNA DERECHA: Resumen ══ */}
-        <div className="pp-resumen-col">
-          <div className="pp-resumen-card">
-            <div className="pp-resumen-titulo-row">
-              <h3 className="pp-resumen-titulo">Resumen de Pedido</h3>
+        <div className="pp-resumen-col sticky top-[84px] max-h-[calc(100vh-84px)] overflow-y-auto max-[1024px]:top-[124px] max-[1024px]:max-h-[calc(100vh-124px)] max-[860px]:static max-[860px]:order-2">
+          <div className="bg-white border-[1.5px] border-gray-200 rounded-[14px] p-[22px] shadow-[0_2px_12px_rgba(0,0,0,0.06)] dark:bg-[var(--background-color)] dark:border-gray-700">
+            <div className="flex items-center justify-between gap-2 mb-4">
+              <h3 className="text-base font-bold text-gray-900 m-0">Resumen de Pedido</h3>
               {itemsCarrito.length > 0 && (
-                <span className="pp-resumen-count-badge">
+                <span className="text-[11px] font-bold bg-violet-100 text-violet-700 py-[3px] px-2.5 rounded-full whitespace-nowrap">
                   {itemsCarrito.length} aplicacion{itemsCarrito.length !== 1 ? "es" : ""}
                 </span>
               )}
             </div>
 
             {/* Items del carrito */}
-            <div className="pp-resumen-items">
+            <div className="flex flex-col gap-2.5 mb-3.5">
               {itemsCarrito.map((item) => (
-                <div key={item.cartId} className="pp-resumen-item">
+                <div key={item.cartId} className="flex items-center gap-2.5 p-[10px_12px] bg-gray-50 border border-gray-200 rounded-xl dark:bg-gray-800 dark:border-gray-700">
                   <CartItemIcon icono={item.icono} colorTema={item.colorTema} size={36} />
-                  <div className="pp-resumen-item-info">
-                    <div className="pp-resumen-item-row1">
-                      <span className="pp-resumen-item-nombre">{item.appNombre}</span>
-                      <div className="pp-resumen-item-derecha">
-                        <span className="pp-resumen-item-precio">S/{item.precio}</span>
-                        <button
-                          className="pp-resumen-item-x"
-                          onClick={() => alQuitarDelCarrito?.(item.cartId)}
-                          title="Quitar del carrito"
-                        >×</button>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between gap-1">
+                      <span className="text-[13px] font-semibold text-gray-900 whitespace-nowrap overflow-hidden text-ellipsis">{item.appNombre}</span>
+                      <div className="flex items-center gap-1.5 shrink-0">
+                        <span className="text-[13px] font-bold text-gray-900">S/{item.precio}</span>
+                        <button className="bg-transparent border-0 text-gray-400 text-base cursor-pointer px-0.5 leading-none transition-colors rounded hover:text-red-500 hover:bg-red-100" onClick={() => alQuitarDelCarrito?.(item.cartId)} title="Quitar del carrito">×</button>
                       </div>
                     </div>
-                    <div className="pp-resumen-item-plan">
+                    <div className="text-[11px] text-violet-700 font-medium mt-0.5">
                       Plan {planNombreDisplay(item.planNombre)} · {item.periodoFacturacion || "mensual"}
                     </div>
                   </div>
@@ -485,38 +489,38 @@ function PasarelaPago({ itemsCarrito = [], alQuitarDelCarrito, alVolver, alActiv
 
             {/* ADD-ON VIP si está seleccionado */}
             {vipSeleccionado && (
-              <div className="pp-resumen-addon">
-                <div className="pp-resumen-addon-label">ADD-ON INCLUIDO:</div>
-                <div className="pp-resumen-addon-row">
+              <div className="bg-violet-50 border border-violet-200 rounded-xl px-3 py-2.5 mb-3.5">
+                <div className="text-[10px] font-bold tracking-[0.5px] text-violet-700 uppercase mb-1.5">ADD-ON INCLUIDO:</div>
+                <div className="flex items-center justify-between text-[13px] font-semibold text-gray-900">
                   <span>⭐ Super VIP</span>
-                  <span className="pp-resumen-addon-precio">+S/{VIP_PRECIO}</span>
+                  <span className="font-bold text-teal-600">+S/{VIP_PRECIO}</span>
                 </div>
               </div>
             )}
 
-            <div className="pp-resumen-rows">
-              <div className="pp-resumen-row">
+            <div className="flex flex-col gap-2.5">
+              <div className="flex justify-between items-center text-[13px] text-gray-500">
                 <span>Período de Prueba</span>
-                <span className="pp-resumen-gratis">1 mes gratis</span>
+                <span className="font-semibold text-green-600">1 mes gratis</span>
               </div>
-              <div className="pp-resumen-row">
+              <div className="flex justify-between items-center text-[13px] text-gray-500">
                 <span>Cobro Hoy</span>
-                <span className="pp-resumen-hoy">S/0.00</span>
+                <span className="font-semibold text-gray-700">S/0.00</span>
               </div>
             </div>
 
-            <div className="pp-resumen-divider" />
+            <div className="h-px bg-gray-200 my-4" />
 
-            <div className="pp-resumen-total-row">
+            <div className="flex justify-between items-end mb-[18px]">
               <div>
-                <div className="pp-resumen-total-label">Total mensual:</div>
-                <div className="pp-resumen-fecha">A partir del {fechaCobroStr}</div>
+                <div className="text-[13px] font-semibold text-gray-700">Total mensual:</div>
+                <div className="text-[11px] text-gray-400 mt-[3px]">A partir del {fechaCobroStr}</div>
               </div>
-              <div className="pp-resumen-total-precio">S/{totalMensual.toLocaleString()}</div>
+              <div className="text-[28px] font-extrabold text-gray-900">S/{totalMensual.toLocaleString()}</div>
             </div>
 
             <button
-              className="pp-activar-btn"
+              className="w-full flex items-center justify-center gap-2 bg-violet-700 text-white border-0 rounded-xl py-[13px] text-sm font-semibold cursor-pointer transition-all enabled:hover:bg-violet-800 enabled:hover:-translate-y-px disabled:opacity-45 disabled:cursor-not-allowed"
               disabled={!terminosAceptados || itemsCarrito.length === 0}
               onClick={handleActivar}
             >
@@ -526,7 +530,7 @@ function PasarelaPago({ itemsCarrito = [], alQuitarDelCarrito, alVolver, alActiv
               Activar Periodo de Prueba
             </button>
 
-            <div className="pp-resumen-seguro">
+            <div className="text-center text-[11px] text-gray-400 mt-2.5 leading-[1.5]">
               🔒 Pago seguro · Tu tarjeta no se cobra hoy
             </div>
           </div>
