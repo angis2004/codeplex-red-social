@@ -1,27 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { SesionProvider, useSesion } from './identidad/aplicacion/SesionContext';
-import Sidebar from './compartido/layout/Sidebar/Sidebar';
-import Header from './compartido/layout/Header/Header';
-import RedSocial from './feed/ui/dashboard/RedSocial';
-import Login from './identidad/ui/login/Login';
-import GestionEmpresas from './organizacion/ui/empresas/GestionEmpresas';
-import DatosPersonales from './identidad/ui/datos-personales/DatosPersonales';
-import DatosFacturacion from './organizacion/ui/facturacion/DatosFacturacion';
-import Buzon from './feed/ui/buzon/Buzon';
-import Mensajes from './feed/ui/buzon/Mensajes';
-import Tickets from './organizacion/ui/tickets/Tickets';
-import Mantenedores from './organizacion/ui/mantenedores/Mantenedores';
-import CanjeMonedas from './planes/monedero/ui/CanjeMonedas';
-import Monedero from './planes/monedero/ui/Monedero';
-import Colaboradores from './organizacion/ui/colaboradores/Colaboradores';
-import Monetizacion from './planes/monetizacion/ui/Monetizacion';
-import CatalogoAplicaciones from './planes/aplicaciones/ui/CatalogoAplicaciones';
-import VistaPasarelaPago from './planes/pasarela-pago/ui/VistaPasarelaPago';
-import { useCarritoSuscripciones } from './planes/aplicaciones/aplicacion/useCarritoSuscripciones';
-import PaginaCarrito from './planes/carrito/ui/PaginaCarrito';
-import CarritoMobile from './planes/carrito/ui/CarritoMobile';
-import VistaPlaceholder from './compartido/placeholders/VistaPlaceholder';
-import PerfilPublico from './feed/ui/perfil/PerfilPublico';
+import { SesionProvider, useSesion } from './identidad/sesion/SesionContext';
+import Sidebar from './ui/layout/Sidebar/Sidebar';
+import Header from './ui/layout/Header/Header';
+import RedSocial from './feed/dashboard/RedSocial';
+import Login from './identidad/login/Login';
+import GestionEmpresas from './organizacion/empresas/GestionEmpresas';
+import DatosPersonales from './identidad/datos-personales/DatosPersonales';
+import DatosFacturacion from './organizacion/facturacion/DatosFacturacion';
+import Buzon from './feed/buzon/Buzon';
+import Mensajes from './feed/buzon/Mensajes';
+import Tickets from './organizacion/tickets/Tickets';
+import Mantenedores from './organizacion/mantenedores/Mantenedores';
+import CanjeMonedas from './planes/monedero/CanjeMonedas';
+import Monedero from './planes/monedero/Monedero';
+import Colaboradores from './organizacion/colaboradores/Colaboradores';
+import Monetizacion from './planes/monetizacion/Monetizacion';
+import TiendaAplicaciones from './planes/aplicaciones/TiendaAplicaciones';
+import VistaPasarelaPago from './planes/pasarela-pago/VistaPasarelaPago';
+import { useCarritoSuscripciones } from './planes/aplicaciones/useCarritoSuscripciones';
+import PaginaCarrito from './planes/carrito/PaginaCarrito';
+import CarritoMobile from './planes/carrito/CarritoMobile';
+import VistaPlaceholder from './ui/placeholders/VistaPlaceholder';
+import PerfilPublico from './feed/perfil-publico/PerfilPublico';
 import './styles/App.css';
 
 /* ── Apps precargadas en modo exploración ──────────────────────────────────
@@ -133,7 +133,7 @@ function AppContent() {
       case "colaboradores":     return <Colaboradores />;
       case "monetizacion":      return <Monetizacion />;
       case "aplicaciones":      return (
-        <CatalogoAplicaciones
+        <TiendaAplicaciones
           alProcederPago={handleProcederPago}
           suscripcionesActivas={misApps}
           pestanaInicial={pestanaAppsInicial}
@@ -210,12 +210,13 @@ function AppContent() {
         </main>
       </div>
 
-      <CarritoMobile
-        itemsCarrito={itemsCarrito}
-        totalCarrito={totalCarrito}
-        alQuitarItem={quitarDelCarrito}
-        alVerCarrito={handleVerCarrito}
-      />
+      {vistaActiva !== "carrito" && (
+        <CarritoMobile
+          itemsCarrito={itemsCarrito}
+          totalCarrito={totalCarrito}
+          alVerCarrito={handleVerCarrito}
+        />
+      )}
     </div>
   );
 }

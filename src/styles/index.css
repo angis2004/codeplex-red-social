@@ -1,8 +1,48 @@
 @import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
 
-/* ── Dark mode: activa con data-theme="dark" en el root ── */
-@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+/* ── Dark mode: clase .dark en <html> (Tailwind) O data-theme="dark" (legado) ── */
+@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *));
+
+/* ══════════════════════════════════════════════════════════
+   @theme inline — registra las variables CSS del proyecto
+   como utilidades Tailwind semánticas.
+   "inline" mantiene las referencias var(--) dinámicas en
+   runtime, de modo que al cambiar :root.dark los colores
+   de las clases text-fg, bg-surface, etc. cambian solos.
+   Uso:  bg-surface  text-fg  border-line  bg-brand  etc.
+══════════════════════════════════════════════════════════ */
+
+
+
+@theme inline {
+  /* Fondos */
+  --color-base:          var(--background-color);
+  --color-surface:       var(--surface-color);
+  --color-panel:         var(--white-color);
+
+  /* Textos */
+  --color-fg:            var(--text-dark);
+  --color-muted:         var(--text-muted);
+  --color-subtle:        var(--text-gray);
+
+  /* Marca */
+  --color-brand:         var(--primary-color);
+  --color-brand-alt:     var(--secondary-color);
+
+  /* Bordes */
+  --color-line:          var(--border-color);
+  --color-line-light:    var(--border-light);
+
+  /* Inputs */
+  --color-field:         var(--input-bg);
+  --color-field-border:  var(--input-border);
+  --color-field-text:    var(--input-text);
+
+  /* Estados */
+  --color-danger:        var(--error-color);
+  --color-danger-bg:     var(--error-bg);
+}
 
 /* ── Animación pantalla de éxito pasarela ── */
 @keyframes pp-exito-in {
@@ -83,12 +123,12 @@
 .btn-login-shimmer:not(:disabled):hover::before { transform: translateX(100%); }
 
 /* Login — btn-demo dark mode */
-[data-theme="dark"] .btn-demo-login {
+:root.dark .btn-demo-login, [data-theme="dark"] .btn-demo-login {
   background: #ffffff;
   color: var(--primary-color);
   border-color: #ffffff;
 }
-[data-theme="dark"] .btn-demo-login:hover {
+:root.dark .btn-demo-login:hover, [data-theme="dark"] .btn-demo-login:hover {
   background: #ffffff;
   border-color: var(--primary-color);
 }
@@ -163,6 +203,15 @@
   --focus-ring: rgba(103, 75, 234, 0.1);
   --error-color: #ef4444;
   --error-bg: #fef2f2;
+  --success-color: #065f46;
+  --success-bg: #d1fae5;
+  --success-border: #6ee7b7;
+  --warning-color: #92400e;
+  --warning-text: #D97706;
+  --warning-bg: #fffbeb;
+  --warning-border: #f59e0b;
+  --info-color: #0369a1;
+  --info-bg: #e0f2fe;
   
   /* Inputs */
   --input-bg: #f9fafb;
@@ -206,7 +255,7 @@
 /* ═══════════════════════════════════════════════════════════
    MODO OSCURO
 ═══════════════════════════════════════════════════════════ */
-[data-theme="dark"] {
+:root.dark, [data-theme="dark"] {
   /* Colores de marca - más claros para contraste */
   --primary-color: #9D4EFF;
   --secondary-color: #8566EA;
@@ -233,6 +282,15 @@
   --focus-ring: rgba(157, 78, 255, 0.2);
   --error-color: #f87171;
   --error-bg: rgba(239, 68, 68, 0.1);
+  --success-color: #6ee7b7;
+  --success-bg: rgba(16, 185, 129, 0.15);
+  --success-border: rgba(16, 185, 129, 0.35);
+  --warning-color: #fcd34d;
+  --warning-text: #fcd34d;
+  --warning-bg: rgba(245, 158, 11, 0.1);
+  --warning-border: rgba(245, 158, 11, 0.4);
+  --info-color: #7dd3fc;
+  --info-bg: rgba(14, 165, 233, 0.12);
   
   /* Inputs */
   --input-bg: #1a1530;
@@ -249,6 +307,14 @@
   --accent:           #8B5CF6;
   --accent-hover:     #7C3AED;
 }
+
+
+
+
+
+
+
+
 
 
 /* ═══════════════════════════════════════════════════════════
