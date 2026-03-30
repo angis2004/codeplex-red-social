@@ -1,18 +1,1 @@
-/* Solo lo que Tailwind no puede: select con flecha SVG personalizada */
-.selector-orden {
-  padding: 9px 36px 9px 14px;
-  border-radius: 8px;
-  border: 1.5px solid var(--border-color);
-  background: var(--surface-color);
-  color: var(--text-primary);
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  appearance: none;
-  -webkit-appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2.5' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  outline: none;
-}
-.selector-orden:focus { border-color: var(--accent); }
+/* TiendaAplicaciones — migrado a Tailwind. Este archivo puede eliminarse. */

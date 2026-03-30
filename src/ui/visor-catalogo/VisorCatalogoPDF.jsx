@@ -76,50 +76,62 @@ export default function VisorCatalogoPDF({
   };
 
   return (
-    <div className="vcat-overlay" onClick={handleOverlay}>
-      <div className="vcat-modal">
+    <div
+      className="vcat-fade-in fixed inset-0 bg-[rgba(0,0,0,0.72)] z-[20000] flex items-end justify-center p-0 sm:items-center sm:p-4"
+      onClick={handleOverlay}
+    >
+      <div className="vcat-slide-in bg-[#1a1f2e] rounded-[20px_20px_0_0] sm:rounded-[16px] overflow-hidden w-full sm:max-w-[960px] h-[96vh] sm:h-[90vh] sm:max-h-[860px] flex flex-col shadow-[0_24px_80px_rgba(0,0,0,0.5)]">
 
         {/* ── Header ── */}
-        <div className="vcat-header" style={{ background: accentColor }}>
-          <div className="vcat-header-left">
-            <div className="vcat-pdf-icon-wrap">
+        <div
+          className="flex items-center justify-between p-[14px_20px] gap-3 shrink-0"
+          style={{ background: accentColor }}
+        >
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="w-10 h-10 bg-[rgba(255,255,255,0.18)] rounded-[10px] flex items-center justify-center shrink-0">
               <IcoFileText />
             </div>
-            <div className="vcat-header-info">
-              <span className="vcat-nombre">{pdfNombre}</span>
+            <div className="flex flex-col min-w-0">
+              <span className="text-[14px] font-bold text-white truncate">{pdfNombre}</span>
               {pdfTamanio && (
-                <span className="vcat-tamanio">{pdfTamanio}</span>
+                <span className="text-[12px] text-[rgba(255,255,255,0.65)] mt-[1px]">{pdfTamanio}</span>
               )}
             </div>
           </div>
 
-          <div className="vcat-header-actions">
+          <div className="flex items-center gap-2 shrink-0">
             {/* Abrir en nueva pestaña (útil en mobile) */}
             <a
               href={pdfUrl}
               target="_blank"
               rel="noreferrer"
-              className="vcat-btn-externo"
+              className="flex items-center gap-[6px] bg-[rgba(255,255,255,0.15)] text-white border border-[rgba(255,255,255,0.25)] rounded-lg p-[8px_10px] sm:p-[7px_12px] text-[12px] font-medium cursor-pointer no-underline transition-[background] duration-150 hover:bg-[rgba(255,255,255,0.25)]"
               title="Abrir en nueva pestaña"
             >
               <IcoExternalLink />
-              <span>Nueva pestaña</span>
+              <span className="hidden sm:inline">Nueva pestaña</span>
             </a>
 
             {/* Cerrar */}
-            <button className="vcat-btn-cerrar" onClick={alCerrar}>
+            <button
+              className="flex items-center gap-[6px] bg-[rgba(255,255,255,0.92)] text-[#111827] border-none rounded-lg p-[8px_10px] sm:p-[7px_14px] text-[13px] font-bold cursor-pointer transition-[background,transform] duration-150 hover:bg-[rgba(255,255,255,0.80)] hover:scale-[1.02]"
+              onClick={alCerrar}
+            >
               <IcoX />
-              <span>Cerrar</span>
+              <span className="hidden sm:inline">Cerrar</span>
             </button>
           </div>
         </div>
 
         {/* ── Contenido ── */}
-        <div className="vcat-body">
+        <div className="flex-1 relative bg-[#2d3748] overflow-hidden">
           {/* Spinner mientras carga */}
           {cargando && (
-            <div className="vcat-loading">
-              <div className="vcat-spinner" style={{ borderTopColor: accentColor }} />
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-[14px] text-[rgba(255,255,255,0.6)] text-[14px] z-[2]">
+              <div
+                className="vcat-spinner w-9 h-9 rounded-full border-[3px] border-[rgba(255,255,255,0.15)]"
+                style={{ borderTopColor: accentColor }}
+              />
               <span>Cargando catálogo...</span>
             </div>
           )}
@@ -129,19 +141,19 @@ export default function VisorCatalogoPDF({
             key={pdfUrl}
             src={pdfUrl}
             title={pdfNombre}
-            className="vcat-iframe"
+            className="w-full h-full border-none block transition-opacity duration-300"
             style={{ opacity: cargando ? 0 : 1 }}
             onLoad={() => setCargando(false)}
           />
         </div>
 
         {/* ── Footer ── */}
-        <div className="vcat-footer">
-          <span className="vcat-footer-hint">
+        <div className="flex items-center justify-end sm:justify-between p-[10px_20px] bg-[#111827] border-t border-[rgba(255,255,255,0.08)] shrink-0 gap-3">
+          <span className="hidden sm:block text-[12px] text-[rgba(255,255,255,0.45)] leading-[1.4]">
             💡 Usa los controles del visor para navegar páginas, hacer zoom y descargar
           </span>
           <button
-            className="vcat-footer-cerrar"
+            className="bg-transparent border-[1.5px] border-current rounded-lg p-[7px_16px] text-[13px] font-semibold cursor-pointer whitespace-nowrap transition-opacity duration-150 shrink-0 hover:opacity-75"
             style={{ color: accentColor, borderColor: accentColor }}
             onClick={alCerrar}
           >

@@ -181,7 +181,7 @@ function AppContent() {
   }
 
   return (
-    <div className="app">
+    <div className="flex min-h-screen bg-[var(--background-color)]">
       <Sidebar
         estaAbierto={sidebarOpen}
         alCerrar={() => setSidebarOpen(false)}
@@ -204,8 +204,8 @@ function AppContent() {
         alDeseleccionarTodasApps={handleDeselectAllApps}
       />
 
-      <div className={`main-content${modoExploracion ? " main-content--demo" : ""}`}>
-        <main className="view-container">
+      <div className="flex-1 min-w-0 ml-[280px] p-6 pt-[calc(var(--header-height,96px)_+_30px)] transition-[margin-left] duration-300 ease-in-out min-h-screen [@media(max-width:1024px)]:ml-0 [@media(max-width:1024px)]:px-8 [@media(max-width:768px)]:p-4 [@media(max-width:768px)]:pt-[calc(var(--header-height,120px)_+_30px)]">
+        <main className="max-w-[1400px] mx-auto w-full">
           {renderVista()}
         </main>
       </div>

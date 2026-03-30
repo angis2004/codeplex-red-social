@@ -139,13 +139,17 @@ function MenuItem({ icon, label, vista, vistaActiva, alNavegar }) {
   return (
     <a
       href="#"
-      className={`menu-item${isActive ? " active" : ""}`}
+      className={`flex items-center gap-[15px] px-5 py-[10px] md:px-[30px] md:py-3 no-underline text-[13px] md:text-[14px] transition-all duration-300 cursor-pointer border-l-[3px] ${
+        isActive
+          ? "bg-[rgba(127,13,242,0.1)] text-[var(--primary-color)] border-l-[var(--primary-color)] font-semibold"
+          : "text-[var(--text-muted)] border-l-transparent hover:bg-[var(--background-color)] hover:text-[var(--primary-color)] hover:border-l-[var(--primary-color)]"
+      }`}
       onClick={(e) => {
         e.preventDefault();
         alNavegar(vista);
       }}
     >
-      <span className="menu-icon">
+      <span className="w-5 h-5 flex items-center justify-center shrink-0">
         <Icon name={icon} size={20} />
       </span>
       <span>{label}</span>
@@ -155,7 +159,7 @@ function MenuItem({ icon, label, vista, vistaActiva, alNavegar }) {
 
 function SidebarMenu({ vistaActiva, alNavegar, appsActivas = [] }) {
   return (
-    <nav className="sidebar-menu">
+    <nav className="py-5">
 
       {appsActivas.length > 0 ? (
         /* ── Apps activas: una sección por cada app seleccionada ── */
@@ -164,7 +168,9 @@ function SidebarMenu({ vistaActiva, alNavegar, appsActivas = [] }) {
           if (!appMenu) return null;
           return (
             <React.Fragment key={app.id}>
-              <div className="menu-section-title">{appMenu.titulo}</div>
+              <div className="px-[30px] pt-5 pb-[10px] text-[12px] font-semibold text-[var(--text-gray)] uppercase tracking-[0.5px]">
+                {appMenu.titulo}
+              </div>
               {appMenu.items.map((item) => (
                 <MenuItem
                   key={item.vista}
@@ -177,7 +183,7 @@ function SidebarMenu({ vistaActiva, alNavegar, appsActivas = [] }) {
               ))}
               {/* Divisor entre apps (no después de la última) */}
               {idx < appsActivas.length - 1 && (
-                <div className="menu-section-divider" />
+                <div className="h-px bg-[var(--border-color)] mx-5 my-2" />
               )}
             </React.Fragment>
           );
@@ -196,7 +202,9 @@ function SidebarMenu({ vistaActiva, alNavegar, appsActivas = [] }) {
             />
           ))}
 
-          <div className="menu-section-title">Colaboración</div>
+          <div className="px-[30px] pt-5 pb-[10px] text-[12px] font-semibold text-[var(--text-gray)] uppercase tracking-[0.5px]">
+            Colaboración
+          </div>
 
           {COLABORACION_ITEMS.map((item) => (
             <MenuItem

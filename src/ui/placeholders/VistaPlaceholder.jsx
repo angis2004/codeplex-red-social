@@ -1,5 +1,4 @@
 import React from "react";
-import "./VistaPlaceholder.css";
 
 /* ── Mapeo completo de vista → etiqueta legible ── */
 const LABELS = {
@@ -85,8 +84,8 @@ function VistaPlaceholder({ vista }) {
   const label = LABELS[vista] ?? vista;
 
   return (
-    <div className="vista-placeholder">
-      <div className="vista-placeholder__icon">
+    <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4 p-[40px_24px] text-center">
+      <div className="text-[var(--text-gray)] opacity-50">
         <svg width="48" height="48" viewBox="0 0 24 24" fill="none"
           stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
           <rect x="3" y="3" width="18" height="18" rx="2" />
@@ -94,8 +93,8 @@ function VistaPlaceholder({ vista }) {
           <line x1="9" y1="21" x2="9" y2="9" />
         </svg>
       </div>
-      <h2 className="vista-placeholder__titulo">Contenido de {label}</h2>
-      <p className="vista-placeholder__desc">
+      <h2 className="text-2xl font-bold text-[var(--text-primary)] m-0 uppercase tracking-[0.04em]">Contenido de {label}</h2>
+      <p className="text-[0.9rem] text-[var(--text-secondary)] m-0">
         Esta sección estará disponible próximamente.
       </p>
     </div>

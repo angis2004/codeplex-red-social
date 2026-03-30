@@ -13,14 +13,14 @@ function RedSocial({ alNavegar, alVerPerfil }) {
   const { publicaciones, crearPublicacion, obtenerPorTipo } = usePublicaciones();
 
   return (
-    <div className="dashboard">
-      <div className="dashboard-left">
+    <div className="grid grid-cols-[1fr_350px] gap-5 [@media(max-width:1400px)]:grid-cols-1">
+      <div className="flex flex-col gap-5 min-w-0">
         <TarjetasEstadisticas />
         <CreadorPublicacion onPublicar={crearPublicacion} />
         <PublicacionesFeed publicaciones={publicaciones} obtenerPorTipo={obtenerPorTipo} alVerPerfil={alVerPerfil} />
       </div>
 
-      <div className="dashboard-right">
+      <div className="flex flex-col gap-5 [@media(max-width:1400px)]:grid [@media(max-width:1400px)]:grid-cols-2 [@media(max-width:1400px)]:gap-5 [@media(max-width:768px)]:grid-cols-1">
         <TarjetaMonedero />
         <RankingUsuarios />
       </div>

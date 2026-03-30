@@ -21,47 +21,44 @@ function AccionesPublicacion({ initialLikeCount = 124, onToggleComments, comment
   return (
     <>
       {/* Avatares + contadores */}
-      <div className="post-stats">
-        <div className="post-stats-left">
+      <div className="flex justify-between items-center py-3 px-2 [@media(max-width:768px)]:flex-col [@media(max-width:768px)]:items-start [@media(max-width:768px)]:gap-[6px]">
+        <div className="flex items-center gap-[10px]">
           {activeReaction && !modoExploracion ? (
-            <div className="reaction-count-with-icon">
-              <Icon
-                name={activeReaction.icon}
-                size={20}
-                color={activeReaction.color}
-              />
-              <span className="reaction-count-text" style={{ color: activeReaction.color, fontWeight: 600 }}>
+            <div className="flex items-center gap-2 border-none outline-none">
+              <Icon name={activeReaction.icon} size={20} color={activeReaction.color} />
+              <span className="text-[14px] text-[var(--text-muted)] font-medium" style={{ color: activeReaction.color, fontWeight: 600 }}>
                 {likeCount} reacciones
               </span>
             </div>
           ) : (
             <>
-              <div className="reaction-avatars">
-                {[20, 25, 30].map((img) => (
+              <div className="flex mr-2">
+                {[20, 25, 30].map((img, i) => (
                   <img
                     key={img}
                     src={`https://i.pravatar.cc/150?img=${img}`}
                     alt="Usuario"
-                    className="reaction-avatar-img"
+                    className="w-6 h-6 rounded-full border-2 border-[var(--surface-color)] object-cover cursor-pointer transition-transform duration-200 hover:scale-125 hover:z-10"
+                    style={{ marginLeft: i === 0 ? 0 : -8 }}
                   />
                 ))}
               </div>
-              <span className="reaction-count-text">{likeCount} reacciones</span>
+              <span className="text-[14px] text-[var(--text-muted)] font-medium">{likeCount} reacciones</span>
             </>
           )}
         </div>
-        <div className="post-stat-right">
-          <span className="stat-link" onClick={onToggleComments} style={{ cursor: "pointer" }}>
+        <div className="flex gap-4 [@media(max-width:768px)]:gap-[10px]">
+          <span className="text-[14px] text-[var(--text-muted)] cursor-pointer transition-colors duration-300 hover:text-[var(--primary-color)]" onClick={onToggleComments} style={{ cursor: "pointer" }}>
             {commentCount > 0 ? `${commentCount} comentarios` : "18 comentarios"}
           </span>
-          <span className="stat-link">5 compartidos</span>
+          <span className="text-[14px] text-[var(--text-muted)] cursor-pointer transition-colors duration-300 hover:text-[var(--primary-color)]">5 compartidos</span>
         </div>
       </div>
 
-      <div className="post-divider"></div>
+      <div className="h-px bg-[var(--border-color)] my-1"></div>
 
-      {/* Botones Me gusta / Comentar / Compartir */}
-      <div className="post-action-row">
+      {/* Botones Me gusta / Comentar / Compartir — mantienen clase post-react-btn para ::before shimmer y nth-child colors */}
+      <div className="grid grid-cols-3 gap-3 py-3 [@media(max-width:768px)]:gap-1">
         <div className="post-react-btn-wrapper">
           <button
             className={`post-react-btn ${liked && !modoExploracion ? "reacted" : ""}`}
@@ -74,11 +71,7 @@ function AccionesPublicacion({ initialLikeCount = 124, onToggleComments, comment
             style={modoExploracion ? demoStyle : activeReaction ? { color: activeReaction.color } : undefined}
             title={demoTitle}
           >
-            <Icon
-              name={activeReaction?.icon || "like"}
-              size={20}
-              color={activeReaction && !modoExploracion ? activeReaction.color : undefined}
-            />
+            <Icon name={activeReaction?.icon || "like"} size={20} color={activeReaction && !modoExploracion ? activeReaction.color : undefined} className="icon" />
             <span>{activeReaction?.label || "Me gusta"}</span>
           </button>
 
@@ -97,7 +90,7 @@ function AccionesPublicacion({ initialLikeCount = 124, onToggleComments, comment
           style={demoStyle}
           title={demoTitle}
         >
-          <Icon name="comment" size={20} />
+          <Icon name="comment" size={20} className="icon" />
           <span>Comentar</span>
         </button>
 
@@ -107,7 +100,7 @@ function AccionesPublicacion({ initialLikeCount = 124, onToggleComments, comment
           style={demoStyle}
           title={demoTitle}
         >
-          <Icon name="share" size={20} />
+          <Icon name="share" size={20} className="icon" />
           <span>Compartir</span>
         </button>
       </div>

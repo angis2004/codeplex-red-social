@@ -1,5 +1,4 @@
 import React from "react";
-import "./TiendaAplicaciones.css";
 import { useSesion } from "../../identidad/sesion/SesionContext";
 
 import { useTiendaAplicaciones }     from "./useTiendaAplicaciones";
@@ -160,7 +159,8 @@ function TiendaAplicaciones({
           ))}
         </div>
         <select
-          className="selector-orden"
+          className="py-[9px] pr-9 pl-[14px] rounded-[8px] border-[1.5px] border-[var(--border-color)] bg-[var(--surface-color)] text-[var(--text-primary)] text-[14px] font-medium cursor-pointer [appearance:none] [-webkit-appearance:none] bg-no-repeat [background-position:right_12px_center] outline-none focus:border-[var(--accent)]"
+          style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2.5' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C%2Fsvg%3E")` }}
           value={ordenSeleccionado}
           onChange={(e) => setOrdenSeleccionado(e.target.value)}
         >

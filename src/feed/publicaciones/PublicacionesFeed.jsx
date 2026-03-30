@@ -4,8 +4,8 @@ import Publicacion from "./Publicacion";
 
 function EmptyState({ icon, title, description }) {
   return (
-    <div className="post-card">
-      <div className="empty-state" style={{ textAlign: "center", padding: "60px 20px" }}>
+    <div className="bg-[var(--white-color)] px-8 py-7 rounded-[15px] shadow-[0_2px_8px_rgba(0,0,0,0.05)] mb-5">
+      <div style={{ textAlign: "center", padding: "60px 20px" }}>
         <div style={{ fontSize: "64px", marginBottom: "16px" }}>{icon}</div>
         <h3 style={{ color: "var(--text-dark)", marginBottom: "8px" }}>{title}</h3>
         <p style={{ color: "var(--text-muted)", fontSize: "14px" }}>{description}</p>
@@ -30,19 +30,11 @@ function PublicacionesFeed({ publicaciones, obtenerPorTipo, alVerPerfil }) {
       )}
 
       {activeTab === "videos" && (
-        <EmptyState
-          icon="🎥"
-          title="No hay videos aún"
-          description="Los videos compartidos aparecerán aquí"
-        />
+        <EmptyState icon="🎥" title="No hay videos aún" description="Los videos compartidos aparecerán aquí" />
       )}
 
       {activeTab === "noticias" && (
-        <EmptyState
-          icon="📰"
-          title="No hay noticias aún"
-          description="Las noticias más recientes aparecerán aquí"
-        />
+        <EmptyState icon="📰" title="No hay noticias aún" description="Las noticias más recientes aparecerán aquí" />
       )}
     </>
   );

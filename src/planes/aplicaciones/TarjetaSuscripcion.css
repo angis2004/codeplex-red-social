@@ -3,10 +3,3 @@
 [data-theme="dark"] .tarjeta-suscripcion {
   border-top-color: color-mix(in srgb, var(--color-tema) 55%, var(--surface-color));
 }
-
-/* Lista contenedora */
-.suscripciones-activas-lista {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}

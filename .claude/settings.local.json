@@ -54,7 +54,10 @@
       "Bash(mv CatalogoAplicaciones.jsx TiendaAplicaciones.jsx)",
       "Bash(mv useCatalogoAplicaciones.ts useTiendaAplicaciones.ts)",
       "Bash(mv TarjetaAplicacion.jsx TarjetaCatalogo.jsx)",
-      "Bash(mv SuscripcionActivaItem.jsx TarjetaSuscripcion.jsx)"
+      "Bash(mv SuscripcionActivaItem.jsx TarjetaSuscripcion.jsx)",
+      "Bash(xargs grep:*)",
+      "Bash(grep -h \"import.*\\\\.css\" src/planes/suscripciones/*.jsx src/planes/aplicaciones/TarjetaCatalogo.jsx)",
+      "Bash(grep -rh import.*.css src/ --include=*.jsx)"
     ]
   }
 }
